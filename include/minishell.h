@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/28 16:22:02 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/28 17:23:29 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ enum	e_out_type {
 	STD,
 };
 
-union u_in_data {
+union u_data {
 	t_cmd	*pipe_src;
 	char	*path;
 };
@@ -43,10 +43,11 @@ struct s_cmd {
 };
 struct s_in {
 	enum e_in_type	type;
-	union u_in_data	data;
+	union u_data	*data;
 };
 struct s_out {
 	enum e_out_type	type;
+	union u_data	*data;
 };
 
 #endif
