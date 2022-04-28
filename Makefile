@@ -62,6 +62,6 @@ fclean: clean
 re: fclean all
 
 compile_commands:
-	compiledb -f make re
+	bear -- make re	
 
 .PHONY: all clean fclean re $(LIBFT) compile_commands

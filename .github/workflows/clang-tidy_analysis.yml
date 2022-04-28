@@ -1,0 +1,34 @@
+name: Static analysis
+
+on: pull_request
+
+jobs:
+  clang-tidy:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install clang-tidy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-tidy
+    - name: Install compiledb
+      run: |
+        sudo apt-get install -y bear
+    - name: Prepare compile_commands.json
+      run: |
+        make compile_commands
+    - name: Create results directory
+      run: |
+        mkdir clang-tidy-result
+    - name: Analyze
+      run: |
+        git diff -U0 HEAD^ | clang-tidy-diff -p1 -export-fixes clang-tidy-result/fixes.yml
+    - name: Save PR metadata
+      run: |
+        echo ${{ github.event.number }} > clang-tidy-result/pr-id.txt
+        echo ${{ github.event.pull_request.head.repo.full_name }} > clang-tidy-result/pr-head-repo.txt
+        echo ${{ github.event.pull_request.head.ref }} > clang-tidy-result/pr-head-ref.txt
+    - uses: actions/upload-artifact@v2
+      with:
+        name: clang-tidy-result
+        path: clang-tidy-result/
