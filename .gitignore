@@ -1,0 +1,8 @@
+*.o
+*.a
+*.d
+*.dSYM
+.codechecker
+.cache
+compile_commands.json
+minishell
