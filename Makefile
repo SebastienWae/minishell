@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/28 14:45:10 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/28 15:45:35 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,12 @@ else
 OUT_DIR = ./
 endif
 
-CC = clang
+CC = gcc
 CFLAGS += -Wall -Wextra -Werror
-CPPFLAGS += -I./include -I./$(LIBFT)
-LDFLAGS += -L./$(LIBFT) -lft
+CPPFLAGS = -I$(LIBFT) -Iinclude
+LDFLAGS = -L$(LIBFT) -lft
 
-SRCS = 
+SRCS = main.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 all: $(NAME)
