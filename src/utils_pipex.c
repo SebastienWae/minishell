@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
 #include "minishell.h"
 
 void	ft_error_exit(t_pipex cmd)

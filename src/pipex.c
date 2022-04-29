@@ -10,15 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
 #include "minishell.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <string.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
 
 t_pipex	ft_init_fd(char **argv, char **env)
 {

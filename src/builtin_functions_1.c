@@ -10,24 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "pipex.h"
 #include "minishell.h"
-
 #include <stdio.h>
 
 int	ft_pwd(char **cmd)
 {
-	char    *current_dir;
-    size_t  size_char;
+	char	*current_dir;
+	size_t	size_char;
 
 	size_char = 100;
-    current_dir = malloc(100);
+	current_dir = malloc(100);
 	if (cmd[1] == 0)
-	{
-		printf("%s\n",getcwd(current_dir, size_char));
-	}
-	else 
+		printf("%s\n", getcwd (current_dir, size_char));
+	else
 	{
 		printf("pwd : too many arguments\n");
 		free (current_dir);
@@ -40,12 +36,12 @@ int	ft_pwd(char **cmd)
 int	ft_echo(char **cmd)
 {
 	int	i;
-	
+
 	if (ft_strcmp(cmd[1], "-n") == 0)
 		i = 1;
-	else 
+	else
 		i = 0;
-	while(cmd[++i])
+	while (cmd[++i])
 	{
 		if (i != 1)
 			printf(" ");
@@ -56,35 +52,16 @@ int	ft_echo(char **cmd)
 	return (0);
 }
 
+//ajouter si cd seul => racine user
 int	ft_cd(char **cmd)
 {
-	if (cmd[2] != 0)
-	{
-		printf("cd: string not in pwd: %s", cmd[1]);
-		return (1);
-	}
+	if (cmd[1] == 0)
+		return (0);
 	if (chdir(cmd[1]) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 2);
+		printf("\n");
 		return (1);
 	}
-	return (0);
-}
-
-int	ft_export(char **cmd,t_list **local_env)
-{
-	printf("Fonction export a faire\n");
-	t_list *new;
-
-	new = ft_lstnew(cmd[1]);//a changer
-	ft_lstadd_back(local_env, new);		
-	return (0);
-}
-
-int	ft_unset(char **cmd, t_list **local_env)
-{
-	(void) local_env;
-	(void) cmd;
-	printf("Fonction unset a faire\n");		
 	return (0);
 }

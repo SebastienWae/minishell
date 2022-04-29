@@ -9,14 +9,8 @@
 /*   Updated: 2022/01/23 19:17:36 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <string.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
 
 int	ft_diff(unsigned int m, unsigned int n)
 {

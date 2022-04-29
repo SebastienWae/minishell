@@ -12,14 +12,16 @@
 
 //ce split ignore les espaces quand ils sont entre des quotes simples
 #include "minishell.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <string.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
+#include <stdlib.h>
 
+typedef struct s_split_params
+{
+	char	**tab;
+	size_t	nb_str;
+	size_t	i;
+	int		k;
+	int		iq;
+}	t_split_params;
 
 static size_t	ft_nb_slot(char *str, char c)
 {

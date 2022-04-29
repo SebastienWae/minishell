@@ -10,15 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
 #include "minishell.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <string.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
 
 char	*ft_search_path(char **env)
 {
@@ -48,20 +40,22 @@ char	*ft_build_cmd(char **path, char *cmd)
 	return (0);
 }
 
-int ft_execute_sys_cmd(char **cmd, char **env) //ajouter fichier entree fichier sortie
+//ajouter fichier entree fichier sortie
+int	ft_execute_sys_cmd(char **cmd, char **env)
 {
 	char	*main_cmd;
+
 	main_cmd = ft_build_cmd(ft_better_split(ft_search_path(env), ':'), cmd[0]);
 	if (main_cmd == NULL)
 	{
 		ft_putstr_fd("Command not found\n", 2);
 		exit(127);
 	}
-		//dup2(cmd.input_file, STDIN_FILENO); si entree != stdin
-		//dup2(fd_tab[1], STDOUT_FILENO); si sortie != stdout		
+	//dup2(cmd.input_file, STDIN_FILENO); si entree != stdin
+	//dup2(fd_tab[1], STDOUT_FILENO); si sortie != stdout		
 	if (execve(main_cmd, cmd, env) == -1)
 	{
-		ft_putstr_fd(strerror(errno), 2);		
+		ft_putstr_fd(strerror(errno), 2);
 		exit (1);
 	}	
 	free(main_cmd);

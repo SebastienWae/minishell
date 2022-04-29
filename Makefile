@@ -33,8 +33,9 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
 LDFLAGS = -L$(LIBFT) -lft -lreadline
 
-SRCS = main.c builtin_functions.c errors.c ft_split.c ft_strcmp.c \
-		main_pipex.c sys_call.c utils_builtin_cmds.c utils_pipex.c \
+SRCS = main.c builtin_functions_1.c builtin_functions_2.c errors.c \
+		ft_better_split.c ft_strcmp.c \
+		main_pipex.c sys_call.c builtin_functions_utils.c utils_pipex.c \
 		pipex.c
 
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))

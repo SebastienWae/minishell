@@ -31,12 +31,9 @@ typedef struct s_pipex{
 }	t_pipex;
 
 int		main_pipex(int argc, char **argv, char **env);
-//int		ft_strncmp(const char *s1, const char *s2, size_t n);
-//char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strcpy(char *dst, char *src);
 char	**ft_better_split(char *s, char c);
 char	*ft_search_path(char **env);
-//char	*ft_strtrim(char *s1, char *set);
 char	*ft_build_cmd(char **path, char *cmd);
 void	ft_process_1(char **argv, char **env, int fd_tab[2], t_pipex cmd);
 void	ft_process_2(char **argv, char **env, int fd_tab[2], t_pipex cmd);
@@ -47,6 +44,5 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_free_all(t_pipex cmd, int choice);
 void	ft_free_char_tab(char **tab);
 t_pipex	ft_init_fd(char **argv, char **env);
-//size_t	ft_strlen(char *str);
-int	ft_execute_sys_cmd(char **cmd, char **env);
+
 #endif
