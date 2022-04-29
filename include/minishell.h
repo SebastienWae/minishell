@@ -78,9 +78,6 @@ struct	s_elem_env
 	char	*content;
 };
 
-t_list	*tokenizer(char *line);
-void	free_tokens(t_list *tokens);
-
 int		is_quote(char c);
 int		is_metacharacter(char c);
 int		is_whitespace(char c);
@@ -95,8 +92,10 @@ int		ft_cd(char **cmd);
 int		ft_env(char **cmd, t_list *g_local_env);
 void	ft_print_env(t_list *g_local_env, int choice);
 void	ft_check_arg_error(int argc);
+void	free_tokens(t_list *tokens);
+t_list	*tokenizer(char *line);
 t_list	*ft_unset(char **cmd, t_list *g_local_env);
-t_list	*ft_export(char **cmd,t_list *g_local_env);
+t_list	*ft_export(char **cmd, t_list *g_local_env);
 t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *g_local_env);
 
 #endif
