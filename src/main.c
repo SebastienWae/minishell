@@ -34,6 +34,36 @@ void	ft_fake_pipex_to_test(char **env)
 	main_pipex(5, buffer, env);
 }
 
+int ft_exit(char **str)
+{
+	int	i;
+	
+	i = 0;
+	if (str[1] == 0)
+	{
+		printf("exit\n");
+		exit (0);
+	}
+	else
+	{
+		while (str[1][i] != 0)
+		{
+			if (!ft_isdigit(str[1][i]))
+			{
+				printf("exit: %s: numeric argument required\n", str[1]);
+				exit(255);
+			}
+			i ++;
+		}	
+	}
+	if (str[2] != 0)
+	{
+		printf("exit\nexit: too many arguments\n");
+		return (0);
+	}
+	exit (ft_atoi(str[1]));
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*str;
@@ -50,8 +80,8 @@ int	main(int argc, char **argv, char **env)
 		if (str[0] != 0)	
 		{
 			parsed_str = ft_better_split(str, ' ');
-			if (ft_strcmp(str, "exit") == 0)
-				exit(0);
+			if (ft_strcmp(parsed_str[0], "exit") == 0)
+				ft_exit(parsed_str);
 			else if (ft_is_builtin_cmd(parsed_str[0]))
 				g_local_env = ft_execute_builtin_cmd(parsed_str, g_local_env);
 			else
