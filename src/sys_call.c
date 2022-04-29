@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <errno.h>
+#include <string.h>
 
 char	*ft_search_path(char **env)
 {

@@ -11,7 +11,13 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+# include <stdlib.h>
+# include <unistd.h>
+# include <errno.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 t_pipex	ft_init_fd(char **argv, char **env)
 {
 	t_pipex	cmd;

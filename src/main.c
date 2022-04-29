@@ -47,26 +47,29 @@ int	main(int argc, char **argv, char **env)
 		str = NULL;
 		parsed_str = NULL;
 		str = readline("Unicorn@Zombie_apocalypse>");
-		parsed_str = ft_better_split(str, ' ');
-		if (ft_strcmp(str, "exit") == 0)
-			exit(0);
-		else if (ft_is_builtin_cmd(parsed_str[0]))
-			g_local_env = ft_execute_builtin_cmd(parsed_str, g_local_env);
-		else
+		if (str[0] != 0)	
 		{
-			process = fork ();
-			if (process == 0)
-			{
-				if (ft_strcmp(str, "pipe") == 0)
-					ft_fake_pipex_to_test(env);
-				else
-					ft_execute_sys_cmd(parsed_str, env);
-			}
+			parsed_str = ft_better_split(str, ' ');
+			if (ft_strcmp(str, "exit") == 0)
+				exit(0);
+			else if (ft_is_builtin_cmd(parsed_str[0]))
+				g_local_env = ft_execute_builtin_cmd(parsed_str, g_local_env);
 			else
-				waitpid(process, NULL, 0);
+			{
+				process = fork ();
+				if (process == 0)
+				{
+					if (ft_strcmp(str, "pipe") == 0)
+						ft_fake_pipex_to_test(env);
+					else
+						ft_execute_sys_cmd(parsed_str, env);
+				}
+				else
+					waitpid(process, NULL, 0);
+			}
+			free (parsed_str);
+			free (str);
 		}
-		free (parsed_str);
-		free (str);
 	}
 	return(0);
 }

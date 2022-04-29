@@ -13,6 +13,8 @@
 #include "pipex.h"
 #include "minishell.h"
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
 
 int	ft_pwd(char **cmd)
 {
@@ -37,6 +39,11 @@ int	ft_echo(char **cmd)
 {
 	int	i;
 
+	if (cmd[1] == 0)
+	{
+		printf("\n");
+		return (0);
+	}
 	if (ft_strcmp(cmd[1], "-n") == 0)
 		i = 1;
 	else
