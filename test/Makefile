@@ -1,7 +1,9 @@
+USER = $(shell whoami)
+
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
-CPPFLAGS = -I../include -I../libft
-LDFLAGS = -L../libft -lft -lcmocka
+CPPFLAGS = -I../include -I../libft -I/goinfre/$(USER)/.brew/include
+LDFLAGS = -L../libft -L/goinfre/$(USER)/.brew/lib -lft -lcmocka
 
 tokenizer.test: tokenizer.test.o tokenizer.o strings.o
 	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@ 
