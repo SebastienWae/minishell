@@ -1,0 +1,4 @@
+CompileFlags:
+  Add: [
+    -I/goinfre/swaegene/.brew/include,
+  ]
