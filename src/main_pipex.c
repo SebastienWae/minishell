@@ -12,13 +12,20 @@
 
 #include "pipex.h"
 #include "minishell.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
 
 int	main_pipex(int argc, char **argv, char **env)
 {
 	pid_t	process;
 	int		p;
 	int		fd_tab[2];
-	t_cmd	cmd;
+	t_pipex	cmd;
 
 	ft_nb_arg_error(argc);
 	p = pipe(fd_tab);

@@ -12,6 +12,13 @@
 
 #include "pipex.h"
 #include "minishell.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
 
 char	*ft_search_path(char **env)
 {

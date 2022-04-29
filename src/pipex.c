@@ -12,10 +12,17 @@
 
 #include "pipex.h"
 #include "minishell.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
 
-t_cmd	ft_init_fd(char **argv, char **env)
+t_pipex	ft_init_fd(char **argv, char **env)
 {
-	t_cmd	cmd;
+	t_pipex	cmd;
 
 	cmd.path = ft_better_split(ft_search_path(env), ':');
 	cmd.input_file = open(argv[1], O_RDONLY);
@@ -30,7 +37,7 @@ t_cmd	ft_init_fd(char **argv, char **env)
 	return (cmd);
 }
 
-void	ft_process_1(char **argv, char **env, int fd_tab[2], t_cmd cmd)
+void	ft_process_1(char **argv, char **env, int fd_tab[2], t_pipex cmd)
 {
 	cmd.arg1 = ft_better_split(argv[2], ' ');
 	cmd.main1 = ft_build_cmd(cmd.path, cmd.arg1[0]);
@@ -57,7 +64,7 @@ void	ft_process_1(char **argv, char **env, int fd_tab[2], t_cmd cmd)
 	ft_free_char_tab(cmd.arg1);
 }
 
-void	ft_process_2(char **argv, char **env, int fd_tab[2], t_cmd cmd)
+void	ft_process_2(char **argv, char **env, int fd_tab[2], t_pipex cmd)
 {
 	cmd.arg2 = ft_better_split(argv[3], ' ');
 	cmd.main2 = ft_build_cmd(cmd.path, cmd.arg2[0]);

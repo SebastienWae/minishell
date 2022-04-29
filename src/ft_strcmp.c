@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 12:27:07 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/04/20 12:27:08 by jeulliot         ###   ########.fr       */
+/*   Created: 2022/01/18 14:09:52 by jeulliot          #+#    #+#             */
+/*   Updated: 2022/01/23 19:17:36 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "pipex.h"
 #include "minishell.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
 
-static int	ft_diff(unsigned int m, unsigned int n)
+int	ft_diff(unsigned int m, unsigned int n)
 {
 	if (m > n)
 		return (1);
@@ -23,24 +28,21 @@ static int	ft_diff(unsigned int m, unsigned int n)
 		return (0);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strcmp(char *str1, char *str2)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0' && i < n)
+	while (str2[i] != '\0' && str1[i] != '\0')
 	{
-		if (s1[i] != s2[i])
-			return (ft_diff(s1[i], s2[i]));
-		i ++;
+		if (str1[i] != str2[i])
+			return (ft_diff(str1[i], str2[i]));
+		if (str1[i] == str2[i])
+			i++;
 	}
-	if (i == n)
-		return (0);
-	if (s1[i] == '\0' && s2[i] == '\0')
-		return (0);
-	if (s1[i] == '\0')
+	if (str1[i] == '\0' && str2[i] != '\0')
 		return (-1);
-	if (s2[i] == '\0')
+	if (str1[i] != '\0' && str2[i] == '\0')
 		return (1);
 	return (0);
 }

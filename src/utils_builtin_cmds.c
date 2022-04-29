@@ -12,6 +12,13 @@
 
 #include "pipex.h"
 #include "minishell.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
 
 int ft_is_builtin_cmd(char *str)
 {
@@ -24,7 +31,7 @@ int ft_is_builtin_cmd(char *str)
 	return(0);
 }
 
-int	ft_execute_builtin_cmd(char **parsed_str)
+int	ft_execute_builtin_cmd(char **parsed_str, t_list **local_env)
 {
 	if (ft_strcmp(parsed_str[0], "echo") == 0)
 		ft_echo(parsed_str);
@@ -33,8 +40,8 @@ int	ft_execute_builtin_cmd(char **parsed_str)
 	if (ft_strcmp(parsed_str[0], "cd") == 0)    
 		ft_cd(parsed_str); 
 	if (ft_strcmp(parsed_str[0], "unset") == 0)    
-		ft_unset(parsed_str);  
+		ft_unset(parsed_str, local_env);  
 	if (ft_strcmp(parsed_str[0], "export") == 0)    
-		ft_export(parsed_str);
+		ft_export(parsed_str, local_env);
 	return(0);
 }

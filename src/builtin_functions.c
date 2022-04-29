@@ -14,6 +14,8 @@
 #include "pipex.h"
 #include "minishell.h"
 
+#include <stdio.h>
+
 int	ft_pwd(char **cmd)
 {
 	char    *current_dir;
@@ -69,14 +71,20 @@ int	ft_cd(char **cmd)
 	return (0);
 }
 
-int	ft_export(char **cmd)
+int	ft_export(char **cmd,t_list **local_env)
 {
-	printf("Fonction export a faire\n");		
+	printf("Fonction export a faire\n");
+	t_list *new;
+
+	new = ft_lstnew(cmd[1]);//a changer
+	ft_lstadd_back(local_env, new);		
 	return (0);
 }
 
-int	ft_unset(char **cmd)
+int	ft_unset(char **cmd, t_list **local_env)
 {
+	(void) local_env;
+	(void) cmd;
 	printf("Fonction unset a faire\n");		
 	return (0);
 }

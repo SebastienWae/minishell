@@ -13,7 +13,7 @@
 #include "pipex.h"
 #include "minishell.h"
 
-void	ft_error_exit(t_cmd cmd)
+void	ft_error_exit(t_pipex cmd)
 {
 	ft_putstr_fd(strerror(errno), 2);
 	free(cmd.path);
@@ -50,7 +50,7 @@ void	ft_free_char_tab(char **tab)
 	free(tab);
 }
 
-void	ft_free_all(t_cmd cmd, int choice)
+void	ft_free_all(t_pipex cmd, int choice)
 {
 	if (choice == 1)
 	{

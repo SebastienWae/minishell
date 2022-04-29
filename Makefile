@@ -31,9 +31,12 @@ endif
 CC = gcc
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
-LDFLAGS = -L$(LIBFT) -lft
+LDFLAGS = -L$(LIBFT) -lft -lreadline
 
-SRCS = main.c
+SRCS = main.c builtin_functions.c errors.c ft_split.c ft_strcmp.c \
+		main_pipex.c sys_call.c utils_builtin_cmds.c utils_pipex.c \
+		pipex.c
+
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 all: $(NAME)
