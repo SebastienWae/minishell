@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/29 14:29:38 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/29 14:32:30 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 
 # include <libft.h>
 
-typedef struct s_cmd	t_cmd;
-typedef struct s_in		t_in;
-typedef struct s_out	t_out;
+typedef struct s_cmd		t_cmd;
+typedef struct s_in			t_in;
+typedef struct s_out		t_out;
+typedef enum e_in_type		t_in_type;
+typedef enum e_out_type		t_out_type;
+typedef union u_data		t_data;
 
 enum	e_in_type {
 	IN_PIPE,
@@ -28,7 +31,7 @@ enum	e_out_type {
 	OUT_PIPE,
 	OUT_FILE,
 	OUT_FILE_APPEND,
-	STD,
+	STD
 };
 
 union u_data {
