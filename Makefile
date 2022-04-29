@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/28 15:45:35 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/29 10:07:45 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
 LDFLAGS = -L$(LIBFT) -lft
 
-SRCS = main.c
+SRCS = main.c strings.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 all: $(NAME)
