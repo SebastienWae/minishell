@@ -14,11 +14,13 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include "pipex.h"
 
 typedef struct s_cmd		t_cmd;
 typedef struct s_in			t_in;
 typedef struct s_out		t_out;
 typedef struct s_token		t_token;
+typedef struct s_elem_env	t_elem_env;
 typedef enum e_in_type		t_in_type;
 typedef enum e_out_type		t_out_type;
 typedef enum e_token_type	t_token_type;
@@ -70,11 +72,31 @@ struct s_token {
 	union u_token_data	data;
 };
 
+struct	s_elem_env
+{
+	char	*name;
+	char	*content;
+};
+
 t_list	*tokenizer(char *line);
 void	free_tokens(t_list *tokens);
 
 int		is_quote(char c);
 int		is_metacharacter(char c);
 int		is_whitespace(char c);
+int		ft_strcmp(char *str1, char *str2);
+int		ft_execute_sys_cmd(char **cmd, char **env);
+int		ft_is_builtin_cmd(char *str);
+int		ft_check_char_export(char *str);
+int		ft_equal_is_in(char *str);
+int		ft_pwd(char **cmd);
+int		ft_echo(char **cmd);
+int		ft_cd(char **cmd);
+int		ft_env(char **cmd, t_list *g_local_env);
+void	ft_print_env(t_list *g_local_env, int choice);
+void	ft_check_arg_error(int argc);
+t_list	*ft_unset(char **cmd, t_list *g_local_env);
+t_list	*ft_export(char **cmd,t_list *g_local_env);
+t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *g_local_env);
 
 #endif
