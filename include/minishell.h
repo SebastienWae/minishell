@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/29 10:07:20 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/29 14:29:38 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ struct s_out {
 
 int	is_metacharacter(char c);
 int	is_whitespace(char c);
+int	is_quote(char c);
 
 #endif
