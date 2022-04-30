@@ -45,7 +45,7 @@ $(OUT_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $@
 
 $(LIBFT)/libft.a:
-	$(MAKE) -C $(LIBFT) bonus
+	@$(MAKE) -C $(LIBFT) bonus
 
 $(DIRS):
 	$(MKDIR) "$@"
