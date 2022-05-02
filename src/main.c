@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <signal.h>
 
-t_list	*g_local_env = NULL;
+
 
 void	ft_fake_pipex_to_test(char **env)
 {
@@ -39,21 +39,23 @@ int	main(int argc, char **argv, char **env)
 	char	*str;
 	char	**parsed_str;
 	pid_t	process;
+	static t_list	*local_env = NULL;
 
 	(void) argv;
 	ft_check_arg_error(argc);
+	local_env = ft_init_env();
 	while (1)
 	{
 		str = NULL;
 		parsed_str = NULL;
-		str = readline("Unicorn@Zombie_apocalypse>");
+		str = readline("Minishell>");
 		if (str[0] != 0)	
 		{
 			parsed_str = ft_better_split(str, ' ');
 			if (ft_strcmp(parsed_str[0], "exit") == 0)
 				ft_exit(parsed_str);
 			else if (ft_is_builtin_cmd(parsed_str[0]))
-				g_local_env = ft_execute_builtin_cmd(parsed_str, g_local_env);
+				local_env = ft_execute_builtin_cmd(parsed_str, local_env);
 			else
 			{
 				process = fork ();
