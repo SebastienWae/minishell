@@ -90,3 +90,33 @@ int	ft_env(char **cmd, t_list *g_local_env)
 	ft_print_env(g_local_env, 1);
 	return (0);
 }
+
+int ft_exit(char **str)
+{
+	int	i;
+	
+	i = 0;
+	if (str[1] == 0)
+	{
+		printf("exit\n");
+		exit (0);
+	}
+	else
+	{
+		while (str[1][i] != 0)
+		{
+			if (!ft_isdigit(str[1][i]))
+			{
+				printf("exit: %s: numeric argument required\n", str[1]);
+				exit(255);
+			}
+			i ++;
+		}	
+	}
+	if (str[2] != 0)
+	{
+		printf("exit\nexit: too many arguments\n");
+		return (0);
+	}
+	exit (ft_atoi(str[1]));
+}
