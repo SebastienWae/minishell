@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 12:33:22 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/15 15:18:44 by seb              ###   ########.fr        #
+#    Updated: 2022/05/02 13:27:37 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,9 @@ all: $(NAME) bonus
 
 $(NAME): $(OBJS) 
 	@ar rus $(NAME) $(OBJS)
+
+%.o: %.c
+	@$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 bonus: $(NAME) $(B_OBJS)
 	@ar rus $(NAME) $(B_OBJS)
