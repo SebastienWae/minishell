@@ -58,11 +58,13 @@ int	ft_echo(char **cmd)
 	return (0);
 }
 
-//ajouter si cd seul => racine user
 int	ft_cd(char **cmd)
 {
 	if (cmd[1] == 0)
+	{		
+		chdir(ft_strjoin("/Users/", getenv("USER")));
 		return (0);
+	}
 	if (chdir(cmd[1]) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 2);
