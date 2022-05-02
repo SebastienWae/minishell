@@ -39,9 +39,10 @@ int	main(int argc, char **argv, char **env)
 	char	*str;
 	char	**parsed_str;
 	pid_t	process;
-	static t_list	*local_env = NULL;
+	static t_list	*local_env;
 
 	(void) argv;
+	local_env = NULL;
 	ft_check_arg_error(argc);
 	local_env = ft_init_env();
 	while (1)
@@ -49,7 +50,8 @@ int	main(int argc, char **argv, char **env)
 		str = NULL;
 		parsed_str = NULL;
 		str = readline("Minishell>");
-		if (str[0] != 0)	
+		add_history(str);
+		if (str[0] != 0)
 		{
 			parsed_str = ft_better_split(str, ' ');
 			if (ft_strcmp(parsed_str[0], "exit") == 0)
@@ -73,5 +75,5 @@ int	main(int argc, char **argv, char **env)
 			free (str);
 		}
 	}
-	return(0);
+	return (0);
 }
