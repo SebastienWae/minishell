@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/29 14:49:53 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:22:35 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <libft.h>
 # include "pipex.h"
+
+# define SHELL_NAME "minishell"
 
 typedef struct s_cmd		t_cmd;
 typedef struct s_in			t_in;
