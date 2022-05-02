@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 12:33:22 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/02 13:27:37 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/02 17:03:15 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJS := $(SRCS:.c=.o)
 B_SRCS := ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c \
 		ft_lstclear_bonus.c ft_lstdelone_bonus.c \
 		ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c \
-		ft_lstnew_bonus.c ft_lstsize_bonus.c
+		ft_lstnew_bonus.c ft_lstsize_bonus.c ft_lstfind_extra.c
 B_OBJS := $(B_SRCS:.c=.o)
 
 all: $(NAME) bonus
