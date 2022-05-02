@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/29 15:49:56 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/02 13:22:51 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(OUT_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $@
 
 $(LIBFT)/libft.a:
-	@$(MAKE) -C $(LIBFT) bonus
+	$(MAKE) -C $(LIBFT) bonus
 
 $(DIRS):
 	$(MKDIR) "$@"
