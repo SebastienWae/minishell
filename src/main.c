@@ -18,8 +18,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-
-t_list	*g_local_env = NULL;
+#include <termios.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 void	ft_fake_pipex_to_test(char **env)
 {
@@ -34,72 +38,86 @@ void	ft_fake_pipex_to_test(char **env)
 	main_pipex(5, buffer, env);
 }
 
-int ft_exit(char **str)
+void	ft_sig_handler(int sig)
 {
-	int	i;
-	
-	i = 0;
-	if (str[1] == 0)
+	if (sig == SIGINT)
 	{
-		printf("exit\n");
-		exit (0);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();		
 	}
-	else
+	if (sig == SIGQUIT)
 	{
-		while (str[1][i] != 0)
-		{
-			if (!ft_isdigit(str[1][i]))
-			{
-				printf("exit: %s: numeric argument required\n", str[1]);
-				exit(255);
-			}
-			i ++;
-		}	
+		rl_on_new_line();
+		rl_redisplay();
 	}
-	if (str[2] != 0)
-	{
-		printf("exit\nexit: too many arguments\n");
-		return (0);
-	}
-	exit (ft_atoi(str[1]));
+}
+
+void	ft_sig(void)
+{
+	signal(SIGINT, &ft_sig_handler);
+	signal(SIGQUIT, &ft_sig_handler);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*str;
-	char	**parsed_str;
-	pid_t	process;
+	char			*str;
+	char			**parsed_str;
+	pid_t			process;
+	static t_list	*local_env;
+	struct termios	config;
 
 	(void) argv;
+	tcgetattr(STDIN_FILENO, &config);
+	config.c_lflag &= ~(ECHOCTL);
+	
+	config.c_cc[VMIN] = 1;
+	config.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &config);
+	local_env = NULL;
 	ft_check_arg_error(argc);
+	local_env = ft_init_env(env);
+	ft_sig();
 	while (1)
 	{
+
 		str = NULL;
 		parsed_str = NULL;
-		str = readline("Unicorn@Zombie_apocalypse>");
-		if (str[0] != 0)	
+		str = readline("Minishell>");
+		if (str == NULL)
 		{
-			parsed_str = ft_better_split(str, ' ');
-			if (ft_strcmp(parsed_str[0], "exit") == 0)
-				ft_exit(parsed_str);
-			else if (ft_is_builtin_cmd(parsed_str[0]))
-				g_local_env = ft_execute_builtin_cmd(parsed_str, g_local_env);
-			else
-			{
-				process = fork ();
-				if (process == 0)
-				{
-					if (ft_strcmp(str, "pipe") == 0)
-						ft_fake_pipex_to_test(env);
-					else
-						ft_execute_sys_cmd(parsed_str, env);
-				}
-				else
-					waitpid(process, NULL, 0);
-			}
-			free (parsed_str);
-			free (str);
+            printf("\033[2D");
+            printf("exit\n");
+			exit(0);
 		}
+		else
+		{				
+			if (str[0] != 0)
+				{
+					add_history(str);
+					parsed_str = ft_better_split(str, ' ');
+					if (ft_strcmp(parsed_str[0], "exit") == 0)
+						ft_exit(parsed_str);
+					else if (ft_is_builtin_cmd(parsed_str[0]))
+						local_env = ft_execute_builtin_cmd(parsed_str, local_env);
+					else
+					{
+						process = fork ();
+						if (process == 0)
+						{
+							if (ft_strcmp(str, "pipe") == 0)
+								ft_fake_pipex_to_test(env);
+							else
+								ft_execute_sys_cmd(parsed_str, env);
+						}
+						else
+							waitpid(process, NULL, 0);
+					}
+					free (parsed_str);
+					free (str);
+				}
+			}
 	}
-	return(0);
+	return (0);
 }

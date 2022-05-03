@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 //ce split ignore les espaces quand ils sont entre des quotes simples
+//a remplacer par rslt parser
 #include "minishell.h"
-#include <stdlib.h>
 
 typedef struct s_split_params
 {

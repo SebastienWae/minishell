@@ -11,13 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
-#include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 void	ft_error_exit(t_pipex cmd)
 {

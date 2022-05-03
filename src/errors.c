@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "minishell.h"
 
 void	ft_check_arg_error(int argc)
 {
 	if (argc != 1)
 	{
-		write (2, "minishell does not take any argument\n", 37);
+		write (2, "Minishell does not take arguments\n", 34);
 		exit (0);
 	}
 }

@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include <libft.h>
-# include "pipex.h"
+# include <pipex.h>
 
 typedef struct s_cmd		t_cmd;
 typedef struct s_in			t_in;
@@ -89,13 +89,18 @@ int		ft_equal_is_in(char *str);
 int		ft_pwd(char **cmd);
 int		ft_echo(char **cmd);
 int		ft_cd(char **cmd);
-int		ft_env(char **cmd, t_list *g_local_env);
-void	ft_print_env(t_list *g_local_env, int choice);
+int 	ft_exit(char **str);
+int		ft_env(char **cmd, t_list *local_env);
+int		ft_len_name_elem(char *elem);
+int 	ft_is_already_in_env(t_list *local_env, char *elem);
+void	ft_print_env(t_list *local_env, int choice);
 void	ft_check_arg_error(int argc);
 void	free_tokens(t_list *tokens);
+char	*ft_get_env_var_value(char *elem);
+t_list	*ft_init_env(char **env);
 t_list	*tokenizer(char *line);
-t_list	*ft_unset(char **cmd, t_list *g_local_env);
-t_list	*ft_export(char **cmd, t_list *g_local_env);
-t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *g_local_env);
+t_list	*ft_unset(char **cmd, t_list *local_env);
+t_list	*ft_export(char **cmd, t_list *local_env);
+t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env);
 
 #endif

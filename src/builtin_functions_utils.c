@@ -25,7 +25,7 @@ int	ft_is_builtin_cmd(char *str)
 	return (0);
 }
 
-t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *g_local_env)
+t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env)
 {
 	if (ft_strcmp(parsed_str[0], "echo") == 0)
 		ft_echo(parsed_str);
@@ -34,31 +34,31 @@ t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *g_local_env)
 	if (ft_strcmp(parsed_str[0], "cd") == 0)
 		ft_cd(parsed_str);
 	if (ft_strcmp(parsed_str[0], "unset") == 0)
-		g_local_env = ft_unset(parsed_str, g_local_env);
+		local_env = ft_unset(parsed_str, local_env);
 	if (ft_strcmp(parsed_str[0], "export") == 0)
-		g_local_env = ft_export(parsed_str, g_local_env);
+		local_env = ft_export(parsed_str, local_env);
 	if (ft_strcmp(parsed_str[0], "env") == 0)
-		ft_env(parsed_str, g_local_env);
-	return (g_local_env);
+		ft_env(parsed_str, local_env);
+	return (local_env);
 }
 
-void	ft_print_env(t_list *g_local_env, int choice)
+void	ft_print_env(t_list *local_env, int choice)
 {
 	if (choice == 1)
 	{
-		while (g_local_env)
+		while (local_env)
 		{
-			printf("%s\n", (char *)g_local_env->content);
-			g_local_env = g_local_env->next;
+			printf("%s\n", (char *)local_env->content);
+			local_env = local_env->next;
 		}
 	}
 	else
 	{
-		while (g_local_env)
+		while (local_env)
 		{
 			printf("declare -x ");
-			printf("%s\n", (char *)g_local_env->content);
-			g_local_env = g_local_env->next;
+			printf("%s\n", (char *)local_env->content);
+			local_env = local_env->next;
 		}
 	}
 }

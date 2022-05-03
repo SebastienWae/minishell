@@ -30,13 +30,16 @@ endif
 
 CC = gcc
 CFLAGS += -Wall -Wextra -Werror
-CPPFLAGS = -I$(LIBFT) -Iinclude
-LDFLAGS = -L$(LIBFT) -lft -lreadline
+CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
+LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
-SRCS = main.c builtin_functions_1.c builtin_functions_2.c errors.c \
+SRCS = main.c \
+		sys_call.c \
+		signal_handler.c \
+		builtin_functions_1.c builtin_functions_2.c errors.c \
+		builtin_functions_utils.c builtin_functions_utils2.c \
 		ft_better_split.c ft_strcmp.c \
-		main_pipex.c sys_call.c builtin_functions_utils.c utils_pipex.c \
-		pipex.c
+		main_pipex.c utils_pipex.c pipex.c
 
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
