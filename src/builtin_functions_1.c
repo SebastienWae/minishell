@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
+#include <built_in_functions.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+
+extern int g_out;
 
 int	ft_pwd(char **cmd)
 {
@@ -28,6 +31,7 @@ int	ft_pwd(char **cmd)
 	{
 		printf("pwd : too many arguments\n");
 		free (current_dir);
+		g_out = 1;
 		return (1);
 	}
 	free (current_dir);
@@ -51,7 +55,10 @@ int	ft_echo(char **cmd)
 	{
 		if (i != 1)
 			printf(" ");
-		printf("%s", cmd[i]);
+		if (!ft_strcmp(cmd[i], "$?"))
+			printf("%d", g_out);
+		else
+			printf("%s", cmd[i]);
 	}
 	if (ft_strcmp(cmd[1], "-n") != 0)
 		printf("\n");

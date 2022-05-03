@@ -12,7 +12,7 @@
 
 #ifndef PIPEX_H
 # define PIPEX_H
-
+# include <libft.h>
 typedef struct s_pipex{
 	char	**path;
 	char	*main1;

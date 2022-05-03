@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
+#include <built_in_functions.h>
 #include <stdio.h>
-
+extern int g_out;
 int	ft_len_name_elem(char *elem)
 {
 	int	n;

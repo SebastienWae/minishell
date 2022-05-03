@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   erros.c                                            :+:      :+:    :+:   */
+/*   sig_handler.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 14:55:50 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/04/28 14:55:51 by jeulliot         ###   ########.fr       */
+/*   Created: 2022/05/03 15:58:52 by jeulliot          #+#    #+#             */
+/*   Updated: 2022/05/03 15:58:53 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#ifndef SIG_HANDLER_H
+# define SIG_HANDLER_H
+# include <libft.h>
+int		ft_ctrl_d_handler(char *str);
+void	ft_sig(void);
+void	ft_sig_handler(int sig);
 
-void	ft_check_arg_error(int argc)
-{
-	if (argc != 1)
-	{
-		write (2, "Minishell does not take arguments\n", 34);
-		exit (0);
-	}
-}
+#endif

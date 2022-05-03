@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
+#include <built_in_functions.h>
 #include <stdio.h>
+
+extern int g_out;
 
 t_list	*ft_export(char **cmd, t_list *local_env)
 {	
@@ -20,6 +23,7 @@ t_list	*ft_export(char **cmd, t_list *local_env)
 	int		i;
 
 	i = 0;
+	g_out = 0;
 	if (cmd[1] == 0)
 		ft_print_env(local_env, 2);
 	else if (cmd[1] != 0)
@@ -36,7 +40,10 @@ t_list	*ft_export(char **cmd, t_list *local_env)
 				}
 			}
 			else if (!ft_check_char_export(cmd[i]))
+			{
 				printf("export: %s: not a valid identifier\n", cmd[i]);
+				g_out = 1;
+			}
 		}
 	}	
 	return (local_env);
@@ -46,16 +53,28 @@ t_list	*ft_unset(char **cmd, t_list *local_env)
 {
 	int		i;
 	t_list	*tmp;
+	int 	nb_cmd;
 
+	g_out = 0;
+	nb_cmd = 0;
+	while (cmd[nb_cmd])
+		nb_cmd ++;
 	tmp = local_env;
 	if (cmd[1] == 0)
-		return (0);
+		return (local_env);
 	while (local_env)
 	{
 		i = 1;
-		while (cmd[i] && local_env)
+		while (i < nb_cmd && local_env)
 		{
-			if (ft_strncmp(cmd[i], (char *)local_env->content, ft_strlen(cmd[i])) == 0)
+			if (cmd[i] && !ft_check_char_export(cmd[i]))
+			{		
+				printf("unset: %s: not a valid identifier\n", cmd[i]); // sortie 1
+				cmd[i] = NULL;
+				g_out = 1;
+				i ++;
+			}
+			if (cmd[i] && ft_strncmp(cmd[i], (char *)local_env->content, ft_strlen(cmd[i])) == 0)
 			{
 				local_env->content = 0;
 				free(local_env->content);
@@ -67,9 +86,9 @@ t_list	*ft_unset(char **cmd, t_list *local_env)
 			i ++;
 		}
 		i = 1;
-		while (cmd[i] != 0 && local_env->next && local_env)
+		while (i < nb_cmd && local_env->next && local_env)
 		{				
-			if (ft_strncmp(cmd[i], (char *)local_env->next->content, ft_strlen(cmd[i])) == 0)
+			if (cmd[i] && ft_strncmp(cmd[i], (char *)local_env->next->content, ft_strlen(cmd[i])) == 0)
 			{
 				local_env->next->content = 0;
 				free(local_env->next->content);
@@ -82,7 +101,7 @@ t_list	*ft_unset(char **cmd, t_list *local_env)
 		}	
 		local_env = local_env->next;
 	}
-	return (tmp);
+	return (tmp); //sortie 0 seulement si pas de sortie 1
 }
 
 int	ft_env(char **cmd, t_list *local_env)

@@ -10,21 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
+#include <pipex.h>
+#include <sig_handler.h>
+#include <built_in_functions.h>
+#include <init_functions.h>
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <signal.h>
 #include <termios.h>
 #include <errno.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
+int	g_out = 0;
 void	ft_fake_pipex_to_test(char **env)
 {
 	char	**buffer;
@@ -38,28 +38,6 @@ void	ft_fake_pipex_to_test(char **env)
 	main_pipex(5, buffer, env);
 }
 
-void	ft_sig_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();		
-	}
-	if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-void	ft_sig(void)
-{
-	signal(SIGINT, &ft_sig_handler);
-	signal(SIGQUIT, &ft_sig_handler);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char			*str;
@@ -71,7 +49,6 @@ int	main(int argc, char **argv, char **env)
 	(void) argv;
 	tcgetattr(STDIN_FILENO, &config);
 	config.c_lflag &= ~(ECHOCTL);
-	
 	config.c_cc[VMIN] = 1;
 	config.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &config);
@@ -81,43 +58,32 @@ int	main(int argc, char **argv, char **env)
 	ft_sig();
 	while (1)
 	{
-
-		str = NULL;
-		parsed_str = NULL;
 		str = readline("Minishell>");
-		if (str == NULL)
-		{
-            printf("\033[2D");
-            printf("exit\n");
-			exit(0);
-		}
-		else
-		{				
+		if (ft_ctrl_d_handler(str))	//exit si str null = si ctrl d
 			if (str[0] != 0)
+			{
+				add_history(str);
+				parsed_str = ft_better_split(str, ' ');
+				if (ft_strcmp(parsed_str[0], "exit") == 0)
+					ft_exit(parsed_str);
+				else if (ft_is_builtin_cmd(parsed_str[0]))
+					local_env = ft_execute_builtin_cmd(parsed_str, local_env);
+				else
 				{
-					add_history(str);
-					parsed_str = ft_better_split(str, ' ');
-					if (ft_strcmp(parsed_str[0], "exit") == 0)
-						ft_exit(parsed_str);
-					else if (ft_is_builtin_cmd(parsed_str[0]))
-						local_env = ft_execute_builtin_cmd(parsed_str, local_env);
-					else
+					process = fork ();
+					if (process == 0)
 					{
-						process = fork ();
-						if (process == 0)
-						{
-							if (ft_strcmp(str, "pipe") == 0)
-								ft_fake_pipex_to_test(env);
-							else
-								ft_execute_sys_cmd(parsed_str, env);
-						}
+						if (ft_strcmp(str, "pipe") == 0)
+							ft_fake_pipex_to_test(env);
 						else
-							waitpid(process, NULL, 0);
+							ft_execute_sys_cmd(parsed_str, env);
 					}
-					free (parsed_str);
-					free (str);
+					else
+						waitpid(process, NULL, 0);
 				}
-			}
+				free (parsed_str);
+				free (str);
+			}		
 	}
 	return (0);
 }

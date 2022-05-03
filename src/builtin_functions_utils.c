@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
+#include <built_in_functions.h>
 #include <stdio.h>
-
+extern int g_out;
 int	ft_is_builtin_cmd(char *str)
 {
 	if (ft_strcmp(str, "echo") == 0
@@ -28,7 +29,7 @@ int	ft_is_builtin_cmd(char *str)
 t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env)
 {
 	if (ft_strcmp(parsed_str[0], "echo") == 0)
-		ft_echo(parsed_str);
+		g_out = ft_echo(parsed_str);
 	if (ft_strcmp(parsed_str[0], "pwd") == 0)
 		ft_pwd(parsed_str);
 	if (ft_strcmp(parsed_str[0], "cd") == 0)
@@ -42,7 +43,7 @@ t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env)
 	return (local_env);
 }
 
-void	ft_print_env(t_list *local_env, int choice)
+int	ft_print_env(t_list *local_env, int choice)
 {
 	if (choice == 1)
 	{
@@ -61,6 +62,7 @@ void	ft_print_env(t_list *local_env, int choice)
 			local_env = local_env->next;
 		}
 	}
+	return(0);
 }
 
 int	ft_equal_is_in(char *str)

@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
+#include <pipex.h>
 #include <errno.h>
 #include <string.h>
+
+extern int g_out;
 
 char	*ft_search_path(char **env)
 {

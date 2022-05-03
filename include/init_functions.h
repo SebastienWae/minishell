@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   erros.c                                            :+:      :+:    :+:   */
+/*   init_functions.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 14:55:50 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/04/28 14:55:51 by jeulliot         ###   ########.fr       */
+/*   Created: 2022/05/03 16:31:33 by jeulliot          #+#    #+#             */
+/*   Updated: 2022/05/03 16:31:35 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#ifndef INIT_FUNCTIONS_H
+# define INIT_FUNCTIONS_H
+# include <libft.h>
+void	ft_check_arg_error(int argc);
+t_list	*ft_init_env(char **env);
 
-void	ft_check_arg_error(int argc)
-{
-	if (argc != 1)
-	{
-		write (2, "Minishell does not take arguments\n", 34);
-		exit (0);
-	}
-}
+#endif
