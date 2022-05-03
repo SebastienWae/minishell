@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/02 13:22:51 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/03 13:53:08 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
 LDFLAGS = -L$(LIBFT) -lft
 
-SRCS = main.c strings.c tokenizer.c tokenizer_utils.c
+SRCS = main.c strings.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 all: $(NAME)
@@ -61,7 +61,7 @@ fclean: clean
 
 re: fclean all
 
-compile_commands:
+compile_commands: $(LIBFT)/libft.a
 	bear -- make re	
 
 .PHONY: all clean fclean re $(LIBFT) compile_commands
