@@ -6,13 +6,14 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/03 13:46:33 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/03 18:12:26 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <tokenizer.h>
 # include <libft.h>
 
 # define SHELL_NAME "minishell"
@@ -42,7 +43,7 @@ void	ft_print_env(t_list *g_local_env, int choice);
 void	ft_check_arg_error(int argc);
 
 t_list	*tokenizer(char *line);
-void	free_tokens(t_list *tokens);
+void	free_tokens(t_tokens *tokens);
 
 t_list	*ft_unset(char **cmd, t_list *g_local_env);
 t_list	*ft_export(char **cmd, t_list *g_local_env);
