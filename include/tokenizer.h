@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 17:05:05 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 17:47:05 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/04 17:52:07 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ typedef struct s_token {
 void		tokenizer_next(t_tokens *t, t_token_event e);
 
 t_tokens	tokens_constructor(char *line);
-void		tokens_append_char(t_tokens *t, t_token_state s);
-void		tokens_remove_char(t_tokens *t, t_token_state s);
 
 void		tokenizer_state_not_token(t_tokens *t, t_token_event e);
 void		tokenizer_state_in_word(t_tokens *t, t_token_event e);
