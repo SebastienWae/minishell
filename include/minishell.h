@@ -15,6 +15,8 @@
 
 # include <libft.h>
 
+int	g_out;
+
 typedef struct s_cmd		t_cmd;
 typedef struct s_in			t_in;
 typedef struct s_out		t_out;

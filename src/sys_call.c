@@ -15,8 +15,6 @@
 #include <errno.h>
 #include <string.h>
 
-extern int g_out;
-
 char	*ft_search_path(char **env)
 {
 	while (ft_strncmp("PATH", *env, 4))
@@ -53,7 +51,8 @@ int	ft_execute_sys_cmd(char **cmd, char **env)
 	main_cmd = ft_build_cmd(ft_better_split(ft_search_path(env), ':'), cmd[0]);
 	if (main_cmd == NULL)
 	{
-		ft_putstr_fd("Command not found\n", 2);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
 	//dup2(cmd.input_file, STDIN_FILENO); si entree != stdin

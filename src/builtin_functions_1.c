@@ -14,46 +14,39 @@
 #include <built_in_functions.h>
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <string.h>
 
-extern int g_out;
-
-int	ft_pwd(char **cmd)
+//ok
+void	ft_pwd(char **cmd)
 {
 	char	*current_dir;
-	size_t	size_char;
 
-	size_char = 100;
-	current_dir = malloc(100);
-	if (cmd[1] == 0)
-		printf("%s\n", getcwd (current_dir, size_char));
-	else
-	{
-		printf("pwd : too many arguments\n");
-		free (current_dir);
-		g_out = 1;
-		return (1);
-	}
+	(void) cmd;
+	current_dir = getcwd (NULL, 0);
+	printf("%s\n", current_dir);
 	free (current_dir);
-	return (0);
+	g_out = 0;
 }
 
-int	ft_echo(char **cmd)
+//ok
+void	ft_echo(char **cmd)
 {
 	int	i;
 
+	i = 0;
 	if (cmd[1] == 0)
 	{
 		printf("\n");
-		return (0);
+		g_out = 0;
+		return ;
 	}
 	if (ft_strcmp(cmd[1], "-n") == 0)
 		i = 1;
-	else
-		i = 0;
 	while (cmd[++i])
 	{
-		if (i != 1)
+		if (!(ft_strcmp(cmd[1], "-n") != 0 && i == 1)
+			&& (!(i == 2 && ft_strcmp(cmd[1], "-n") == 0)))
 			printf(" ");
 		if (!ft_strcmp(cmd[i], "$?"))
 			printf("%d", g_out);
@@ -62,21 +55,34 @@ int	ft_echo(char **cmd)
 	}
 	if (ft_strcmp(cmd[1], "-n") != 0)
 		printf("\n");
-	return (0);
+	g_out = 0;
 }
 
-int	ft_cd(char **cmd)
+//change egalement PWD et OLDPWD dans env
+void	ft_cd(char **cmd, t_list *local_env)
 {
+	char	*old_dir;
+	char	*c;
+
+	g_out = 0;
+	old_dir = getcwd (NULL, 0);
 	if (cmd[1] == 0)
-	{		
-		chdir(ft_strjoin("/Users/", getenv("USER")));
-		return (0);
-	}
-	if (chdir(cmd[1]) == -1)
+		chdir(getenv("HOME"));
+	else if (chdir(cmd[1]) == -1)
 	{
+		g_out = 1;
 		ft_putstr_fd(strerror(errno), 2);
 		printf("\n");
-		return (1);
 	}
-	return (0);
+	while (local_env)
+	{
+		c = local_env->content;
+		if (!ft_strncmp("PWD", local_env->content, 3))
+			if (c[3] == '=')
+				local_env->content = ft_strjoin("PWD=", getcwd (NULL, 0));
+		if (!ft_strncmp("OLDPWD", local_env->content, 6))
+			if (c[6] == '=')
+				local_env->content = ft_strjoin("OLDPWD=", old_dir);
+		local_env = local_env->next;
+	}
 }

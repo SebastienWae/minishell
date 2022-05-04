@@ -24,7 +24,6 @@
 #include <termios.h>
 #include <errno.h>
 
-int	g_out = 0;
 void	ft_fake_pipex_to_test(char **env)
 {
 	char	**buffer;
@@ -47,6 +46,7 @@ int	main(int argc, char **argv, char **env)
 	struct termios	config;
 
 	(void) argv;
+	g_out = 0;
 	tcgetattr(STDIN_FILENO, &config);
 	config.c_lflag &= ~(ECHOCTL);
 	config.c_cc[VMIN] = 1;

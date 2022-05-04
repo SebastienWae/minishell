@@ -13,7 +13,7 @@
 #include <minishell.h>
 #include <built_in_functions.h>
 #include <stdio.h>
-extern int g_out;
+
 int	ft_is_builtin_cmd(char *str)
 {
 	if (ft_strcmp(str, "echo") == 0
@@ -29,11 +29,11 @@ int	ft_is_builtin_cmd(char *str)
 t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env)
 {
 	if (ft_strcmp(parsed_str[0], "echo") == 0)
-		g_out = ft_echo(parsed_str);
+		ft_echo(parsed_str);
 	if (ft_strcmp(parsed_str[0], "pwd") == 0)
 		ft_pwd(parsed_str);
 	if (ft_strcmp(parsed_str[0], "cd") == 0)
-		ft_cd(parsed_str);
+		ft_cd(parsed_str, local_env);
 	if (ft_strcmp(parsed_str[0], "unset") == 0)
 		local_env = ft_unset(parsed_str, local_env);
 	if (ft_strcmp(parsed_str[0], "export") == 0)
@@ -45,22 +45,12 @@ t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env)
 
 int	ft_print_env(t_list *local_env, int choice)
 {
-	if (choice == 1)
+	while (local_env)
 	{
-		while (local_env)
-		{
-			printf("%s\n", (char *)local_env->content);
-			local_env = local_env->next;
-		}
-	}
-	else
-	{
-		while (local_env)
-		{
+		if (choice != 1)
 			printf("declare -x ");
-			printf("%s\n", (char *)local_env->content);
-			local_env = local_env->next;
-		}
+		printf("%s\n", (char *)local_env->content);
+		local_env = local_env->next;
 	}
 	return(0);
 }
