@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/03 18:27:06 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/04 17:47:53 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,75 +20,53 @@ void	free_tokens(t_tokens *tokens)
 	(void)tokens;
 }
 
-//TODO: set state to err
-void	*add_token(t_token_type type, t_token_data data, t_tokens *tokens)
-{
-	t_token	*token;
-	t_list	*tmp;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-	{
-		if (tokens)
-			free_tokens(tokens);
-		return (NULL);
-	}
-	*token = (t_token){.type = type, .data = data};
-	tmp = ft_lstnew(token);
-	if (!tmp)
-	{
-		if (tokens)
-			free_tokens(tokens);
-		else if (token)
-			free(token);
-		return (NULL);
-	}
-	if (tokens->tokens)
-		ft_lstadd_back(&(tokens->tokens), tmp);
-	else
-		tokens->tokens = tmp;
-	return (tokens);
-}
-
+// TODO: catch error event/state
+// TODO: catch unimplemented event
+// TODO: catch end event
 void	tokenizer_next(t_tokens *tokens, t_token_event e)
 {
 	int						n_states;
 	static t_token_machine	state_machine[] = {
-	{ST_T_INIT, tokenizer_init},
-	{ST_T_IN_DOUBLE_QUOTE, tokenizer_in_double_quote},
-	{ST_T_IN_SINGLE_QUOTE, tokenizer_in_single_quote},
-	{ST_T_IN_WORD, tokenizer_in_word},
-	{ST_T_IN_METACHAR, tokenizer_in_metachar}
+	{S_T_NOT_TOKEN, tokenizer_state_not_token},
+	{S_T_IN_WORD, tokenizer_state_in_word},
+	{S_T_IN_OPERATOR, tokenizer_state_in_operator},
+	{S_T_IN_SINGLE_QUOTE, tokenizer_state_in_single_quote},
+	{S_T_IN_DOUBLE_QUOTE, tokenizer_state_in_double_quote},
+	{S_T_ERROR, NULL},
+	{S_T_FINISHED, NULL},
 	};
 
-	n_states = ST_T_ERROR;
+	n_states = S_T_ERROR;
 	while (n_states--)
 	{
 		if (state_machine[n_states].state == tokens->state)
 			state_machine[n_states].handler(tokens, e);
 	}
 	if (n_states < 0)
-		tokens->state = ST_T_ERROR;
+		tokens->state = S_T_ERROR;
 }
 
 t_list	*tokenizer(char *line)
 {
 	t_tokens		tokens;
 
-	tokens.tokens = NULL;
-	tokens.cursor = 0;
-	tokens.line = line;
-	tokens.state = ST_T_INIT;
-	while (tokens.line[tokens.cursor] && tokens.state != ST_T_ERROR)
+	tokens = tokens_constructor(line);
+	while (tokens.state != S_T_FINISHED)
 	{
-		if (tokens.line[tokens.cursor] == '\'')
+		if (tokens.state == S_T_ERROR)
+			tokenizer_next(&tokens, E_T_ERROR);
+		if (tokens.line[tokens.end_cursor] == '\0')
+			tokenizer_next(&tokens, E_T_END);
+		else if (tokens.line[tokens.end_cursor] == '\'')
 			tokenizer_next(&tokens, E_T_SINGLE_QUOTE);
-		else if (tokens.line[tokens.cursor] == '"')
+		else if (tokens.line[tokens.end_cursor] == '"')
 			tokenizer_next(&tokens, E_T_DOUBLE_QUOTE);
-		else if (is_whitespace(tokens.line[tokens.cursor]))
+		else if (is_operator(tokens.line[tokens.end_cursor]))
+			tokenizer_next(&tokens, E_T_OPERATOR);
+		else if (is_whitespace(tokens.line[tokens.end_cursor]))
 			tokenizer_next(&tokens, E_T_WHITESPACE);
-		else if (is_metacharacter(tokens.line[tokens.cursor]))
-			tokenizer_next(&tokens, E_T_METACHAR);
+		else if (is_unimplemented(tokens.line[tokens.end_cursor]))
+			tokenizer_next(&tokens, E_T_UNIMPLEMENTED);
 		else
 			tokenizer_next(&tokens, E_T_CHAR);
 	}
