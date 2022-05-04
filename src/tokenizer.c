@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 17:47:53 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/04 20:35:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,35 @@
 #include <tokenizer.h>
 
 //TODO: implement
-void	free_tokens(t_tokens *tokens)
+static void	tokenizer_error(t_tokens *tokens)
 {
 	(void)tokens;
 }
 
-// TODO: catch error event/state
-// TODO: catch unimplemented event
-// TODO: catch end event
+//TODO: implement
+static void	tokenizer_unimplemented(t_tokens *tokens)
+{
+	(void)tokens;
+}
+
 void	tokenizer_next(t_tokens *tokens, t_token_event e)
 {
-	int						n_states;
 	static t_token_machine	state_machine[] = {
-	{S_T_NOT_TOKEN, tokenizer_state_not_token},
-	{S_T_IN_WORD, tokenizer_state_in_word},
-	{S_T_IN_OPERATOR, tokenizer_state_in_operator},
-	{S_T_IN_SINGLE_QUOTE, tokenizer_state_in_single_quote},
-	{S_T_IN_DOUBLE_QUOTE, tokenizer_state_in_double_quote},
-	{S_T_ERROR, NULL},
-	{S_T_FINISHED, NULL},
+	{.state = S_T_NOT_TOKEN,		.handler = tokenizer_state_not_token},
+	{.state = S_T_IN_WORD,			.handler = tokenizer_state_in_word},
+	{.state = S_T_IN_OPERATOR,		.handler = tokenizer_state_in_operator},
+	{.state = S_T_IN_SINGLE_QUOTE,	.handler = tokenizer_state_in_single_quote},
+	{.state = S_T_IN_DOUBLE_QUOTE,	.handler = tokenizer_state_in_double_quote},
+	{.state = S_T_ERROR,			.handler = tokenizer_error},
+	{.state = S_T_FINISHED,			.handler = tokenizer_error},
 	};
 
-	n_states = S_T_ERROR;
-	while (n_states--)
-	{
-		if (state_machine[n_states].state == tokens->state)
-			state_machine[n_states].handler(tokens, e);
-	}
-	if (n_states < 0)
+	tokens->last_event = e;
+	if (e == E_T_UNIMPLEMENTED)
+		tokenizer_unimplemented(tokens);
+	else if (sizeof(state_machine) > tokens->state)
+		state_machine[tokens->state].handler(tokens);
+	else
 		tokens->state = S_T_ERROR;
 }
 

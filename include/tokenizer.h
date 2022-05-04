@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 17:05:05 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 17:52:07 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/04 20:28:56 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_token_event
 }	t_token_event;
 
 typedef struct s_tokens	t_tokens;
-typedef void			(*t_token_handler)(t_tokens *, t_token_event);
+typedef void			(*t_token_handler)(t_tokens *);
 struct s_tokens
 {
 	t_list			*tokens;
@@ -48,6 +48,7 @@ struct s_tokens
 	int				end_cursor;
 	char			*curr_token;
 	t_token_state	state;
+	t_token_event	last_event;
 	void			(*append_char)(t_tokens *, t_token_state);
 	void			(*remove_char)(t_tokens *, t_token_state);
 };
@@ -78,10 +79,10 @@ void		tokenizer_next(t_tokens *t, t_token_event e);
 
 t_tokens	tokens_constructor(char *line);
 
-void		tokenizer_state_not_token(t_tokens *t, t_token_event e);
-void		tokenizer_state_in_word(t_tokens *t, t_token_event e);
-void		tokenizer_state_in_operator(t_tokens *t, t_token_event e);
-void		tokenizer_state_in_single_quote(t_tokens *t, t_token_event e);
-void		tokenizer_state_in_double_quote(t_tokens *t, t_token_event e);
+void		tokenizer_state_not_token(t_tokens *t);
+void		tokenizer_state_in_word(t_tokens *t);
+void		tokenizer_state_in_operator(t_tokens *t);
+void		tokenizer_state_in_single_quote(t_tokens *t);
+void		tokenizer_state_in_double_quote(t_tokens *t);
 
 #endif

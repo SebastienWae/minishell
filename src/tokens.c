@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 17:33:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 17:52:58 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/04 20:36:05 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokenizer.h>
+#include <stdlib.h>
 
 static void	tokens_append_char(t_tokens *t, t_token_state s)
 {
@@ -36,7 +37,19 @@ t_tokens	tokens_constructor(char *line)
 			.end_cursor = 0,
 			.line = line,
 			.state = S_T_NOT_TOKEN,
+			.last_event = 0,
 			.append_char = tokens_append_char,
 			.remove_char = tokens_remove_char
 		});
+}
+
+void	free_token(void *token)
+{
+	free(((t_token *)token)->token);
+}
+
+void	free_tokens(t_tokens *tokens)
+{
+	ft_lstclear(&(tokens->tokens), free_token);
+	free(tokens);
 }
