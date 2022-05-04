@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 20:35:29 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/04 21:53:14 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ t_list	*tokenizer(char *line)
 		else
 			tokenizer_next(&tokens, E_T_CHAR);
 	}
-	return (tokens.tokens);
+	return (tokens.list);
 }

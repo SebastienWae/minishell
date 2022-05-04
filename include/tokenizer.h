@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/04 17:05:05 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 20:28:56 by seb              ###   ########.fr       */
+/*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
+/*   Updated: 2022/05/04 21:53:58 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ typedef enum e_token_event
 }	t_token_event;
 
 typedef struct s_tokens	t_tokens;
+typedef struct s_token	t_token;
 typedef void			(*t_token_handler)(t_tokens *);
 struct s_tokens
 {
-	t_list			*tokens;
+	t_list			*list;
 	char			*line;
 	int				start_cursor;
 	int				end_cursor;
@@ -51,6 +52,8 @@ struct s_tokens
 	t_token_event	last_event;
 	void			(*append_char)(t_tokens *, t_token_state);
 	void			(*remove_char)(t_tokens *, t_token_state);
+	void			(*delimit_token)(t_tokens *, t_token_state);
+	void			(*free)(t_tokens *);
 };
 
 typedef struct s_token_machine
@@ -70,19 +73,22 @@ typedef enum e_toke_type
 	DOUBLE_QUOTE_WORD,
 }	t_token_type;
 
-typedef struct s_token {
+struct s_token {
 	t_token_type	type;
 	char			*token;
-}	t_token;
+	void			(*free)(t_token *);
+};
 
+t_list		*tokenizer(char *line);
 void		tokenizer_next(t_tokens *t, t_token_event e);
-
-t_tokens	tokens_constructor(char *line);
 
 void		tokenizer_state_not_token(t_tokens *t);
 void		tokenizer_state_in_word(t_tokens *t);
 void		tokenizer_state_in_operator(t_tokens *t);
 void		tokenizer_state_in_single_quote(t_tokens *t);
 void		tokenizer_state_in_double_quote(t_tokens *t);
+
+t_tokens	tokens_constructor(char *line);
+t_token		token_constructor(t_token_type type, char *token);
 
 #endif

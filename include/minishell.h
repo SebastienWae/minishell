@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 17:47:00 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/04 21:23:44 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ int		ft_cd(char **cmd);
 int		ft_env(char **cmd, t_list *g_local_env);
 void	ft_print_env(t_list *g_local_env, int choice);
 void	ft_check_arg_error(int argc);
-
-t_list	*tokenizer(char *line);
-void	free_tokens(t_tokens *tokens);
 
 t_list	*ft_unset(char **cmd, t_list *g_local_env);
 t_list	*ft_export(char **cmd, t_list *g_local_env);

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 17:33:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 20:50:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/04 21:53:11 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,48 +28,54 @@ static void	tokens_remove_char(t_tokens *t, t_token_state s)
 	t->start_cursor = t->end_cursor;
 }
 
-t_tokens	tokens_constructor(char *line)
+// TODO: implement
+static void	tokens_delimit_token(t_tokens *t, t_token_state s)
 {
-	return ((t_tokens)
-		{
-			.tokens = NULL,
-			.start_cursor = 0,
-			.end_cursor = 0,
-			.line = line,
-			.state = S_T_NOT_TOKEN,
-			.last_event = 0,
-			.append_char = tokens_append_char,
-			.remove_char = tokens_remove_char
-		});
+	t->state = s;
+	t->end_cursor++;
+	t->start_cursor = t->end_cursor;
 }
 
-void	free_token(void *token)
+static void	tokens_free(t_tokens *t)
 {
-	t_token	*t;
+	t_list	*tmp;
 
-	t = token;
-	free(t->token);
-	*t = (t_token)
+	while (t->list)
 	{
-		.type = 0,
-		.token = NULL
-	};
-	free(t);
-}
-
-void	free_tokens(t_tokens *tokens)
-{
-	ft_lstclear(&(tokens->tokens), free_token);
-	*tokens = (t_tokens)
+		tmp = t->list->next;
+		((t_token *)(t->list->content))->free((t_token *)(t->list->content));
+		free(t->list->content);
+		t->list = tmp;
+	}
+	*t = (t_tokens)
 	{
-		.tokens = NULL,
+		.list = NULL,
 		.start_cursor = 0,
 		.end_cursor = 0,
 		.line = NULL,
 		.state = 0,
 		.last_event = 0,
 		.append_char = NULL,
-		.remove_char = NULL
+		.remove_char = NULL,
+		.delimit_token = NULL,
+		.free = NULL
 	};
-	free(tokens);
+	free(t);
+}
+
+t_tokens	tokens_constructor(char *line)
+{
+	return ((t_tokens)
+		{
+			.list = NULL,
+			.start_cursor = 0,
+			.end_cursor = 0,
+			.line = line,
+			.state = S_T_NOT_TOKEN,
+			.last_event = 0,
+			.append_char = tokens_append_char,
+			.remove_char = tokens_remove_char,
+			.delimit_token = tokens_delimit_token,
+			.free = tokens_free
+		});
 }
