@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 17:33:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 20:36:05 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/04 20:50:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,31 @@ t_tokens	tokens_constructor(char *line)
 
 void	free_token(void *token)
 {
-	free(((t_token *)token)->token);
+	t_token	*t;
+
+	t = token;
+	free(t->token);
+	*t = (t_token)
+	{
+		.type = 0,
+		.token = NULL
+	};
+	free(t);
 }
 
 void	free_tokens(t_tokens *tokens)
 {
 	ft_lstclear(&(tokens->tokens), free_token);
+	*tokens = (t_tokens)
+	{
+		.tokens = NULL,
+		.start_cursor = 0,
+		.end_cursor = 0,
+		.line = NULL,
+		.state = 0,
+		.last_event = 0,
+		.append_char = NULL,
+		.remove_char = NULL
+	};
 	free(tokens);
 }
