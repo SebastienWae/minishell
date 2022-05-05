@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 16:52:40 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 11:02:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 11:15:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,27 @@ void	tokenizer_state_in_operator(t_tokens *t)
 
 void	tokenizer_state_in_quote(t_tokens *t)
 {
-	(void)t;
+	if (t->event == E_T_CHAR)
+		t->append_char(t, S_T_IN_QUOTE);
+	else if (t->event == E_T_OPERATOR)
+		t->append_char(t, S_T_IN_QUOTE);
+	else if (t->event == E_T_WHITESPACE)
+		t->append_char(t, S_T_IN_QUOTE);
+	else if (t->event == E_T_QUOTE)
+	{
+		if (t->curr_token_type == T_T_DOUBLE_QUOTE_WORD)
+		{
+			if (t->line[t->end_cursor] == '\'')
+				t->append_char(t, S_T_IN_QUOTE);
+			else if (t->line[t->end_cursor] == '"')
+				t->append_char(t, S_T_IN_WORD);
+		}
+		else if (t->curr_token_type == T_T_SINGLE_QUOTE_WORD)
+		{
+			if (t->line[t->end_cursor] == '\'')
+				t->append_char(t, S_T_IN_WORD);
+			else if (t->line[t->end_cursor] == '"')
+				t->append_char(t, S_T_IN_QUOTE);
+		}
+	}
 }

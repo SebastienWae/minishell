@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 10:45:52 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 11:10:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	tokenizer_next(t_tokens *tokens, t_token_event e)
 		tokens->curr_token_type = T_T_UNIMPLEMENTED;
 		tokenizer_finish(tokens);
 	}
+	else if (e == E_T_END)
+		tokenizer_finish(tokens);
 	else if (sizeof(state_machine) > tokens->state)
 		state_machine[tokens->state].handler(tokens);
 	else
