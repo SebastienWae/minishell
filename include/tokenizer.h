@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 10:44:57 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 13:45:52 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ struct s_token {
 	void			(*free)(t_token *);
 };
 
-t_list		*tokenizer(char *line);
+t_tokens	*tokenizer(char *line);
 void		tokenizer_next(t_tokens *t, t_token_event e);
 void		tokenizer_finish(t_tokens *tokens);
 
@@ -96,8 +96,8 @@ void		tokenizer_state_in_quote(t_tokens *t);
 
 void		tokenizer_operator(t_tokens *t);
 
-t_tokens	tokens_constructor(char *line);
+t_tokens	*tokens_constructor(char *line);
 
-t_token		token_constructor(t_token_type type, char *token);
+t_token		*token_constructor(t_token_type type, char *token);
 
 #endif

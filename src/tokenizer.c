@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 11:10:26 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 13:46:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 
 void	tokenizer_finish(t_tokens *t)
 {
-	t_token	token;
+	t_token	*token;
 
 	token = token_constructor(t->curr_token_type, &(t->line[t->start_cursor]));
 	if (t->list)
-		ft_lstadd_back(&(t->list), ft_lstnew(&token));
+		ft_lstadd_back(&(t->list), ft_lstnew(token));
 	else
-		t->list = ft_lstnew(&token);
+		t->list = ft_lstnew(token);
 	while (t->line[t->end_cursor] && !is_whitespace(t->line[t->end_cursor]))
 		t->end_cursor++;
 	t->line[t->end_cursor] = '\0';
@@ -53,25 +53,25 @@ void	tokenizer_next(t_tokens *tokens, t_token_event e)
 		tokenizer_finish(tokens);
 }
 
-t_list	*tokenizer(char *line)
+t_tokens	*tokenizer(char *line)
 {
-	t_tokens		tokens;
+	t_tokens		*tokens;
 
 	tokens = tokens_constructor(line);
-	while (tokens.state != S_T_FINISHED)
+	while (tokens->state != S_T_FINISHED)
 	{
-		if (tokens.line[tokens.end_cursor] == '\0')
-			tokenizer_next(&tokens, E_T_END);
-		else if (is_quote(tokens.line[tokens.end_cursor]))
-			tokenizer_next(&tokens, E_T_QUOTE);
-		else if (is_operator(tokens.line[tokens.end_cursor]))
-			tokenizer_next(&tokens, E_T_OPERATOR);
-		else if (is_whitespace(tokens.line[tokens.end_cursor]))
-			tokenizer_next(&tokens, E_T_WHITESPACE);
-		else if (is_unimplemented(tokens.line[tokens.end_cursor]))
-			tokenizer_next(&tokens, E_T_UNIMPLEMENTED);
+		if (tokens->line[tokens->end_cursor] == '\0')
+			tokenizer_next(tokens, E_T_END);
+		else if (is_quote(tokens->line[tokens->end_cursor]))
+			tokenizer_next(tokens, E_T_QUOTE);
+		else if (is_operator(tokens->line[tokens->end_cursor]))
+			tokenizer_next(tokens, E_T_OPERATOR);
+		else if (is_whitespace(tokens->line[tokens->end_cursor]))
+			tokenizer_next(tokens, E_T_WHITESPACE);
+		else if (is_unimplemented(tokens->line[tokens->end_cursor]))
+			tokenizer_next(tokens, E_T_UNIMPLEMENTED);
 		else
-			tokenizer_next(&tokens, E_T_CHAR);
+			tokenizer_next(tokens, E_T_CHAR);
 	}
-	return (tokens.list);
+	return (tokens);
 }

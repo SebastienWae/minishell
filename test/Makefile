@@ -5,18 +5,9 @@ CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 CPPFLAGS = -I../include -I../libft -I/goinfre/$(USER)/.brew/include
 LDFLAGS = -L../libft -L/goinfre/$(USER)/.brew/lib -lft -lcmocka
 
-tokenizer.test: tokenizer.test.o tokenizer.o strings.o tokenizer_utils.o
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@ 
+tokenizer.test: tokenizer.test.o tokenizer.c strings.c tokenizer_operators.c tokenizer_states.c token.c tokens.c
+	$(CC) $(CFLAGS) $(^:%.c=%.o) $(LDFLAGS) -o $@ 
 	./$@
 
-tokenizer.o: ../src/tokenizer.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
-
-tokenizer_utils.o: ../src/tokenizer_utils.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
-
-strings.o: ../src/strings.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
-
-%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
+%.c:
+	$(CC) $(CFLAGS) $(CPPFLAGS) ../src/$@ -c -o $(@:%.c=%.o)
