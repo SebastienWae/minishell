@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 16:37:38 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:45:31 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ static void	tokenizer_unimplemented2(void **state)
 {
 	t_list		*list;
 	t_tokens	*tokens;
-	char		line[] = "    cat<<\"EOF\"| '&' & test echo 123";
+	char		line[] = "    cat<<\"EOF\"| '&' \"<>\"& test echo 123";
 
 	(void)state;
 	tokens = tokenizer(line);
@@ -210,6 +210,10 @@ static void	tokenizer_unimplemented2(void **state)
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
 	assert_string_equal(((t_token *)list->content)->token, "'&'");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "\"<>\"");
 	assert_non_null(list->next);
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_T_UNIMPLEMENTED);
