@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_states.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 16:52:40 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 11:15:57 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 15:54:54 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,108 +15,91 @@
 void	tokenizer_state_not_token(t_tokens *t)
 {
 	if (t->event == E_T_CHAR)
-	{
-		t->append_char(t, S_T_IN_WORD);
-		t->curr_token_type = T_T_WORD;
-	}
+		t->append_char(t, S_T_IN_WORD, T_T_WORD);
 	else if (t->event == E_T_OPERATOR)
 	{
-		t->append_char(t, S_T_IN_OPERATOR);
 		if (t->line[t->end_cursor] == '|')
-			t->curr_token_type = T_T_PIPE;
+			t->remove_char(t, S_T_IN_OPERATOR, T_T_PIPE);
 		else if (t->line[t->end_cursor] == '<')
-			t->curr_token_type = T_T_REDIRECTION_IN;
+			t->remove_char(t, S_T_IN_OPERATOR, T_T_REDIRECTION_IN);
 		else if (t->line[t->end_cursor] == '>')
-			t->curr_token_type = T_T_REDIRECTION_OUT;
+			t->remove_char(t, S_T_IN_OPERATOR, T_T_REDIRECTION_OUT);
 	}
 	else if (t->event == E_T_WHITESPACE)
-		t->remove_char(t, S_T_NOT_TOKEN);
+		t->remove_char(t, S_T_NOT_TOKEN, T_T_NONE);
 	else if (t->event == E_T_QUOTE)
 	{
-		t->append_char(t, S_T_IN_QUOTE);
 		if (t->line[t->end_cursor] == '\'')
-			t->curr_token_type = T_T_SINGLE_QUOTE_WORD;
+			t->append_char(t, S_T_IN_QUOTE, T_T_SINGLE_QUOTE_WORD);
 		else if (t->line[t->end_cursor] == '"')
-			t->curr_token_type = T_T_DOUBLE_QUOTE_WORD;
+			t->append_char(t, S_T_IN_QUOTE, T_T_DOUBLE_QUOTE_WORD);
 	}
 }
 
 void	tokenizer_state_in_word(t_tokens *t)
 {
 	if (t->event == E_T_CHAR)
-		t->append_char(t, S_T_IN_WORD);
+		t->append_char(t, S_T_IN_WORD, T_T_WORD);
 	else if (t->event == E_T_OPERATOR)
 	{
-		t->delimit_token(t, S_T_IN_OPERATOR);
 		if (t->line[t->end_cursor] == '|')
-			t->curr_token_type = T_T_PIPE;
+			t->delimit_token(t, S_T_IN_OPERATOR, T_T_PIPE);
 		else if (t->line[t->end_cursor] == '<')
-			t->curr_token_type = T_T_REDIRECTION_IN;
+			t->delimit_token(t, S_T_IN_OPERATOR, T_T_REDIRECTION_IN);
 		else if (t->line[t->end_cursor] == '>')
-			t->curr_token_type = T_T_REDIRECTION_OUT;
+			t->delimit_token(t, S_T_IN_OPERATOR, T_T_REDIRECTION_OUT);
 	}
 	else if (t->event == E_T_WHITESPACE)
-	{
-		t->delimit_token(t, S_T_NOT_TOKEN);
-		t->curr_token_type = T_T_NONE;
-	}
+		t->delimit_token(t, S_T_NOT_TOKEN, T_T_NONE);
 	else if (t->event == E_T_QUOTE)
 	{
-		t->append_char(t, S_T_IN_QUOTE);
 		if (t->line[t->end_cursor] == '\'')
-			t->curr_token_type = T_T_SINGLE_QUOTE_WORD;
+			t->append_char(t, S_T_IN_QUOTE, T_T_SINGLE_QUOTE_WORD);
 		else if (t->line[t->end_cursor] == '"')
-			t->curr_token_type = T_T_DOUBLE_QUOTE_WORD;
+			t->append_char(t, S_T_IN_QUOTE, T_T_DOUBLE_QUOTE_WORD);
 	}
 }
 
 void	tokenizer_state_in_operator(t_tokens *t)
 {
 	if (t->event == E_T_CHAR)
-	{
-		t->delimit_token(t, S_T_IN_WORD);
-		t->curr_token_type = T_T_WORD;
-	}
+		t->new_token(t, S_T_IN_WORD, T_T_WORD);
 	else if (t->event == E_T_OPERATOR)
 		tokenizer_operator(t);
 	else if (t->event == E_T_WHITESPACE)
-	{
-		t->delimit_token(t, S_T_NOT_TOKEN);
-		t->curr_token_type = T_T_NONE;
-	}
+		t->delimit_token(t, S_T_NOT_TOKEN, T_T_NONE);
 	else if (t->event == E_T_QUOTE)
 	{
-		t->delimit_token(t, S_T_IN_QUOTE);
 		if (t->line[t->end_cursor] == '\'')
-			t->curr_token_type = T_T_SINGLE_QUOTE_WORD;
+			t->append_char(t, S_T_IN_QUOTE, T_T_SINGLE_QUOTE_WORD);
 		else if (t->line[t->end_cursor] == '"')
-			t->curr_token_type = T_T_DOUBLE_QUOTE_WORD;
+			t->append_char(t, S_T_IN_QUOTE, T_T_DOUBLE_QUOTE_WORD);
 	}
 }
 
 void	tokenizer_state_in_quote(t_tokens *t)
 {
-	if (t->event == E_T_CHAR)
-		t->append_char(t, S_T_IN_QUOTE);
-	else if (t->event == E_T_OPERATOR)
-		t->append_char(t, S_T_IN_QUOTE);
-	else if (t->event == E_T_WHITESPACE)
-		t->append_char(t, S_T_IN_QUOTE);
+	t_token_type	type;
+
+	type = t->token_type;
+	if (t->event == E_T_CHAR || t->event == E_T_OPERATOR
+		|| t->event == E_T_WHITESPACE)
+		t->append_char(t, S_T_IN_QUOTE, type);
 	else if (t->event == E_T_QUOTE)
 	{
-		if (t->curr_token_type == T_T_DOUBLE_QUOTE_WORD)
+		if (t->token_type == T_T_DOUBLE_QUOTE_WORD)
 		{
 			if (t->line[t->end_cursor] == '\'')
-				t->append_char(t, S_T_IN_QUOTE);
+				t->append_char(t, S_T_IN_QUOTE, type);
 			else if (t->line[t->end_cursor] == '"')
-				t->append_char(t, S_T_IN_WORD);
+				t->append_char(t, S_T_IN_WORD, T_T_WORD);
 		}
-		else if (t->curr_token_type == T_T_SINGLE_QUOTE_WORD)
+		else if (t->token_type == T_T_SINGLE_QUOTE_WORD)
 		{
 			if (t->line[t->end_cursor] == '\'')
-				t->append_char(t, S_T_IN_WORD);
+				t->append_char(t, S_T_IN_WORD, T_T_WORD);
 			else if (t->line[t->end_cursor] == '"')
-				t->append_char(t, S_T_IN_QUOTE);
+				t->append_char(t, S_T_IN_QUOTE, type);
 		}
 	}
 }

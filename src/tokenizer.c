@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 13:46:22 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:49:14 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,47 @@ void	tokenizer_finish(t_tokens *t)
 {
 	t_token	*token;
 
-	token = token_constructor(t->curr_token_type, &(t->line[t->start_cursor]));
-	if (t->list)
-		ft_lstadd_back(&(t->list), ft_lstnew(token));
-	else
-		t->list = ft_lstnew(token);
-	while (t->line[t->end_cursor] && !is_whitespace(t->line[t->end_cursor]))
-		t->end_cursor++;
-	t->line[t->end_cursor] = '\0';
+	if (t->token_type != T_T_NONE)
+	{
+		token = token_constructor(t->token_type, &(t->line[t->start_cursor]));
+		if (t->list)
+			ft_lstadd_back(&(t->list), ft_lstnew(token));
+		else
+			t->list = ft_lstnew(token);
+		while (t->line[t->end_cursor] && !is_whitespace(t->line[t->end_cursor]))
+			t->end_cursor++;
+		t->line[t->end_cursor] = '\0';
+	}
 	t->state = S_T_FINISHED;
 }
 
-void	tokenizer_next(t_tokens *tokens, t_token_event e)
+void	tokens_free(t_tokens *t)
+{
+	t_list	*tmp;
+
+	while (t->list)
+	{
+		tmp = t->list->next;
+		((t_token *)(t->list->content))->free((t_token *)(t->list->content));
+		t->list = tmp;
+	}
+	*t = (t_tokens)
+	{
+		.list = NULL,
+		.start_cursor = 0,
+		.end_cursor = 0,
+		.line = NULL,
+		.state = 0,
+		.event = 0,
+		.append_char = NULL,
+		.new_token = NULL,
+		.remove_char = NULL,
+		.delimit_token = NULL,
+	};
+	free(t);
+}
+
+static void	tokenizer_next(t_tokens *tokens, t_token_event e)
 {
 	static t_token_machine	state_machine[] = {
 	{.state = S_T_NOT_TOKEN,	.handler = tokenizer_state_not_token},
@@ -42,7 +71,7 @@ void	tokenizer_next(t_tokens *tokens, t_token_event e)
 	tokens->event = e;
 	if (e == E_T_UNIMPLEMENTED)
 	{
-		tokens->curr_token_type = T_T_UNIMPLEMENTED;
+		tokens->token_type = T_T_UNIMPLEMENTED;
 		tokenizer_finish(tokens);
 	}
 	else if (e == E_T_END)
