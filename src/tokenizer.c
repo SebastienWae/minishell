@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 21:53:14 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 10:45:52 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,41 @@
 #include <minishell.h>
 #include <tokenizer.h>
 
-//TODO: implement
-static void	tokenizer_error(t_tokens *tokens)
+void	tokenizer_finish(t_tokens *t)
 {
-	(void)tokens;
-}
+	t_token	token;
 
-//TODO: implement
-static void	tokenizer_unimplemented(t_tokens *tokens)
-{
-	(void)tokens;
+	token = token_constructor(t->curr_token_type, &(t->line[t->start_cursor]));
+	if (t->list)
+		ft_lstadd_back(&(t->list), ft_lstnew(&token));
+	else
+		t->list = ft_lstnew(&token);
+	while (t->line[t->end_cursor] && !is_whitespace(t->line[t->end_cursor]))
+		t->end_cursor++;
+	t->line[t->end_cursor] = '\0';
+	t->state = S_T_FINISHED;
 }
 
 void	tokenizer_next(t_tokens *tokens, t_token_event e)
 {
 	static t_token_machine	state_machine[] = {
-	{.state = S_T_NOT_TOKEN,		.handler = tokenizer_state_not_token},
-	{.state = S_T_IN_WORD,			.handler = tokenizer_state_in_word},
-	{.state = S_T_IN_OPERATOR,		.handler = tokenizer_state_in_operator},
-	{.state = S_T_IN_SINGLE_QUOTE,	.handler = tokenizer_state_in_single_quote},
-	{.state = S_T_IN_DOUBLE_QUOTE,	.handler = tokenizer_state_in_double_quote},
-	{.state = S_T_ERROR,			.handler = tokenizer_error},
-	{.state = S_T_FINISHED,			.handler = tokenizer_error},
+	{.state = S_T_NOT_TOKEN,	.handler = tokenizer_state_not_token},
+	{.state = S_T_IN_WORD,		.handler = tokenizer_state_in_word},
+	{.state = S_T_IN_OPERATOR,	.handler = tokenizer_state_in_operator},
+	{.state = S_T_IN_QUOTE,		.handler = tokenizer_state_in_quote},
+	{.state = S_T_FINISHED,		.handler = tokenizer_finish},
 	};
 
-	tokens->last_event = e;
+	tokens->event = e;
 	if (e == E_T_UNIMPLEMENTED)
-		tokenizer_unimplemented(tokens);
+	{
+		tokens->curr_token_type = T_T_UNIMPLEMENTED;
+		tokenizer_finish(tokens);
+	}
 	else if (sizeof(state_machine) > tokens->state)
 		state_machine[tokens->state].handler(tokens);
 	else
-		tokens->state = S_T_ERROR;
+		tokenizer_finish(tokens);
 }
 
 t_list	*tokenizer(char *line)
@@ -54,14 +58,10 @@ t_list	*tokenizer(char *line)
 	tokens = tokens_constructor(line);
 	while (tokens.state != S_T_FINISHED)
 	{
-		if (tokens.state == S_T_ERROR)
-			tokenizer_next(&tokens, E_T_ERROR);
 		if (tokens.line[tokens.end_cursor] == '\0')
 			tokenizer_next(&tokens, E_T_END);
-		else if (tokens.line[tokens.end_cursor] == '\'')
-			tokenizer_next(&tokens, E_T_SINGLE_QUOTE);
-		else if (tokens.line[tokens.end_cursor] == '"')
-			tokenizer_next(&tokens, E_T_DOUBLE_QUOTE);
+		else if (is_quote(tokens.line[tokens.end_cursor]))
+			tokenizer_next(&tokens, E_T_QUOTE);
 		else if (is_operator(tokens.line[tokens.end_cursor]))
 			tokenizer_next(&tokens, E_T_OPERATOR);
 		else if (is_whitespace(tokens.line[tokens.end_cursor]))

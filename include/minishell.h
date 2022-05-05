@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/04 21:23:44 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 09:06:34 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ struct	s_elem_env
 int		is_whitespace(char c);
 int		is_unimplemented(char c);
 int		is_operator(char c);
+int		is_quote(char c);
 
 int		ft_strcmp(char *str1, char *str2);
 int		ft_execute_sys_cmd(char **cmd, char **env);
