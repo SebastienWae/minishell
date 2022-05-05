@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <termios.h>
 
 int	g_out;
 
@@ -78,6 +79,14 @@ struct	s_elem_env
 	char	*name;
 	char	*content;
 };
+
+typedef struct s_minishell {
+	t_list			*local_env;
+	struct termios	config;
+	int 			saved_stdin;
+	int 			saved_stdout;
+} t_minishell;
+
 
 int		is_quote(char c);
 int		is_metacharacter(char c);

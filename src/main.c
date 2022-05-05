@@ -20,9 +20,13 @@
 #include <readline/history.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/fcntl.h>
 #include <unistd.h>
 #include <termios.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/uio.h>
 
 void	ft_fake_pipex_to_test(char **env)
 {
@@ -36,44 +40,46 @@ void	ft_fake_pipex_to_test(char **env)
 	buffer[4] = "f2";
 	main_pipex(5, buffer, env);
 }
-
+/*
+typedef struct s_minishell {
+	t_list			*local_env;
+	struct termios	config;
+	int 			saved_stdin;
+	int 			saved_stdout
+} t_minishell;
+*/
 int	main(int argc, char **argv, char **env)
 {
+	t_minishell		shell;
 	char			*str;
 	char			**parsed_str;
 	pid_t			process;
-	static t_list	*local_env;
-	struct termios	config;
 
-	(void) argv;
-	g_out = 0;
-	tcgetattr(STDIN_FILENO, &config);
-	config.c_lflag &= ~(ECHOCTL);
-	config.c_cc[VMIN] = 1;
-	config.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &config);
-	local_env = NULL;
-	ft_check_arg_error(argc);
-	local_env = ft_init_env(env);
-	ft_sig();
+	shell = ft_init_all(argc, argv, env);
 	while (1)
 	{
 		str = readline("Minishell>");
+		//mettre ici le splitteur de commande
+		//remplacer fd_in et fd_out par les fichiers precises sauf si pipe
+		//int fd_out = open("f2", O_RDWR | O_CREAT | O_TRUNC, 0777);
+		//int fd_in = open("f1", O_RDONLY);
+		//dup2(fd_out, STDOUT_FILENO);	
+		//dup2(fd_in, STDIN_FILENO);		
 		if (ft_ctrl_d_handler(str))	//exit si str null = si ctrl d
 			if (str[0] != 0)
 			{
-				add_history(str);
-				parsed_str = ft_better_split(str, ' ');
+				add_history(str);				
+				parsed_str = ft_better_split(str, ' '); // a remplacer 
 				if (ft_strcmp(parsed_str[0], "exit") == 0)
 					ft_exit(parsed_str);
 				else if (ft_is_builtin_cmd(parsed_str[0]))
-					local_env = ft_execute_builtin_cmd(parsed_str, local_env);
+					shell.local_env = ft_execute_builtin_cmd(parsed_str, shell.local_env);
 				else
 				{
 					process = fork ();
 					if (process == 0)
 					{
-						if (ft_strcmp(str, "pipe") == 0)
+						if (ft_strcmp(str, "pipe") == 0) // changer par si IN_PIPE
 							ft_fake_pipex_to_test(env);
 						else
 							ft_execute_sys_cmd(parsed_str, env);
@@ -82,8 +88,14 @@ int	main(int argc, char **argv, char **env)
 						waitpid(process, NULL, 0);
 				}
 				free (parsed_str);
-				free (str);
-			}		
+				free (str);			
+			}	
+			//dup2 (saved_stdout, 1);
+			//dup2 (saved_stdin, 0);
+			//close(fd_out);			
+			//close(fd_in);						
 	}
+	close(shell.saved_stdout);
+	close(shell.saved_stdin);
 	return (0);
 }

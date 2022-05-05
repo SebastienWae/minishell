@@ -16,6 +16,10 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
 
 //ok
 void	ft_pwd(char **cmd)
@@ -25,7 +29,7 @@ void	ft_pwd(char **cmd)
 	(void) cmd;
 	current_dir = getcwd (NULL, 0);
 	printf("%s\n", current_dir);
-	free (current_dir);
+	free (current_dir);	
 	g_out = 0;
 }
 

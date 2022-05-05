@@ -15,5 +15,7 @@
 # include <libft.h>
 void	ft_check_arg_error(int argc);
 t_list	*ft_init_env(char **env);
+struct termios	ft_init_config(void);
+t_minishell ft_init_all(int argc, char **argv, char **env);
 
 #endif
