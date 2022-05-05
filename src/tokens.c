@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 17:33:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 15:41:18 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:21:35 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <tokenizer.h>
 #include <stdlib.h>
 
-static void	tokens_new_token(t_tokens *t, t_token_state s, t_token_type type)
+static void	tokens_new_token(t_tokenizer *t, t_tokenizer_state s, t_token_type type)
 {
 	t_token		*token;
 
@@ -29,14 +29,14 @@ static void	tokens_new_token(t_tokens *t, t_token_state s, t_token_type type)
 	t->end_cursor++;
 }
 
-static void	tokens_append_char(t_tokens *t, t_token_state s, t_token_type type)
+static void	tokens_append_char(t_tokenizer *t, t_tokenizer_state s, t_token_type type)
 {
 	t->state = s;
 	t->token_type = type;
 	t->end_cursor++;
 }
 
-static void	tokens_remove_char(t_tokens *t, t_token_state s, t_token_type type)
+static void	tokens_remove_char(t_tokenizer *t, t_tokenizer_state s, t_token_type type)
 {
 	t->line[t->end_cursor] = 0;
 	t->state = s;
@@ -45,7 +45,7 @@ static void	tokens_remove_char(t_tokens *t, t_token_state s, t_token_type type)
 	t->start_cursor = t->end_cursor;
 }
 
-static void	tokens_delimit_token(t_tokens *t, t_token_state s, t_token_type ty)
+static void	tokens_delimit_token(t_tokenizer *t, t_tokenizer_state s, t_token_type ty)
 {
 	t_token		*token;
 
@@ -57,12 +57,12 @@ static void	tokens_delimit_token(t_tokens *t, t_token_state s, t_token_type ty)
 	t->remove_char(t, s, ty);
 }
 
-t_tokens	*tokens_constructor(char *line)
+t_tokenizer	*tokens_constructor(char *line)
 {
-	t_tokens	*tokens;
+	t_tokenizer	*tokens;
 
-	tokens = malloc(sizeof(t_tokens));
-	*tokens = (t_tokens)
+	tokens = malloc(sizeof(t_tokenizer));
+	*tokens = (t_tokenizer)
 	{
 		.list = NULL,
 		line,

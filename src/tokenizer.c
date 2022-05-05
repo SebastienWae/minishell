@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 16:15:57 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:21:34 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <minishell.h>
 #include <tokenizer.h>
 
-void	tokenizer_finish(t_tokens *t)
+void	tokenizer_finish(t_tokenizer *t)
 {
 	t_token	*token;
 
@@ -32,7 +32,7 @@ void	tokenizer_finish(t_tokens *t)
 	t->state = S_T_FINISHED;
 }
 
-void	tokens_free(t_tokens *t)
+void	tokens_free(t_tokenizer *t)
 {
 	t_list	*tmp;
 
@@ -42,7 +42,7 @@ void	tokens_free(t_tokens *t)
 		((t_token *)(t->list->content))->free((t_token *)(t->list->content));
 		t->list = tmp;
 	}
-	*t = (t_tokens)
+	*t = (t_tokenizer)
 	{
 		.list = NULL,
 		.start_cursor = 0,
@@ -58,44 +58,42 @@ void	tokens_free(t_tokens *t)
 	free(t);
 }
 
-static void	tokenizer_next(t_tokens *tokens, t_token_event e)
+static void	tokenizer_event_handler(t_tokenizer *tokens, t_tokenizer_event e)
 {
-	static t_token_machine	state_machine[] = {
-	{.state = S_T_NOT_TOKEN,	.handler = tokenizer_state_not_token},
-	{.state = S_T_IN_WORD,		.handler = tokenizer_state_in_word},
-	{.state = S_T_IN_OPERATOR,	.handler = tokenizer_state_in_operator},
-	{.state = S_T_IN_QUOTE,		.handler = tokenizer_state_in_quote},
-	{.state = S_T_FINISHED,		.handler = tokenizer_finish},
+	static t_tokenizer_events	tokenizer_events[] = {
+	{.event = E_T_CHAR,				.handler = tokenizer_char_handler},
+	{.event = E_T_OPERATOR,			.handler = tokenizer_char_handler},
+	{.event = E_T_WHITESPACE,		.handler = tokenizer_char_handler},
+	{.event = E_T_QUOTE,			.handler = tokenizer_char_handler},
+	{.event = E_T_UNIMPLEMENTED,	.handler = tokenizer_char_handler},
 	};
 
 	tokens->event = e;
-	if (e == E_T_END)
-		tokenizer_finish(tokens);
-	else if (sizeof(state_machine) > tokens->state)
-		state_machine[tokens->state].handler(tokens);
+	if (sizeof(tokenizer_events) > tokens->state)
+		tokenizer_events[tokens->state].handler(tokens);
 	else
 		tokenizer_finish(tokens);
 }
 
-t_tokens	*tokenizer(char *line)
+t_tokenizer	*tokenizer(char *line)
 {
-	t_tokens		*tokens;
+	t_tokenizer		*tokens;
 
 	tokens = tokens_constructor(line);
 	while (tokens->state != S_T_FINISHED)
 	{
 		if (tokens->line[tokens->end_cursor] == '\0')
-			tokenizer_next(tokens, E_T_END);
+			tokenizer_event_handler(tokens, 0);
 		else if (is_quote(tokens->line[tokens->end_cursor]))
-			tokenizer_next(tokens, E_T_QUOTE);
+			tokenizer_event_handler(tokens, E_T_QUOTE);
 		else if (is_operator(tokens->line[tokens->end_cursor]))
-			tokenizer_next(tokens, E_T_OPERATOR);
+			tokenizer_event_handler(tokens, E_T_OPERATOR);
 		else if (is_whitespace(tokens->line[tokens->end_cursor]))
-			tokenizer_next(tokens, E_T_WHITESPACE);
+			tokenizer_event_handler(tokens, E_T_WHITESPACE);
 		else if (is_unimplemented(tokens->line[tokens->end_cursor]))
-			tokenizer_next(tokens, E_T_UNIMPLEMENTED);
+			tokenizer_event_handler(tokens, E_T_UNIMPLEMENTED);
 		else
-			tokenizer_next(tokens, E_T_CHAR);
+			tokenizer_event_handler(tokens, E_T_CHAR);
 	}
 	return (tokens);
 }

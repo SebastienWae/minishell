@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_states.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 16:52:40 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 16:51:09 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:21:32 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokenizer.h>
 
-void	tokenizer_state_not_token(t_tokens *t)
+void	tokenizer_state_not_token(t_tokenizer *t)
 {
 	if (t->event == E_T_CHAR)
 		t->append_char(t, S_T_IN_WORD, T_T_WORD);
@@ -41,7 +41,7 @@ void	tokenizer_state_not_token(t_tokens *t)
 	}
 }
 
-void	tokenizer_state_in_word(t_tokens *t)
+void	tokenizer_state_in_word(t_tokenizer *t)
 {
 	if (t->event == E_T_CHAR)
 		t->append_char(t, S_T_IN_WORD, T_T_WORD);
@@ -70,7 +70,7 @@ void	tokenizer_state_in_word(t_tokens *t)
 	}
 }
 
-void	tokenizer_state_in_operator(t_tokens *t)
+void	tokenizer_state_in_operator(t_tokenizer *t)
 {
 	if (t->event == E_T_CHAR)
 		t->new_token(t, S_T_IN_WORD, T_T_WORD);
@@ -92,7 +92,7 @@ void	tokenizer_state_in_operator(t_tokens *t)
 	}
 }
 
-void	tokenizer_state_in_quote(t_tokens *t)
+void	tokenizer_state_in_quote(t_tokenizer *t)
 {
 	t_token_type	type;
 
