@@ -34,7 +34,8 @@ CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
 LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
 SRCS = main.c \
-		init.c \
+		init.c close_functions.c \
+		fd_manager.c \
 		sys_call.c \
 		signal_handler.c \
 		builtin_functions_1.c builtin_functions_2.c errors.c \

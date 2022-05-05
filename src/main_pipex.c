@@ -12,6 +12,7 @@
 
 #include <pipex.h>
 
+// attention NPO gerer pb exit apres pipe
 int	main_pipex(int argc, char **argv, char **env)
 {
 	pid_t	process;

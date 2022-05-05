@@ -27,7 +27,7 @@ struct termios	ft_init_config(void)
 	return (config);
 }
 
-//voir si variables a changer
+//voir si variables a changer ds l'env
 t_list	*ft_init_env(char **env)
 {
 	t_list	*local_env;
@@ -49,6 +49,7 @@ t_minishell	ft_init_all(int argc, char **argv, char **env)
 {
 	t_minishell		shell;
 
+	(void) argv;
 	g_out = 0;
 	shell.config = ft_init_config();
 	ft_check_arg_error(argc);

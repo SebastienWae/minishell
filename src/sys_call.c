@@ -14,6 +14,7 @@
 #include <pipex.h>
 #include <errno.h>
 #include <string.h>
+#include <signal.h>
 
 char	*ft_search_path(char **env)
 {
@@ -43,7 +44,6 @@ char	*ft_build_cmd(char **path, char *cmd)
 	return (0);
 }
 
-//ajouter fichier entree fichier sortie
 int	ft_execute_sys_cmd(char **cmd, char **env)
 {
 	char	*main_cmd;
@@ -54,9 +54,7 @@ int	ft_execute_sys_cmd(char **cmd, char **env)
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
-	}
-	//dup2(cmd.input_file, STDIN_FILENO); si entree != stdin
-	//dup2(fd_tab[1], STDOUT_FILENO); si sortie != stdout		
+	}	
 	if (execve(main_cmd, cmd, env) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 2);
@@ -65,4 +63,34 @@ int	ft_execute_sys_cmd(char **cmd, char **env)
 	free(main_cmd);
 	ft_free_char_tab(cmd);
 	return (0);
+}
+
+void	ft_fake_pipex_to_test(char **env)
+{
+	char	**buffer;
+
+	buffer = malloc(sizeof(char *) * 5);
+	buffer[0] = "./pipex";
+	buffer[1] = "f1";
+	buffer[2] = "tr 'z' 'y'";
+	buffer[3] = "tr 'y' '@'";
+	buffer[4] = "f2";
+	main_pipex(5, buffer, env);
+}
+
+void	ft_sys_cmd_process (char **parsed_str, char *str, char **env)
+{
+	pid_t	process;
+
+	process = fork ();
+	if (process == 0)
+	{
+		if (ft_strcmp(str, "pipe") == 0) // changer par si IN_PIPE
+			ft_fake_pipex_to_test(env); // j'ai peur pour la transition
+		else
+			ft_execute_sys_cmd(parsed_str, env);
+	}
+	else
+		waitpid(process, NULL, 0);
+	kill(process, SIGQUIT); // a l'air de corriger le bug avec exit apres pipe
 }

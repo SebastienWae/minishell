@@ -80,12 +80,6 @@ struct	s_elem_env
 	char	*content;
 };
 
-typedef struct s_minishell {
-	t_list			*local_env;
-	struct termios	config;
-	int 			saved_stdin;
-	int 			saved_stdout;
-} t_minishell;
 
 
 int		is_quote(char c);
@@ -93,6 +87,7 @@ int		is_metacharacter(char c);
 int		is_whitespace(char c);
 int		ft_strcmp(char *str1, char *str2);
 int		ft_execute_sys_cmd(char **cmd, char **env);
+void	ft_sys_cmd_process (char **parsed_str, char *str, char **env);
 void	free_tokens(t_list *tokens);
 char	*ft_get_env_var_value(char *elem);
 t_list	*tokenizer(char *line);
