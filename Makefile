@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/03 13:53:08 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/28 15:45:35 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,20 @@ endif
 
 CC = gcc
 CFLAGS += -Wall -Wextra -Werror
-CPPFLAGS = -I$(LIBFT) -Iinclude
-LDFLAGS = -L$(LIBFT) -lft
+CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
+LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
-SRCS = main.c strings.c
+SRCS = main.c \
+		strings.c \
+		init.c close_functions.c \
+		fd_manager.c \
+		sys_call.c \
+		signal_handler.c \
+		builtin_functions_1.c builtin_functions_2.c errors.c \
+		builtin_functions_utils.c builtin_functions_utils2.c \
+		ft_better_split.c ft_strcmp.c \
+		main_pipex.c utils_pipex.c pipex.c
+
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 all: $(NAME)
@@ -61,7 +71,7 @@ fclean: clean
 
 re: fclean all
 
-compile_commands: $(LIBFT)/libft.a
-	bear -- make re	
+compile_commands:
+	compiledb -f make re
 
 .PHONY: all clean fclean re $(LIBFT) compile_commands
