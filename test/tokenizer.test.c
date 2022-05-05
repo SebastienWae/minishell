@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 16:32:28 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:37:38 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ static void	tokenizer_unimplemented2(void **state)
 	assert_int_equal(((t_token *)list->content)->type, T_T_PIPE);
 	assert_non_null(list->next);
 	list = list->next;
-	//assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
 	assert_string_equal(((t_token *)list->content)->token, "'&'");
 	assert_non_null(list->next);
 	list = list->next;
