@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 19:14:50 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 19:21:30 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 21:35:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	tokenizer_char_handler(t_tokenizer *t)
 	{.state = S_T_FINISHED,		.handler = NULL},
 	};
 
-	if (sizeof(tokenizer_states) > t->state)
-		tokenizer_states[t->state].handler(t);
-	else
-		tokenizer_finish(t);
+	tokenizer_states[t->state].handler(t);
 }
 
 void	tokenizer_operator_handler(t_tokenizer *t)
@@ -38,10 +35,7 @@ void	tokenizer_operator_handler(t_tokenizer *t)
 	{.state = S_T_FINISHED,		.handler = NULL},
 	};
 
-	if (sizeof(tokenizer_states) > t->state)
-		tokenizer_states[t->state].handler(t);
-	else
-		tokenizer_finish(t);
+	tokenizer_states[t->state].handler(t);
 }
 
 void	tokenizer_whitespace_handler(t_tokenizer *t)
@@ -54,10 +48,7 @@ void	tokenizer_whitespace_handler(t_tokenizer *t)
 	{.state = S_T_FINISHED,		.handler = NULL},
 	};
 
-	if (sizeof(tokenizer_states) > t->state)
-		tokenizer_states[t->state].handler(t);
-	else
-		tokenizer_finish(t);
+	tokenizer_states[t->state].handler(t);
 }
 
 void	tokenizer_quote_handler(t_tokenizer *t)
@@ -70,10 +61,7 @@ void	tokenizer_quote_handler(t_tokenizer *t)
 	{.state = S_T_FINISHED,		.handler = NULL},
 	};
 
-	if (sizeof(tokenizer_states) > t->state)
-		tokenizer_states[t->state].handler(t);
-	else
-		tokenizer_finish(t);
+	tokenizer_states[t->state].handler(t);
 }
 
 void	tokenizer_unimplemented_handler(t_tokenizer *t)
@@ -86,8 +74,5 @@ void	tokenizer_unimplemented_handler(t_tokenizer *t)
 	{.state = S_T_FINISHED,		.handler = NULL},
 	};
 
-	if (sizeof(tokenizer_states) > t->state)
-		tokenizer_states[t->state].handler(t);
-	else
-		tokenizer_finish(t);
+	tokenizer_states[t->state].handler(t);
 }

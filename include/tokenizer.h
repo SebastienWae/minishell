@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 19:22:37 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 21:43:40 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,29 +58,25 @@ enum e_toke_type
 
 struct s_tokenizer
 {
-	t_list				*list;
+	t_list				*tokens;
 	char				*line;
 	int					start_cursor;
 	int					end_cursor;
 	t_token_type		token_type;
-	t_tokenizer_state	state;
 	t_tokenizer_event	event;
-	void				(*append_char)(t_tokenizer *, t_tokenizer_state, t_token_type);
-	void				(*new_token)(t_tokenizer *, t_tokenizer_state, t_token_type);
-	void				(*remove_char)(t_tokenizer *, t_tokenizer_state, t_token_type);
-	void				(*delimit_token)(t_tokenizer *, t_tokenizer_state, t_token_type);
+	t_tokenizer_state	state;
 };
 
 struct s_tokenizer_events
 {
 	t_tokenizer_event	event;
-	void			(*handler)(t_tokenizer *);
+	void				(*handler)(t_tokenizer *);
 };
 
 struct s_tokenizer_states
 {
 	t_tokenizer_state	state;
-	void			(*handler)(t_tokenizer *);
+	void				(*handler)(t_tokenizer *);
 };
 
 struct s_token {
@@ -89,19 +85,13 @@ struct s_token {
 	void			(*free)(t_token *);
 };
 
-t_tokenizer	*tokenizer(char *line);
-void		tokenizer_finish(t_tokenizer *tokens);
-void		tokens_free(t_tokenizer *t);
-
-void		tokenizer_state_not_token(t_tokenizer *t);
-void		tokenizer_state_in_word(t_tokenizer *t);
-void		tokenizer_state_in_operator(t_tokenizer *t);
-void		tokenizer_state_in_quote(t_tokenizer *t);
-
-void		tokenizer_operator(t_tokenizer *t);
-
-t_tokenizer	*tokens_constructor(char *line);
-
+t_tokenizer	*tokenizer_constructor(char *line);
 t_token		*token_constructor(t_token_type type, char *token);
+
+void		tokenizer_char_handler(t_tokenizer *t);
+void		tokenizer_operator_handler(t_tokenizer *t);
+void		tokenizer_whitespace_handler(t_tokenizer *t);
+void		tokenizer_quote_handler(t_tokenizer *t);
+void		tokenizer_unimplemented_handler(t_tokenizer *t);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 17:33:20 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 19:21:35 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/05 21:45:04 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	tokens_new_token(t_tokenizer *t, t_tokenizer_state s, t_token_type t
 	t_token		*token;
 
 	token = token_constructor(t->token_type, &(t->line[t->start_cursor]));
-	if (t->list)
-		ft_lstadd_back(&(t->list), ft_lstnew(token));
+	if (t->tokens)
+		ft_lstadd_back(&(t->tokens), ft_lstnew(token));
 	else
-		t->list = ft_lstnew(token);
+		t->tokens = ft_lstnew(token);
 	t->token_type = type;
 	t->state = s;
 	t->start_cursor = t->end_cursor;
@@ -50,14 +50,58 @@ static void	tokens_delimit_token(t_tokenizer *t, t_tokenizer_state s, t_token_ty
 	t_token		*token;
 
 	token = token_constructor(t->token_type, &(t->line[t->start_cursor]));
-	if (t->list)
-		ft_lstadd_back(&(t->list), ft_lstnew(token));
+	if (t->tokens)
+		ft_lstadd_back(&(t->tokens), ft_lstnew(token));
 	else
-		t->list = ft_lstnew(token);
+		t->tokens = ft_lstnew(token);
 	t->remove_char(t, s, ty);
 }
 
-t_tokenizer	*tokens_constructor(char *line)
+static void	tokenizer_finish(t_tokenizer *t)
+{
+	t_token	*token;
+
+	if (t->token_type != T_T_NONE)
+	{
+		token = token_constructor(t->token_type, &(t->line[t->start_cursor]));
+		if (t->tokens)
+			ft_lstadd_back(&(t->tokens), ft_lstnew(token));
+		else
+			t->tokens = ft_lstnew(token);
+		while (t->line[t->end_cursor] && !is_whitespace(t->line[t->end_cursor]))
+			t->end_cursor++;
+		t->line[t->end_cursor] = '\0';
+	}
+	t->state = S_T_FINISHED;
+}
+
+static void	tokens_free(t_tokenizer *t)
+{
+	t_list	*tmp;
+
+	while (t->tokens)
+	{
+		tmp = t->tokens->next;
+		((t_token *)(t->tokens->content))->free((t_token *)(t->tokens->content));
+		t->tokens = tmp;
+	}
+	*t = (t_tokenizer)
+	{
+		.list = NULL,
+		.start_cursor = 0,
+		.end_cursor = 0,
+		.line = NULL,
+		.state = 0,
+		.event = 0,
+		.append_char = NULL,
+		.new_token = NULL,
+		.remove_char = NULL,
+		.delimit_token = NULL,
+	};
+	free(t);
+}
+
+t_tokenizer	*tokenizer_constructor(char *line)
 {
 	t_tokenizer	*tokens;
 
