@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 15:49:14 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:15:57 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,7 @@ static void	tokenizer_next(t_tokens *tokens, t_token_event e)
 	};
 
 	tokens->event = e;
-	if (e == E_T_UNIMPLEMENTED)
-	{
-		tokens->token_type = T_T_UNIMPLEMENTED;
-		tokenizer_finish(tokens);
-	}
-	else if (e == E_T_END)
+	if (e == E_T_END)
 		tokenizer_finish(tokens);
 	else if (sizeof(state_machine) > tokens->state)
 		state_machine[tokens->state].handler(tokens);

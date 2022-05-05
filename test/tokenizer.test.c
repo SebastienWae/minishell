@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 15:55:04 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:32:28 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,94 @@ static void	tokenizer_quotes(void **state)
 	tokens_free(tokens);
 }
 
+static void	tokenizer_unimplemented(void **state)
+{
+	t_list		*list;
+	t_tokens	*tokens;
+	char		line[] = "    cat<<\"EOF\"| <<< test echo 123";
+
+	(void)state;
+	tokens = tokenizer(line);
+	list = tokens->list;
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "cat");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_HEREDOC);
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "\"EOF\"");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_PIPE);
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_UNIMPLEMENTED);
+	assert_null(list->next);
+	tokens_free(tokens);
+}
+
+static void	tokenizer_unimplemented2(void **state)
+{
+	t_list		*list;
+	t_tokens	*tokens;
+	char		line[] = "    cat<<\"EOF\"| '&' & test echo 123";
+
+	(void)state;
+	tokens = tokenizer(line);
+	list = tokens->list;
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "cat");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_HEREDOC);
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "\"EOF\"");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_PIPE);
+	assert_non_null(list->next);
+	list = list->next;
+	//assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "'&'");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_UNIMPLEMENTED);
+	assert_null(list->next);
+	tokens_free(tokens);
+}
+
+static void	tokenizer_syntax(void **state)
+{
+	t_list		*list;
+	t_tokens	*tokens;
+	char		line[] = "    cat<<\"EOF\"| <<> test echo 123";
+
+	(void)state;
+	tokens = tokenizer(line);
+	list = tokens->list;
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "cat");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_HEREDOC);
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_WORD);
+	assert_string_equal(((t_token *)list->content)->token, "\"EOF\"");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_PIPE);
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_T_SYNTAX_ERROR);
+	assert_null(list->next);
+	tokens_free(tokens);
+}
+
 int	main(void)
 {
 	const struct CMUnitTest	tokenizer_tests[] = {
@@ -165,8 +253,10 @@ int	main(void)
 		cmocka_unit_test(tokenizer_simple),
 		cmocka_unit_test(tokenizer_operators),
 		cmocka_unit_test(tokenizer_quotes),
+		cmocka_unit_test(tokenizer_unimplemented),
+		cmocka_unit_test(tokenizer_unimplemented2),
+		cmocka_unit_test(tokenizer_syntax),
 	};
 
 	return (cmocka_run_group_tests(tokenizer_tests, NULL, NULL));
 }
-#define FD_LIMIT

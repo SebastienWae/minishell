@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 16:52:40 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 15:54:54 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:37:04 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ void	tokenizer_state_not_token(t_tokens *t)
 		else if (t->line[t->end_cursor] == '"')
 			t->append_char(t, S_T_IN_QUOTE, T_T_DOUBLE_QUOTE_WORD);
 	}
+	else if (t->event == E_T_UNIMPLEMENTED)
+	{
+		t->token_type = T_T_UNIMPLEMENTED;
+		tokenizer_finish(t);
+	}
 }
 
 void	tokenizer_state_in_word(t_tokens *t)
@@ -58,6 +63,11 @@ void	tokenizer_state_in_word(t_tokens *t)
 		else if (t->line[t->end_cursor] == '"')
 			t->append_char(t, S_T_IN_QUOTE, T_T_DOUBLE_QUOTE_WORD);
 	}
+	else if (t->event == E_T_UNIMPLEMENTED)
+	{
+		t->token_type = T_T_UNIMPLEMENTED;
+		tokenizer_finish(t);
+	}
 }
 
 void	tokenizer_state_in_operator(t_tokens *t)
@@ -71,9 +81,14 @@ void	tokenizer_state_in_operator(t_tokens *t)
 	else if (t->event == E_T_QUOTE)
 	{
 		if (t->line[t->end_cursor] == '\'')
-			t->append_char(t, S_T_IN_QUOTE, T_T_SINGLE_QUOTE_WORD);
+			t->new_token(t, S_T_IN_QUOTE, T_T_SINGLE_QUOTE_WORD);
 		else if (t->line[t->end_cursor] == '"')
-			t->append_char(t, S_T_IN_QUOTE, T_T_DOUBLE_QUOTE_WORD);
+			t->new_token(t, S_T_IN_QUOTE, T_T_DOUBLE_QUOTE_WORD);
+	}
+	else if (t->event == E_T_UNIMPLEMENTED)
+	{
+		t->token_type = T_T_UNIMPLEMENTED;
+		tokenizer_finish(t);
 	}
 }
 
@@ -83,7 +98,7 @@ void	tokenizer_state_in_quote(t_tokens *t)
 
 	type = t->token_type;
 	if (t->event == E_T_CHAR || t->event == E_T_OPERATOR
-		|| t->event == E_T_WHITESPACE)
+		|| t->event == E_T_WHITESPACE || t->event == E_T_UNIMPLEMENTED)
 		t->append_char(t, S_T_IN_QUOTE, type);
 	else if (t->event == E_T_QUOTE)
 	{
