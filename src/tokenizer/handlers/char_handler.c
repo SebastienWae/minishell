@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 09:49:58 by seb               #+#    #+#             */
-/*   Updated: 2022/05/06 10:46:48 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/06 11:57:47 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ void	tokenizer_char_handler(t_tokenizer *t)
 			|| t->curr_token->type == T_TT_REDIRECTION_IN
 			|| t->curr_token->type == T_TT_REDIRECTION_OUT
 			|| t->curr_token->type == T_TT_REDIRECTION_APPEND)
-		{
-			tokenizer_delimit_curr_token(t);
-			tokenizer_new_token(t, T_TT_WORD);
-		}
+			tokenizer_delimit_and_new(t, T_TT_WORD);
 	}
 	else
 		tokenizer_new_token(t, T_TT_WORD);

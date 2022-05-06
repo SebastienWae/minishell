@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/06 10:46:42 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/06 11:56:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void		tokenizer_whitespace_handler(t_tokenizer *t);
 
 void		tokenizer_new_token(t_tokenizer *t, t_token_type type);
 void		tokenizer_delimit_curr_token(t_tokenizer *t);
+void		tokenizer_delimit_and_new(t_tokenizer *t, t_token_type type);
 
 t_token		*token_constructor(t_token_type type, char *token);
 

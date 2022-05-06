@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/05 11:01:31 by seb              ###   ########.fr        #
+#    Updated: 2022/05/06 12:36:16 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ MKDIR = mkdir
 
 LIBFT = libft
 
-SRC_DIR = ./src/
+SRC_DIR = ./src/ ./src/tokenizer/ ./src/tokenizer/handlers/
 
 ifdef MAKE_DEBUG
 OUT_DIR = ./debug/
@@ -33,8 +33,18 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
 LDFLAGS = -L$(LIBFT) -lft
 
-SRCS = main.c strings.c token.c tokens.c tokenizer.c tokenizer_states.c \
-	tokenizer_operators.c
+SRCS = src/main.c src/strings.c \
+	src/tokenizer/tokenizer.c \
+	src/tokenizer/tokenizer_actions.c \
+	src/tokenizer/token.c src/tokenizer/handlers/char_handler.c \
+	src/tokenizer/handlers/double_quote_handler.c \
+	src/tokenizer/handlers/end_handler.c \
+	src/tokenizer/handlers/great_handler.c \
+	src/tokenizer/handlers/less_handler.c \
+	src/tokenizer/handlers/pipe_handler.c \
+	src/tokenizer/handlers/single_quote_handler.c \
+	src/tokenizer/handlers/unimplemented_handler.c \
+	src/tokenizer/handlers/whitespace_handler.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 all: $(NAME)
@@ -42,8 +52,8 @@ all: $(NAME)
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
-$(OUT_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $@
+$(OBJS): %.o: %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $(OUT_DIR)$@
 
 $(LIBFT)/libft.a:
 	$(MAKE) -C $(LIBFT) bonus
