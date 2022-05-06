@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/06 10:25:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/06 14:26:00 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 #include <tokenizer.h>
 #include <stdlib.h>
 
-static void	tokenizer_free(t_tokenizer **t)
+static void	tokenizer_free(t_tokenizer *t)
 {
 	t_list	*tmp;
 
-	while ((*t)->tokens)
+	while (t->tokens)
 	{
-		tmp = (*t)->tokens->next;
-		((t_token *)(*t)->tokens->content)->free((*t)->tokens->content);
-		(*t)->tokens = tmp;
+		tmp = t->tokens->next;
+		((t_token *)t->tokens->content)->free(t->tokens->content);
+		t->tokens = tmp;
 	}
-	free((*t)->curr_token);
-	**t = (t_tokenizer)
+	free(t->curr_token);
+	*t = (t_tokenizer)
 	{
 		.tokens = NULL,
 		.line = NULL,
@@ -35,8 +35,7 @@ static void	tokenizer_free(t_tokenizer **t)
 		.state = 0,
 		.free = NULL
 	};
-	free(*t);
-	t = NULL;
+	free(t);
 }
 
 static t_tokenizer	*tokenizer_constructor(char *line)

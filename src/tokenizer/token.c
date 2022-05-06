@@ -3,26 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:22:40 by seb               #+#    #+#             */
-/*   Updated: 2022/05/06 10:27:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/06 17:04:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokenizer.h>
 #include <stdlib.h>
 
-static void	token_free(t_token **token)
+static void	token_free(t_token *token)
 {
-	**token = (t_token)
+	if (token->type == T_TT_UNIMPLEMENTED
+		|| token->type == T_TT_SYNTAX_ERROR)
+		free(token->str);
+	*token = (t_token)
 	{
 		.str = NULL,
 		.type = 0,
 		.free = NULL
 	};
-	free(*token);
-	token = NULL;
+	free(token);
 }
 
 t_token	*token_constructor(t_token_type type, char *str)

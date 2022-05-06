@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/06 11:56:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/06 17:03:25 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,20 @@ struct s_tokenizer
 	int						cursor;
 	t_token					*curr_token;
 	t_tokenizer_state		state;
-	void					(*free)(t_tokenizer **);
+	void					(*free)(t_tokenizer *);
 };
 
 struct s_token {
 	char			*str;
 	t_token_type	type;
-	void			(*free)(t_token **);
+	void			(*free)(t_token *);
 };
 
 struct s_tokenizer_char_handlers
 {
-	t_tokenizer_char_type	char_type;
-	void					(*handler)(t_tokenizer *);
+	t_token_type	char_type;
+	void			(*handler)(t_tokenizer *, t_token_type);
+	t_token_type	arg_type;
 };
 
 void		tokenizer_char_handler(t_tokenizer *t);
@@ -90,7 +91,9 @@ void		tokenizer_whitespace_handler(t_tokenizer *t);
 
 void		tokenizer_new_token(t_tokenizer *t, t_token_type type);
 void		tokenizer_delimit_curr_token(t_tokenizer *t);
-void		tokenizer_delimit_and_new(t_tokenizer *t, t_token_type type);
+void		tokenizer_delimit_new(t_tokenizer *t, t_token_type type);
+void		tokenizer_increase_cursor(t_tokenizer *t, t_token_type type);
+void		tokenizer_error_token(t_tokenizer *t, t_token_type type);
 
 t_token		*token_constructor(t_token_type type, char *token);
 
