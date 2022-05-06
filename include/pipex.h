@@ -13,6 +13,8 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 # include <libft.h>
+
+# include <minishell.h>
 typedef struct s_pipex{
 	char	**path;
 	char	*main1;
@@ -23,7 +25,7 @@ typedef struct s_pipex{
 	int		output_file;
 }	t_pipex;
 
-int		main_pipex(int argc, char **argv, char **env);
+int		main_pipex(char **all_cmds, char **env, t_fd_in_out fd);
 char	*ft_strcpy(char *dst, char *src);
 char	**ft_better_split(char *s, char c);
 char	*ft_search_path(char **env);
@@ -36,6 +38,6 @@ void	ft_nb_arg_error(int argc);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_free_all(t_pipex cmd, int choice);
 void	ft_free_char_tab(char **tab);
-t_pipex	ft_init_fd(char **argv, char **env);
+t_pipex	ft_init_fd(char **argv, char **env, t_fd_in_out fd);
 
 #endif

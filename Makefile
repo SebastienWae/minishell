@@ -41,6 +41,7 @@ SRCS = main.c \
 		builtin_functions_1.c builtin_functions_2.c errors.c \
 		builtin_functions_utils.c builtin_functions_utils2.c \
 		ft_better_split.c ft_strcmp.c \
+		get_next_line.c get_next_line_utils.c \
 		main_pipex.c utils_pipex.c pipex.c
 
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
@@ -70,7 +71,7 @@ fclean: clean
 
 re: fclean all
 
-compile_commands:
-	compiledb -f make re
+compile_commands: $(LIBFT)/libft.a
+	bear -- make re
 
 .PHONY: all clean fclean re $(LIBFT) compile_commands

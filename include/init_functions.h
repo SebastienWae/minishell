@@ -25,10 +25,7 @@ typedef struct s_minishell {
 	int 			saved_stdout;
 } t_minishell;
 
-typedef struct s_fd_in_out {
-	int in;
-	int out;
-} t_fd_in_out;
+
 
 void			ft_check_arg_error(int argc);
 t_list			*ft_init_env(char **env);

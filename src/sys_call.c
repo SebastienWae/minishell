@@ -15,6 +15,8 @@
 #include <errno.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/wait.h>
+#include <init_functions.h>
 
 char	*ft_search_path(char **env)
 {
@@ -65,32 +67,15 @@ int	ft_execute_sys_cmd(char **cmd, char **env)
 	return (0);
 }
 
-void	ft_fake_pipex_to_test(char **env)
-{
-	char	**buffer;
 
-	buffer = malloc(sizeof(char *) * 5);
-	buffer[0] = "./pipex";
-	buffer[1] = "f1";
-	buffer[2] = "tr 'z' 'y'";
-	buffer[3] = "tr 'y' '@'";
-	buffer[4] = "f2";
-	main_pipex(5, buffer, env);
-}
-
+//pb avec cat ne s,arrete pas si heredoc.
 void	ft_sys_cmd_process (char **parsed_str, char *str, char **env)
 {
 	pid_t	process;
-
+	(void) str;
 	process = fork ();
 	if (process == 0)
-	{
-		if (ft_strcmp(str, "pipe") == 0) // changer par si IN_PIPE
-			ft_fake_pipex_to_test(env); // j'ai peur pour la transition
-		else
-			ft_execute_sys_cmd(parsed_str, env);
-	}
-	else
+		ft_execute_sys_cmd(parsed_str, env);
+	else			
 		waitpid(process, NULL, 0);
-	kill(process, SIGQUIT); // a l'air de corriger le bug avec exit apres pipe
 }

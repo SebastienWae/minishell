@@ -80,6 +80,10 @@ struct	s_elem_env
 	char	*content;
 };
 
+typedef struct s_fd_in_out {
+	int in;
+	int out;
+} t_fd_in_out;
 
 
 int		is_quote(char c);
