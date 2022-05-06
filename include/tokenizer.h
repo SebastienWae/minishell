@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 21:43:40 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/06 10:46:42 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,83 +15,82 @@
 
 # include <libft.h>
 
-typedef enum e_tokenizer_state		t_tokenizer_state;
-typedef enum e_tokenizer_event		t_tokenizer_event;
-typedef enum e_toke_type			t_token_type;
-typedef struct s_tokenizer			t_tokenizer;
-typedef struct s_tokenizer_events	t_tokenizer_events;
-typedef struct s_tokenizer_states	t_tokenizer_states;
-typedef struct s_token				t_token;
+typedef enum e_tokenizer_state				t_tokenizer_state;
+typedef enum e_tokenizer_char_type			t_tokenizer_char_type;
+typedef enum e_toke_type					t_token_type;
+typedef struct s_tokenizer					t_tokenizer;
+typedef struct s_tokenizer_char_handlers	t_tokenizer_char_handlers;
+typedef struct s_token						t_token;
 
 enum e_tokenizer_state
 {
-	S_T_NOT_TOKEN = 1,
-	S_T_IN_WORD,
-	S_T_IN_OPERATOR,
-	S_T_IN_QUOTE,
-	S_T_FINISHED
+	T_S_WORKING = 1,
+	T_S_FINISHED
 };
 
-enum e_tokenizer_event
+enum e_tokenizer_char_type
 {
-	E_T_CHAR = 1,
-	E_T_OPERATOR,
-	E_T_WHITESPACE,
-	E_T_QUOTE,
-	E_T_UNIMPLEMENTED,
+	T_CT_CHAR = 1,
+	T_CT_SINGLE_QUOTE,
+	T_CT_DOUBLE_QUOTE,
+	T_CT_PIPE,
+	T_CT_LESS,
+	T_CT_GREAT,
+	T_CT_WHITESPACE,
+	T_CT_UNIMPLEMENTED,
+	T_CT_END
 };
 
 enum e_toke_type
 {
-	T_T_WORD = 1,
-	T_T_PIPE,
-	T_T_HEREDOC,
-	T_T_REDIRECTION_IN,
-	T_T_REDIRECTION_OUT,
-	T_T_REDIRECTION_APPEND,
-	T_T_SINGLE_QUOTE_WORD,
-	T_T_DOUBLE_QUOTE_WORD,
-	T_T_SYNTAX_ERROR,
-	T_T_UNIMPLEMENTED,
-	T_T_NONE
+	T_TT_WORD = 1,
+	T_TT_PIPE,
+	T_TT_HEREDOC,
+	T_TT_REDIRECTION_IN,
+	T_TT_REDIRECTION_OUT,
+	T_TT_REDIRECTION_APPEND,
+	T_TT_SINGLE_QUOTE_WORD,
+	T_TT_DOUBLE_QUOTE_WORD,
+	T_TT_SYNTAX_ERROR,
+	T_TT_UNIMPLEMENTED,
+	T_TT_NONE
 };
 
 struct s_tokenizer
 {
-	t_list				*tokens;
-	char				*line;
-	int					start_cursor;
-	int					end_cursor;
-	t_token_type		token_type;
-	t_tokenizer_event	event;
-	t_tokenizer_state	state;
-};
-
-struct s_tokenizer_events
-{
-	t_tokenizer_event	event;
-	void				(*handler)(t_tokenizer *);
-};
-
-struct s_tokenizer_states
-{
-	t_tokenizer_state	state;
-	void				(*handler)(t_tokenizer *);
+	t_list					*tokens;
+	char					*line;
+	int						cursor;
+	t_token					*curr_token;
+	t_tokenizer_state		state;
+	void					(*free)(t_tokenizer **);
 };
 
 struct s_token {
+	char			*str;
 	t_token_type	type;
-	char			*token;
-	void			(*free)(t_token *);
+	void			(*free)(t_token **);
 };
 
-t_tokenizer	*tokenizer_constructor(char *line);
-t_token		*token_constructor(t_token_type type, char *token);
+struct s_tokenizer_char_handlers
+{
+	t_tokenizer_char_type	char_type;
+	void					(*handler)(t_tokenizer *);
+};
 
 void		tokenizer_char_handler(t_tokenizer *t);
-void		tokenizer_operator_handler(t_tokenizer *t);
-void		tokenizer_whitespace_handler(t_tokenizer *t);
-void		tokenizer_quote_handler(t_tokenizer *t);
+void		tokenizer_double_quote_handler(t_tokenizer *t);
+void		tokenizer_end_handler(t_tokenizer *t);
+void		tokenizer_great_handler(t_tokenizer *t);
+void		tokenizer_less_handler(t_tokenizer *t);
+void		tokenizer_pipe_handler(t_tokenizer *t);
+void		tokenizer_single_quote_handler(t_tokenizer *t);
 void		tokenizer_unimplemented_handler(t_tokenizer *t);
+void		tokenizer_whitespace_handler(t_tokenizer *t);
+
+void		tokenizer_new_token(t_tokenizer *t, t_token_type type);
+void		tokenizer_delimit_curr_token(t_tokenizer *t);
+
+t_token		*token_constructor(t_token_type type, char *token);
 
 #endif

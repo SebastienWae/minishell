@@ -3,37 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:22:40 by seb               #+#    #+#             */
-/*   Updated: 2022/05/05 13:47:27 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/06 10:27:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokenizer.h>
 #include <stdlib.h>
 
-static void	token_free(t_token *token)
+static void	token_free(t_token **token)
 {
-	*token = (t_token)
+	**token = (t_token)
 	{
-		.type = T_T_NONE,
-		.token = NULL,
+		.str = NULL,
+		.type = 0,
 		.free = NULL
 	};
-	free(token);
+	free(*token);
+	token = NULL;
 }
 
-t_token	*token_constructor(t_token_type type, char *token)
+t_token	*token_constructor(t_token_type type, char *str)
 {
-	t_token	*t;
+	t_token	*token;
 
-	t = malloc(sizeof(t_token));
-	*t = (t_token)
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	*token = (t_token)
 	{
+		str,
 		type,
-		token,
 		.free = token_free
 	};
-	return (t);
+	return (token);
 }
