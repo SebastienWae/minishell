@@ -6,27 +6,25 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/06 12:36:16 by seb              ###   ########.fr        #
+#    Updated: 2022/05/06 12:56:59 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 RM = rm -f
-MKDIR = mkdir
+MKDIR = mkdir -p
 
 LIBFT = libft
 
-SRC_DIR = ./src/ ./src/tokenizer/ ./src/tokenizer/handlers/
-
 ifdef MAKE_DEBUG
-OUT_DIR = ./debug/
+OUT_DIR = debug
 NAME := $(OUT_DIR)$(NAME)
-DIRS = $(OUT_DIR)
 CFLAGS = -g3 -fsanitize=address
 else
-OUT_DIR = ./
+OUT_DIR = out
 endif
+DIRS = $(OUT_DIR)/src $(OUT_DIR)/src/tokenizer $(OUT_DIR)/src/tokenizer/handlers
 
 CC = gcc
 CFLAGS += -Wall -Wextra -Werror
@@ -45,15 +43,15 @@ SRCS = src/main.c src/strings.c \
 	src/tokenizer/handlers/single_quote_handler.c \
 	src/tokenizer/handlers/unimplemented_handler.c \
 	src/tokenizer/handlers/whitespace_handler.c
-OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
+OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
 all: $(NAME)
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(OUT_DIR)$@
 
 $(OBJS): %.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $(OUT_DIR)$@
+	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $(OUT_DIR)/$@
 
 $(LIBFT)/libft.a:
 	$(MAKE) -C $(LIBFT) bonus
