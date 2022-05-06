@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/06 12:56:59 by seb              ###   ########.fr        #
+#    Updated: 2022/05/06 13:49:39 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ LIBFT = libft
 
 ifdef MAKE_DEBUG
 OUT_DIR = debug
-NAME := $(OUT_DIR)$(NAME)
 CFLAGS = -g3 -fsanitize=address
 else
 OUT_DIR = out
@@ -48,10 +47,10 @@ OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 all: $(NAME)
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(OUT_DIR)$@
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(OUT_DIR)/$@
 
-$(OBJS): %.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $(OUT_DIR)/$@
+$(OUT_DIR)/%.o: %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(LIBFT)/libft.a:
 	$(MAKE) -C $(LIBFT) bonus
