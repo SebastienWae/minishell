@@ -44,7 +44,6 @@ void	tokenizer_delimit_curr_token(t_tokenizer *t)
 	t->curr_token = NULL;
 }
 
-
 void	tokenizer_delimit_new(t_tokenizer *t, t_token_type type)
 {
 	tokenizer_delimit_curr_token(t);
