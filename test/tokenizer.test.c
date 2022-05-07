@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/06 17:07:51 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/07 13:32:21 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,73 +158,6 @@ static void	tokenizer_quotes(void **state)
 	tokens->free(tokens);
 }
 
-static void	tokenizer_unimplemented(void **state)
-{
-	t_list		*list;
-	t_tokenizer	*tokens;
-	char		line[] = "    cat<<\"EOF\"| <<< test echo 123";
-
-	(void)state;
-	tokens = tokenizer(line);
-	list = tokens->tokens;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
-	assert_string_equal(((t_token *)list->content)->str, "cat");
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_HEREDOC);
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
-	assert_string_equal(((t_token *)list->content)->str, "\"EOF\"");
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_PIPE);
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_HEREDOC);
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_UNIMPLEMENTED);
-	assert_null(list->next);
-	tokens->free(tokens);
-}
-
-static void	tokenizer_unimplemented2(void **state)
-{
-	t_list		*list;
-	t_tokenizer	*tokens;
-	char		line[] = "    cat<<\"EOF\"|'&' \"<>\"& test echo 123";
-
-	(void)state;
-	tokens = tokenizer(line);
-	list = tokens->tokens;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
-	assert_string_equal(((t_token *)list->content)->str, "cat");
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_HEREDOC);
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
-	assert_string_equal(((t_token *)list->content)->str, "\"EOF\"");
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_PIPE);
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
-	assert_string_equal(((t_token *)list->content)->str, "'&'");
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
-	assert_string_equal(((t_token *)list->content)->str, "\"<>\"");
-	assert_non_null(list->next);
-	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_UNIMPLEMENTED);
-	assert_null(list->next);
-	tokens->free(tokens);
-}
-
 static void	tokenizer_syntax(void **state)
 {
 	t_list		*list;
@@ -260,13 +193,21 @@ static void	tokenizer_syntax2(void **state)
 {
 	t_list		*list;
 	t_tokenizer	*tokens;
-	char		line[] = "    cat<<\"EOF\"|<|>|'te's&techo123";
+	char		line[] = "    cat& ; ; <<\"EOF\"|<|>|'te's&techo123";
 
 	(void)state;
 	tokens = tokenizer(line);
 	list = tokens->tokens;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
-	assert_string_equal(((t_token *)list->content)->str, "cat");
+	assert_string_equal(((t_token *)list->content)->str, "cat&");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
+	assert_string_equal(((t_token *)list->content)->str, ";");
+	assert_non_null(list->next);
+	list = list->next;
+	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
+	assert_string_equal(((t_token *)list->content)->str, ";");
 	assert_non_null(list->next);
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_HEREDOC);
@@ -292,8 +233,6 @@ int	main(void)
 		cmocka_unit_test(tokenizer_simple),
 		cmocka_unit_test(tokenizer_operators),
 		cmocka_unit_test(tokenizer_quotes),
-		cmocka_unit_test(tokenizer_unimplemented),
-		cmocka_unit_test(tokenizer_unimplemented2),
 		cmocka_unit_test(tokenizer_syntax),
 		cmocka_unit_test(tokenizer_syntax2),
 	};

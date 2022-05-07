@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/06 14:26:00 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/07 14:34:02 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,33 @@
 #include <minishell.h>
 #include <tokenizer.h>
 #include <stdlib.h>
+
+static void	token_free(t_token *token)
+{
+	*token = (t_token)
+	{
+		.str = NULL,
+		.type = 0,
+		.free = NULL
+	};
+	free(token);
+}
+
+t_token	*token_constructor(t_token_type type, char *str)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	*token = (t_token)
+	{
+		str,
+		type,
+		.free = token_free
+	};
+	return (token);
+}
 
 static void	tokenizer_free(t_tokenizer *t)
 {
@@ -23,6 +50,7 @@ static void	tokenizer_free(t_tokenizer *t)
 	{
 		tmp = t->tokens->next;
 		((t_token *)t->tokens->content)->free(t->tokens->content);
+		free(t->tokens);
 		t->tokens = tmp;
 	}
 	free(t->curr_token);
@@ -62,7 +90,7 @@ t_tokenizer	*tokenizer(char *line)
 	t_tokenizer		*tokenizer;
 
 	tokenizer = tokenizer_constructor(line);
-	while (tokenizer && tokenizer->state != T_S_FINISHED)
+	while (tokenizer && tokenizer->state == T_S_WORKING)
 	{
 		if (tokenizer->line[tokenizer->cursor] == '\0')
 			tokenizer_end_handler(tokenizer);
@@ -78,8 +106,6 @@ t_tokenizer	*tokenizer(char *line)
 			tokenizer_great_handler(tokenizer);
 		else if (is_whitespace(tokenizer->line[tokenizer->cursor]))
 			tokenizer_whitespace_handler(tokenizer);
-		else if (is_unimplemented(tokenizer->line[tokenizer->cursor]))
-			tokenizer_unimplemented_handler(tokenizer);
 		else
 			tokenizer_char_handler(tokenizer);
 	}

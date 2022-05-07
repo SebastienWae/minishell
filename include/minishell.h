@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/05 21:40:58 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/07 12:38:31 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ struct	s_elem_env
 };
 
 int			is_whitespace(char c);
-int			is_unimplemented(char c);
-int			is_operator(char c);
-int			is_quote(char c);
 
 t_tokenizer	*tokenizer(char *line);
 

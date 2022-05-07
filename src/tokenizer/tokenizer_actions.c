@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_actions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:45:59 by seb               #+#    #+#             */
-/*   Updated: 2022/05/06 17:03:56 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/07 14:36:23 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,37 @@ void	tokenizer_new_token(t_tokenizer *t, t_token_type type)
 	t_token	*token;
 
 	token = token_constructor(type, &(t->line[t->cursor]));
+	if (!token)
+	{
+		t->state = T_S_ERROR;
+		return ;
+	}
 	t->curr_token = token;
 	t->cursor++;
 }
 
 void	tokenizer_delimit_curr_token(t_tokenizer *t)
 {
+	t_list	*new;
+
+	new = ft_lstnew(t->curr_token);
+	if (!new)
+	{
+		t->state = T_S_ERROR;
+		return ;
+	}
 	if (t->tokens)
-		ft_lstadd_back(&(t->tokens), ft_lstnew(t->curr_token));
+		ft_lstadd_back(&(t->tokens), new);
 	else
-		t->tokens = ft_lstnew(t->curr_token);
+		t->tokens = new;
 	t->curr_token = NULL;
 }
 
 void	tokenizer_delimit_new(t_tokenizer *t, t_token_type type)
 {
 	tokenizer_delimit_curr_token(t);
-	tokenizer_new_token(t, type);
+	if (t->state == T_S_WORKING)
+		tokenizer_new_token(t, type);
 }
 
 void	tokenizer_increase_cursor(t_tokenizer *t, t_token_type type)
@@ -45,15 +59,14 @@ void	tokenizer_increase_cursor(t_tokenizer *t, t_token_type type)
 
 void	tokenizer_error_token(t_tokenizer *t, t_token_type type)
 {
-	char	*str;
+	char	*whitespace;
 
-	str = ft_substr(t->line, t->cursor,
-			ft_strrchr(&(t->line[t->cursor]), ' ') - t->line);
+	whitespace = ft_strrchr(&(t->line[t->cursor]), ' ');
+	if (whitespace)
+		t->line[ft_strrchr(&(t->line[t->cursor]), ' ') - t->line] = 0;
 	if (t->curr_token)
 		tokenizer_delimit_curr_token(t);
-	t->line[t->cursor] = 0;
 	tokenizer_new_token(t, type);
-	t->curr_token->str = str;
 	tokenizer_delimit_curr_token(t);
 	t->state = T_S_FINISHED;
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/06 13:49:39 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/07 13:59:16 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,17 +30,16 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude
 LDFLAGS = -L$(LIBFT) -lft
 
-SRCS = src/main.c src/strings.c \
+SRCS = src/main.c src/strings.c src/debug.c \
 	src/tokenizer/tokenizer.c \
 	src/tokenizer/tokenizer_actions.c \
-	src/tokenizer/token.c src/tokenizer/handlers/char_handler.c \
+	src/tokenizer/handlers/char_handler.c \
 	src/tokenizer/handlers/double_quote_handler.c \
 	src/tokenizer/handlers/end_handler.c \
 	src/tokenizer/handlers/great_handler.c \
 	src/tokenizer/handlers/less_handler.c \
 	src/tokenizer/handlers/pipe_handler.c \
 	src/tokenizer/handlers/single_quote_handler.c \
-	src/tokenizer/handlers/unimplemented_handler.c \
 	src/tokenizer/handlers/whitespace_handler.c
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
