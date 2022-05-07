@@ -20,6 +20,7 @@ LIBFT = libft
 ifdef MAKE_DEBUG
 OUT_DIR = debug
 CFLAGS = -g3 -fsanitize=address
+NAME = minishell_debug
 else
 OUT_DIR = out
 endif
@@ -46,7 +47,7 @@ OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 all: $(NAME)
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(OUT_DIR)/$@
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
 $(OUT_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
