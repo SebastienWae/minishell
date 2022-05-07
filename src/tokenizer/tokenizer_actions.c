@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:45:59 by seb               #+#    #+#             */
-/*   Updated: 2022/05/07 14:36:23 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/07 14:48:42 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	tokenizer_delimit_curr_token(t_tokenizer *t)
 	t->curr_token = NULL;
 }
 
+
 void	tokenizer_delimit_new(t_tokenizer *t, t_token_type type)
 {
 	tokenizer_delimit_curr_token(t);
@@ -62,8 +63,10 @@ void	tokenizer_error_token(t_tokenizer *t, t_token_type type)
 	char	*whitespace;
 
 	whitespace = ft_strrchr(&(t->line[t->cursor]), ' ');
+	if (!whitespace)
+		whitespace = ft_strrchr(&(t->line[t->cursor]), '\t');
 	if (whitespace)
-		t->line[ft_strrchr(&(t->line[t->cursor]), ' ') - t->line] = 0;
+		t->line[whitespace - t->line] = 0;
 	if (t->curr_token)
 		tokenizer_delimit_curr_token(t);
 	tokenizer_new_token(t, type);
