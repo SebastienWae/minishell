@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/07 12:38:31 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/07 22:02:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ struct	s_elem_env
 	char	*content;
 };
 
+/* Checks if the character is considered to be a whitespace.
+Returns 1 if true, 0 if false. */
 int			is_whitespace(char c);
 
-t_tokenizer	*tokenizer(char *line);
+/* Split and classify the given string.*/
+t_tokenizer	*tokenize(char *line);
 
 int			ft_strcmp(char *str1, char *str2);
 int			ft_execute_sys_cmd(char **cmd, char **env);

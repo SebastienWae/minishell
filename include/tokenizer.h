@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/07 13:39:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/07 22:12:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ struct s_tokenizer
 	int						cursor;
 	t_token					*curr_token;
 	t_tokenizer_state		state;
-	void					(*free)(t_tokenizer *);
+	void					(*destructor)(t_tokenizer *);
 };
 
 struct s_token {
 	char			*str;
 	t_token_type	type;
-	void			(*free)(t_token *);
+	void			(*destructor)(t_token *);
 };
 
 struct s_tokenizer_char_handlers
@@ -73,10 +73,17 @@ void		tokenizer_pipe_handler(t_tokenizer *t);
 void		tokenizer_single_quote_handler(t_tokenizer *t);
 void		tokenizer_whitespace_handler(t_tokenizer *t);
 
+/* Put curr_token at the end of the tokens list.*/
 void		tokenizer_delimit_curr_token(t_tokenizer *t);
+/* Put the curr_token at the end of the tokens list, create a new one,
+and move the cursor forward in the tokenized string.*/
 void		tokenizer_delimit_new(t_tokenizer *t, t_token_type type);
+/* Put the curr_token at the end tokens list as well as a syntax error token.*/
 void		tokenizer_error_token(t_tokenizer *t, t_token_type type);
+/* Move the cursor forward in the tokenized string.*/
 void		tokenizer_increase_cursor(t_tokenizer *t, t_token_type type);
+/* Create a new curr_token, and move the cursor forward in the tokenized
+string.*/
 void		tokenizer_new_token(t_tokenizer *t, t_token_type type);
 
 t_token		*token_constructor(t_token_type type, char *token);

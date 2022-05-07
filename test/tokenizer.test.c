@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/07 13:32:21 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/07 22:05:35 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void	tokenizer_empty(void **state)
 	char		line[] = "";
 
 	(void)state;
-	tokens = tokenizer(line);
+	tokens = tokenize(line);
 	assert_null(tokens->tokens);
-	tokens->free(tokens);
+	tokens->destructor(tokens);
 }
 
 static void	tokenizer_whitespaces(void **state)
@@ -37,9 +37,9 @@ static void	tokenizer_whitespaces(void **state)
 	char		line[] = "  \t  \t  ";
 
 	(void)state;
-	tokens = tokenizer(line);
+	tokens = tokenize(line);
 	assert_null(tokens->tokens);
-	tokens->free(tokens);
+	tokens->destructor(tokens);
 }
 
 static void	tokenizer_simple(void **state)
@@ -49,7 +49,7 @@ static void	tokenizer_simple(void **state)
 	char		line[] = "echo 123";
 
 	(void)state;
-	tokens = tokenizer(line);
+	tokens = tokenize(line);
 	list = tokens->tokens;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
 	assert_string_equal(((t_token *)list->content)->str, "echo");
@@ -58,7 +58,7 @@ static void	tokenizer_simple(void **state)
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
 	assert_string_equal(((t_token *)list->content)->str, "123");
 	assert_null(list->next);
-	tokens->free(tokens);
+	tokens->destructor(tokens);
 }
 
 static void	tokenizer_operators(void **state)
@@ -68,7 +68,7 @@ static void	tokenizer_operators(void **state)
 	char		line[] = "< in cat << EOF | cat > out | echo 123 >> out";
 
 	(void)state;
-	tokens = tokenizer(line);
+	tokens = tokenize(line);
 	list = tokens->tokens;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIRECTION_IN);
 	assert_non_null(list->next);
@@ -118,7 +118,7 @@ static void	tokenizer_operators(void **state)
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
 	assert_string_equal(((t_token *)list->content)->str, "out");
 	assert_null(list->next);
-	tokens->free(tokens);
+	tokens->destructor(tokens);
 }
 
 static void	tokenizer_quotes(void **state)
@@ -128,7 +128,7 @@ static void	tokenizer_quotes(void **state)
 	char		line[] = "echo '$h dd - ><> || <<'   |echo test\"ing\">out ";
 
 	(void)state;
-	tokens = tokenizer(line);
+	tokens = tokenize(line);
 	list = tokens->tokens;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
 	assert_string_equal(((t_token *)list->content)->str, "echo");
@@ -155,7 +155,7 @@ static void	tokenizer_quotes(void **state)
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
 	assert_string_equal(((t_token *)list->content)->str, "out");
 	assert_null(list->next);
-	tokens->free(tokens);
+	tokens->destructor(tokens);
 }
 
 static void	tokenizer_syntax(void **state)
@@ -165,7 +165,7 @@ static void	tokenizer_syntax(void **state)
 	char		line[] = "    cat<<\"EOF\"| <<> test echo 123";
 
 	(void)state;
-	tokens = tokenizer(line);
+	tokens = tokenize(line);
 	list = tokens->tokens;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
 	assert_string_equal(((t_token *)list->content)->str, "cat");
@@ -186,7 +186,7 @@ static void	tokenizer_syntax(void **state)
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_SYNTAX_ERROR);
 	assert_null(list->next);
-	tokens->free(tokens);
+	tokens->destructor(tokens);
 }
 
 static void	tokenizer_syntax2(void **state)
@@ -196,7 +196,7 @@ static void	tokenizer_syntax2(void **state)
 	char		line[] = "    cat& ; ; <<\"EOF\"|<|>|'te's&techo123";
 
 	(void)state;
-	tokens = tokenizer(line);
+	tokens = tokenize(line);
 	list = tokens->tokens;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
 	assert_string_equal(((t_token *)list->content)->str, "cat&");
@@ -222,7 +222,7 @@ static void	tokenizer_syntax2(void **state)
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_SYNTAX_ERROR);
 	assert_null(list->next);
-	tokens->free(tokens);
+	tokens->destructor(tokens);
 }
 
 int	main(void)

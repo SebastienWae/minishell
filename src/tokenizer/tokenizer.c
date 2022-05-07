@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/07 14:34:02 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/07 22:06:35 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,77 +15,77 @@
 #include <tokenizer.h>
 #include <stdlib.h>
 
-static void	token_free(t_token *token)
+static void	token_destructor(t_token *self)
 {
-	*token = (t_token)
+	*self = (t_token)
 	{
 		.str = NULL,
 		.type = 0,
-		.free = NULL
+		.destructor = NULL
 	};
-	free(token);
+	free(self);
 }
 
 t_token	*token_constructor(t_token_type type, char *str)
 {
-	t_token	*token;
+	t_token	*self;
 
-	token = malloc(sizeof(t_token));
-	if (!token)
+	self = malloc(sizeof(t_token));
+	if (!self)
 		return (NULL);
-	*token = (t_token)
+	*self = (t_token)
 	{
 		str,
 		type,
-		.free = token_free
+		.destructor = token_destructor
 	};
-	return (token);
+	return (self);
 }
 
-static void	tokenizer_free(t_tokenizer *t)
+static void	tokenizer_destructor(t_tokenizer *self)
 {
 	t_list	*tmp;
 
-	while (t->tokens)
+	while (self->tokens)
 	{
-		tmp = t->tokens->next;
-		((t_token *)t->tokens->content)->free(t->tokens->content);
-		free(t->tokens);
-		t->tokens = tmp;
+		tmp = self->tokens->next;
+		((t_token *)self->tokens->content)->destructor(self->tokens->content);
+		free(self->tokens);
+		self->tokens = tmp;
 	}
-	free(t->curr_token);
-	*t = (t_tokenizer)
+	free(self->curr_token);
+	*self = (t_tokenizer)
 	{
 		.tokens = NULL,
 		.line = NULL,
 		.cursor = 0,
 		.curr_token = NULL,
 		.state = 0,
-		.free = NULL
+		.destructor = NULL
 	};
-	free(t);
+	free(self);
 }
 
 static t_tokenizer	*tokenizer_constructor(char *line)
 {
-	t_tokenizer	*tokenizer;
+	t_tokenizer	*self;
 
-	tokenizer = malloc(sizeof(t_tokenizer));
-	if (!tokenizer)
+	self = malloc(sizeof(t_tokenizer));
+	if (!self)
 		return (NULL);
-	*tokenizer = (t_tokenizer)
+	*self = (t_tokenizer)
 	{
 		.tokens = NULL,
 		line,
 		.cursor = 0,
 		.curr_token = NULL,
 		.state = T_S_WORKING,
-		.free = tokenizer_free
+		.destructor = tokenizer_destructor
 	};
-	return (tokenizer);
+	return (self);
 }
 
-t_tokenizer	*tokenizer(char *line)
+t_tokenizer	*tokenize(char *line)
 {
 	t_tokenizer		*tokenizer;
 
