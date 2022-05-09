@@ -12,57 +12,56 @@
 
 NAME = minishell
 
-RM = rm -f
+RM = rm -rf
 MKDIR = mkdir -p
 
 LIBFT = libft
+SRC_DIR = src
 
 ifdef MAKE_DEBUG
 OUT_DIR = debug
 CFLAGS = -g3 -fsanitize=address
-NAME = minishell_debug
+NAME += _debug
 else
 OUT_DIR = out
 endif
-DIRS = $(OUT_DIR)/src $(OUT_DIR)/src/tokenizer $(OUT_DIR)/src/tokenizer/handlers
 
-CC = gcc
+CC = clang
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
 LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
-SRCS = src/main.c src/strings.c src/debug.c \
-	src/tokenizer/tokenizer.c \
-	src/tokenizer/tokenizer_actions.c \
-	src/tokenizer/handlers/char_handler.c \
-	src/tokenizer/handlers/double_quote_handler.c \
-	src/tokenizer/handlers/end_handler.c \
-	src/tokenizer/handlers/great_handler.c \
-	src/tokenizer/handlers/less_handler.c \
-	src/tokenizer/handlers/pipe_handler.c \
-	src/tokenizer/handlers/single_quote_handler.c \
-	src/tokenizer/handlers/whitespace_handler.c
+SRCS = main.c strings.c debug.c \
+	tokenizer/tokenizer.c \
+	tokenizer/tokenizer_actions.c \
+	tokenizer/handlers/char_handler.c \
+	tokenizer/handlers/double_quote_handler.c \
+	tokenizer/handlers/end_handler.c \
+	tokenizer/handlers/great_handler.c \
+	tokenizer/handlers/less_handler.c \
+	tokenizer/handlers/pipe_handler.c \
+	tokenizer/handlers/single_quote_handler.c \
+	tokenizer/handlers/whitespace_handler.c
+SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
 all: $(NAME)
 
-$(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a
+$(NAME): $(OBJS) $(LIBFT)/libft.a
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
 $(OUT_DIR)/%.o: %.c
+	$(MKDIR) $(@D)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(LIBFT)/libft.a:
 	$(MAKE) -C $(LIBFT) bonus
 
-$(DIRS):
-	$(MKDIR) "$@"
-
 check: CFLAGS = -fanalyzer
 check: re
 
 clean: 
-	$(RM) $(OBJS)
+	$(RM) $(OUT_DIR)
 
 fclean: clean
 	$(RM) $(NAME)
