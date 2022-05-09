@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 16:47:34 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:16:52 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_parser	*parse(t_tokenizer *tokenizer)
 		else if (((t_token *)tokens->content)->type == T_TT_REDIRECTION_APPEND)
 			parser_redirection_append_handler(parser, tokens->content);
 		else
-			parser_redirection_error_handler(parser, tokens->content);
+			parser_error_handler(parser, tokens->content);
 		tokens = tokens->next;
 	}
 	return (parser);

@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 16:52:22 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:16:30 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ struct s_parser
 {
 	t_list			*cmds;
 	t_cmd			*curr_cmd;
+	t_token_type	last_token_type;
 	t_parser_state	state;
 	void			(*destructor)(t_parser *);
 };
@@ -48,8 +49,7 @@ struct s_cmd
 struct s_parser_token_handlers
 {
 	t_token_type	token_type;
-	void			(*handler)(t_parser *, t_cmd *);
-	t_token_type	new_token_type;
+	void			(*handler)(t_parser *, t_token *);
 };
 
 t_cmd	*cmd_constructor(void);
@@ -60,6 +60,19 @@ void	parser_heredoc_handler(t_parser *p, t_token *t);
 void	parser_redirection_in_handler(t_parser *p, t_token *t);
 void	parser_redirection_out_handler(t_parser *p, t_token *t);
 void	parser_redirection_append_handler(t_parser *p, t_token *t);
-void	parser_redirection_error_handler(t_parser *p, t_token *t);
+void	parser_error_handler(t_parser *p, t_token *t);
+
+void	parser_add_to_cmd(t_parser *p, t_token *t);
+void	parser_pipe_cmd(t_parser *p, t_token *t);
+void	parser_new_cmd(t_parser *p, t_token *t);
+void	parser_new_heredoc(t_parser *p, t_token *t);
+void	parser_new_redir_in(t_parser *p, t_token *t);
+void	parser_new_redir_out(t_parser *p, t_token *t);
+void	parser_new_redir_append(t_parser *p, t_token *t);
+void	parser_set_heredoc_word(t_parser *p, t_token *t);
+void	parser_set_in(t_parser *p, t_token *t);
+void	parser_set_out(t_parser *p, t_token *t);
+void	parser_set_append(t_parser *p, t_token *t);
+void	parser_error(t_parser *p, t_token *t);
 
 #endif
