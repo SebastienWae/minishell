@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/07 22:05:35 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/09 13:46:55 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
 #include <libft.h>
 #include <stdarg.h>
 #include <stddef.h>
