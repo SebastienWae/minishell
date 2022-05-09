@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 18:16:30 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:26:11 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	parser_heredoc_handler(t_parser *p, t_token *t);
 void	parser_redirection_in_handler(t_parser *p, t_token *t);
 void	parser_redirection_out_handler(t_parser *p, t_token *t);
 void	parser_redirection_append_handler(t_parser *p, t_token *t);
-void	parser_error_handler(t_parser *p, t_token *t);
 
 void	parser_add_to_cmd(t_parser *p, t_token *t);
 void	parser_pipe_cmd(t_parser *p, t_token *t);
