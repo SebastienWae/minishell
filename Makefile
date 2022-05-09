@@ -21,7 +21,7 @@ SRC_DIR = src
 ifdef MAKE_DEBUG
 OUT_DIR = debug
 CFLAGS = -g3 -fsanitize=address
-NAME += _debug
+NAME := $(NAME)_debug
 else
 OUT_DIR = out
 endif
