@@ -83,10 +83,16 @@ void	ft_cd(char **cmd, t_list *local_env)
 		c = local_env->content;
 		if (!ft_strncmp("PWD", local_env->content, 3))
 			if (c[3] == '=')
+			{
+				free(local_env->content);
 				local_env->content = ft_strjoin("PWD=", getcwd (NULL, 0));
+			}
 		if (!ft_strncmp("OLDPWD", local_env->content, 6))
 			if (c[6] == '=')
+			{
+				free(local_env->content);
 				local_env->content = ft_strjoin("OLDPWD=", old_dir);
+			}
 		local_env = local_env->next;
 	}
 }

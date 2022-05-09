@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <pipex.h>
 #include <errno.h>
 #include <string.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include <init_functions.h>
+# include <close_functions.h>
 
 char	*ft_search_path(char **env)
 {
@@ -46,7 +46,7 @@ char	*ft_build_cmd(char **path, char *cmd)
 	return (0);
 }
 
-int	ft_execute_sys_cmd(char **cmd, char **env)
+int	*ft_execute_sys_cmd(char **cmd, char **env)
 {
 	char	*main_cmd;
 
@@ -55,11 +55,14 @@ int	ft_execute_sys_cmd(char **cmd, char **env)
 	{
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		exit(127);
+
+		exit (127);
 	}	
 	if (execve(main_cmd, cmd, env) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 2);
+		free(main_cmd);
+		ft_free_char_tab(cmd);
 		exit (1);
 	}	
 	free(main_cmd);
@@ -67,15 +70,16 @@ int	ft_execute_sys_cmd(char **cmd, char **env)
 	return (0);
 }
 
-
-//pb avec cat ne s,arrete pas si heredoc.
-void	ft_sys_cmd_process (char **parsed_str, char *str, char **env)
+//pb sortie
+int	ft_sys_cmd_process (char **parsed_str, char *str, char **env)
 {
 	pid_t	process;
+
 	(void) str;
 	process = fork ();
 	if (process == 0)
 		ft_execute_sys_cmd(parsed_str, env);
 	else			
-		waitpid(process, NULL, 0);
+		waitpid(process, NULL, 0);	
+	return (0);
 }

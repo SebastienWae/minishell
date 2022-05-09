@@ -12,59 +12,56 @@
 
 NAME = minishell
 
-RM = rm -f
-MKDIR = mkdir
+RM = rm -rf
+MKDIR = mkdir -p
 
 LIBFT = libft
 
-SRC_DIR = ./src/
-
 ifdef MAKE_DEBUG
-OUT_DIR = ./debug/
-NAME := $(OUT_DIR)$(NAME)
-DIRS = $(OUT_DIR)
+OUT_DIR = debug
 CFLAGS = -g3 -fsanitize=address
+NAME = minishell_debug
 else
-OUT_DIR = ./
+OUT_DIR = out
 endif
+
 
 CC = gcc
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
 LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
-SRCS = main.c \
-		init.c close_functions.c \
-		fd_manager.c \
-		sys_call.c \
-		signal_handler.c \
-		builtin_functions_1.c builtin_functions_2.c errors.c \
-		builtin_functions_utils.c builtin_functions_utils2.c \
-		ft_better_split.c ft_strcmp.c \
-		get_next_line.c get_next_line_utils.c \
-		main_pipex.c utils_pipex.c pipex.c
+SRCS = src/main.c src/init.c \
+		src/functions/builtin_functions_1.c src/functions/builtin_functions_2.c \
+		src/functions/builtin_functions_utils.c \
+		src/functions/builtin_functions_utils2.c \
+		src/functions/pipe.c src/functions/sys_call.c \
+		src/gnl/get_next_line.c src/gnl/get_next_line_utils.c \
+		src/strings_utils/ft_better_split.c src/strings_utils/ft_strcmp.c \
+		src/closing_utils.c src/errors.c src/fd_manager.c src/signal_handler.c
 
-OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
+		
+
+OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
 all: $(NAME)
 
-$(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a
+$(NAME): $(OBJS) $(LIBFT)/libft.a
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
-$(OUT_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $@
+$(OUT_DIR)/%.o: %.c
+	$(MKDIR) $(@D)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(LIBFT)/libft.a:
 	$(MAKE) -C $(LIBFT) bonus
 
-$(DIRS):
-	$(MKDIR) "$@"
 
 check: CFLAGS = -fanalyzer
 check: re
 
 clean: 
-	$(RM) $(OBJS)
+	$(RM) $(OUT_DIR)
 
 fclean: clean
 	$(RM) $(NAME)

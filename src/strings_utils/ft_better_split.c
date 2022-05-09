@@ -48,7 +48,7 @@ static size_t	ft_nb_slot(char *str, char c)
 	return (nb_str);
 }
 
-static char	*ft_strncpy(char *src, size_t index, size_t end)
+char	*ft_strncpy(char *src, size_t index, size_t end)
 {
 	size_t	i;
 	char	*dest;

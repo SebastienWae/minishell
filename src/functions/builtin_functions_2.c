@@ -14,6 +14,7 @@
 #include <built_in_functions.h>
 #include <stdio.h>
 
+char	*ft_strncpy(char *src, size_t index, size_t end);
 //ok
 t_list	*ft_export(char **cmd, t_list *local_env)
 {	
@@ -29,7 +30,7 @@ t_list	*ft_export(char **cmd, t_list *local_env)
 		{
 			if (ft_check_char_export(cmd[i]) && ft_equal_is_in(cmd[i]))
 			{
-				elem = cmd[i];
+				elem = ft_strncpy(cmd[i], 0, ft_strlen(cmd[i]));
 				if (ft_is_already_in_env(local_env, elem) == 0)
 					ft_lstadd_back(&local_env, ft_lstnew(elem));
 			}
@@ -101,7 +102,7 @@ void	ft_env(char **cmd, t_list *local_env)
 }
 
 //ok
-int	ft_exit(char **str)
+int	ft_exit(char **str, t_minishell shell)
 {
 	int	i;
 
@@ -109,6 +110,8 @@ int	ft_exit(char **str)
 	if (str[1] == 0)
 	{
 		printf("exit\n");
+		ft_lstclear(&shell.local_env, free);
+		free(str);	
 		exit (0);
 	}
 	while (str[1][i] != 0)
@@ -116,6 +119,8 @@ int	ft_exit(char **str)
 		if (!ft_isdigit(str[1][i]))
 		{
 			printf("exit: %s: numeric argument required\n", str[1]);
+			ft_lstclear(&shell.local_env, free);
+			free(str);		
 			exit(255);
 		}
 		i ++;
@@ -125,5 +130,7 @@ int	ft_exit(char **str)
 		printf("exit\nexit: too many arguments\n");
 		return (0);
 	}
+	free(str);
+	ft_lstclear(&shell.local_env, free);
 	exit (ft_atoi(str[1]));
 }

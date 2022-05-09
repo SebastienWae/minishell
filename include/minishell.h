@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <sys/_types/_pid_t.h>
 # include <termios.h>
 
 int	g_out;
@@ -85,15 +86,27 @@ typedef struct s_fd_in_out {
 	int out;
 } t_fd_in_out;
 
+typedef struct s_minishell {
+	t_list			*local_env;
+	struct termios	config;
+	int 			saved_stdin;
+	int 			saved_stdout;
+} t_minishell;
 
 int		is_quote(char c);
 int		is_metacharacter(char c);
 int		is_whitespace(char c);
 int		ft_strcmp(char *str1, char *str2);
-int		ft_execute_sys_cmd(char **cmd, char **env);
-void	ft_sys_cmd_process (char **parsed_str, char *str, char **env);
+int		*ft_execute_sys_cmd(char **cmd, char **env);
+int		ft_sys_cmd_process (char **parsed_str, char *str, char **env);
 void	free_tokens(t_list *tokens);
+char	*ft_strncpy(char *src, size_t index, size_t end);
+char	**ft_better_split(char *s, char c);
 char	*ft_get_env_var_value(char *elem);
+char	*ft_search_path(char **env);
+char	*ft_build_cmd(char **path, char *cmd);
 t_list	*tokenizer(char *line);
+t_minishell	ft_pipe(t_minishell shell, char **env);
+t_minishell	ft_launch_cmd(char *str, t_minishell shell, char **env);
 
 #endif

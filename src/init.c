@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-#include <termios.h>
 #include <sig_handler.h>
 #include <init_functions.h>
 
@@ -38,9 +36,11 @@ t_list	*ft_init_env(char **env)
 	while (env[++i])
 	{
 		if (!ft_strncmp("SHELL", env[i], 5))
-			ft_lstadd_back(&local_env, ft_lstnew("SHELL=Minishell"));
+			ft_lstadd_back(&local_env, ft_lstnew(ft_strncpy\
+			("SHELL=Minishell", 0, 15)));
 		else
-			ft_lstadd_back(&local_env, ft_lstnew(env[i]));
+			ft_lstadd_back(&local_env, ft_lstnew(ft_strncpy\
+			(env[i], 0, ft_strlen(env[i]))));
 	}
 	return (local_env);
 }
@@ -51,8 +51,8 @@ t_minishell	ft_init_all(int argc, char **argv, char **env)
 
 	(void) argv;
 	g_out = 0;
-	shell.config = ft_init_config();
 	ft_check_arg_error(argc);
+	shell.config = ft_init_config();	
 	shell.local_env = ft_init_env(env);
 	ft_sig();
 	shell.saved_stdin = dup(STDIN_FILENO);

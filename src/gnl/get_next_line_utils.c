@@ -10,19 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"get_next_line.h"
-
-size_t	ft_strlen(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i] != '\0')
-		i ++;
-	return (i);
-}
+#include <get_next_line.h>
 
 char	*ft_strcat(char *dest, char *s1, char *s2)
 {
@@ -46,22 +34,6 @@ char	*ft_strcat(char *dest, char *s1, char *s2)
 		}
 	}
 	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*dest;
-
-	dest = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if ((dest == NULL || s1 == NULL) && s2 != NULL)
-		return (NULL);
-	dest = ft_strcat(dest, s1, s2);
-	if (dest[0] == '\0')
-	{
-		free (dest);
-		return (NULL);
-	}
 	return (dest);
 }
 
