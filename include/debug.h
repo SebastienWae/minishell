@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 14:55:18 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/07 22:03:58 by seb              ###   ########.fr       */
+/*   Created: 2022/05/07 13:57:33 by seb               #+#    #+#             */
+/*   Updated: 2022/05/07 21:59:11 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokenizer.h>
-#include <minishell.h>
-#include <debug.h>
+#ifndef DEBUG_H
+# define DEBUG_H
 
-int	main(int argc, char **argv)
-{
-	t_tokenizer	*t;
+# include <tokenizer.h>
 
-	if (argc == 2)
-	{
-		t = tokenize(argv[1]);
-		print_tokenizer(t);
-		t->destructor(t);
-	}
-	return (0);
-}
+/* Print t_token struct in the STDIN. */
+void	print_token(t_token *token);
+/* Print t_tokenizer struct in the STDIN. */
+void	print_tokenizer(t_tokenizer *tokenizer);
+
+#endif
