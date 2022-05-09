@@ -2,8 +2,12 @@
 *.a
 *.d
 *.dSYM
+.vscode/*.log
 .codechecker
 .cache
+infer-out/
 compile_commands.json
 minishell
-.vscode/*.log
+minishell_debug
+debug/
+out/
