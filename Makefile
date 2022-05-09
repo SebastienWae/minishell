@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/07 13:59:16 by seb              ###   ########.fr        #
+#    Updated: 2022/05/09 13:15:25 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ DIRS = $(OUT_DIR)/src $(OUT_DIR)/src/tokenizer $(OUT_DIR)/src/tokenizer/handlers
 
 CC = gcc
 CFLAGS += -Wall -Wextra -Werror
-CPPFLAGS = -I$(LIBFT) -Iinclude
-LDFLAGS = -L$(LIBFT) -lft
+CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
+LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
 SRCS = src/main.c src/strings.c src/debug.c \
 	src/tokenizer/tokenizer.c \
@@ -70,6 +70,6 @@ fclean: clean
 re: fclean all
 
 compile_commands: $(LIBFT)/libft.a
-	bear -- make re	
+	bear -- make re
 
 .PHONY: all clean fclean re $(LIBFT) compile_commands
