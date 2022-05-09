@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 16:26:59 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:52:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # include <tokenizer.h>
 # include <libft.h>
 
-typedef enum e_parser_state	t_parser_state;
-typedef struct s_parser		t_parser;
-typedef struct s_cmd		t_cmd;
+typedef enum e_parser_state				t_parser_state;
+typedef struct s_parser					t_parser;
+typedef struct s_cmd					t_cmd;
+typedef struct s_parser_token_handlers	t_parser_token_handlers;
 
 enum e_parser_state
 {
@@ -30,6 +31,7 @@ enum e_parser_state
 struct s_parser
 {
 	t_list			*cmds;
+	t_cmd			*curr_cmd;
 	t_parser_state	state;
 	void			(*destructor)(t_parser *);
 };
@@ -41,6 +43,13 @@ struct s_cmd
 	t_list	*out;
 	int		piped;
 	void	(*destructor)(t_cmd *);
+};
+
+struct s_parser_token_handlers
+{
+	t_token_type	token_type;
+	void			(*handler)(t_parser *, t_cmd *);
+	t_token_type	new_token_type;
 };
 
 t_cmd	*cmd_constructor(void);

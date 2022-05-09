@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 16:27:11 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:47:34 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ static void	parser_destructor(t_parser *self)
 		((t_cmd *)self->cmds->content)->destructor(self->cmds->content);
 		self->cmds = tmp;
 	}
+	if (self->curr_cmd)
+		self->curr_cmd->destructor(self->curr_cmd);
 	*self = (t_parser)
 	{
 		.cmds = NULL,
+		.curr_cmd = NULL,
 		.state = 0,
 		.destructor = NULL
 	};
@@ -70,6 +73,7 @@ static t_parser	*parser_constructor(void)
 	*self = (t_parser)
 	{
 		.cmds = NULL,
+		.curr_cmd = NULL,
 		.state = P_S_WORKING,
 		.destructor = parser_destructor
 	};
