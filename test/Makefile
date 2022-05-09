@@ -1,22 +1,12 @@
-USER = $(shell whoami)
-
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -g3 -fsanitize=address
 CPPFLAGS = -I../include -I../libft -I/goinfre/$(USER)/.brew/include
 LDFLAGS = -L../libft -L/goinfre/$(USER)/.brew/lib -lft -lcmocka
 
-tokenizer.test: tokenizer.test.o tokenizer.o strings.o tokenizer_utils.o
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@ 
-	./$@
+OBJS = $(filter-out %main.o,$(shell find ../debug -name '*.o'))
 
-tokenizer.o: ../src/tokenizer.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
+minishell:
+	MAKE_DEBUG=1 $(MAKE) -C ../ re
 
-tokenizer_utils.o: ../src/tokenizer_utils.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
-
-strings.o: ../src/strings.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
-
-%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o ./$@
+tokenizer.test: tokenizer.test.o minishell
+	$(CC) $(CFLAGS) $(call OBJS) tokenizer.test.o $(LDFLAGS) -o $@ 
