@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/fcntl.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <termios.h>
 #include <errno.h>
@@ -70,44 +71,40 @@ int	main(int argc, char **argv, char **env)
 			else */
 			if (str[0] != 0)
 			{
-				fd = ft_init_fd_minishell();
+			
 				if (ft_strcmp(str, "pipe") == 0) //sort le resultat de la derniere sur stdout mais pas pipe
 				{
 					char	**buffer;
 					buffer = malloc(sizeof(char *) * 4);
-					buffer[0] = "echo blibli";	
-					buffer[1] = "echo blou";
-					buffer[2] = "wc -l";
+					buffer[0] = "cat f1";	
+					buffer[1] = "grep blou";
+					buffer[2] = "wc";
 					buffer[3] = 0;
 					int	i = 0;
 					int fd_tab[2];
-					pid_t process;
-					int fdd = 0;
-					
+					pid_t process;				
+													
 					
 					while(buffer[i] != 0 )
 					{	
-																	
-						process = fork();
-						pipe(fd_tab);						
+									
+						pipe(fd_tab);							
+						process = fork();											
 						if (process == 0)
-						{
-							printf("IN PIPE %d\n", i);
-							dup2(fdd, STDIN_FILENO);
-							if(buffer[i + 1] != NULL)
-								dup2(fd_tab[1], STDOUT_FILENO);							
+						{				
 							close(fd_tab[0]);
-							ft_execute_sys_cmd(ft_better_split(buffer[i], ' '), env);	
-															
-							//exit(1);
+							if(buffer[i + 1] != NULL)									
+								dup2(fd_tab[1], STDOUT_FILENO);															
+							shell = ft_launch_cmd(buffer[i], shell, env);							
+							exit(0);
 						}
 						else
 						{
-							waitpid(process, NULL, 0);									
-							fdd = dup(fd_tab[0]);
-							close(fd_tab[1]);
-							i ++;									
-						}							
+							waitpid(process, NULL, 0);	
+							close(fd_tab[1]);						
+							dup2 (fd_tab[0], STDIN_FILENO);													
+							i ++;								
+						}													
 					}					
 				}
 				else // une seule commande
