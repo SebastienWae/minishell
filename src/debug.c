@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:46:15 by seb               #+#    #+#             */
-/*   Updated: 2022/05/10 17:10:30 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 20:12:12 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	print_redir(t_redir *redir)
 {
 	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 
-	printf("	    - type: %s", redir_types[redir->type]);
-	printf("	    - target: %s", redir->target);
+	printf("	    - type: %s\n", redir_types[redir->type]);
+	printf("	    - target: %s\n", redir->target);
 }
 
 void	print_cmd(t_cmd *cmd)
@@ -32,19 +32,20 @@ void	print_cmd(t_cmd *cmd)
 	in = cmd->in;
 	out = cmd->out;
 	printf("    - cmd: %s\n", cmd->cmd);
-	printf("    - pipe: %d\n", cmd->piped);
+	printf("    - piped: %d\n", cmd->piped);
 	printf("    - redir in:\n");
 	n = 1;
 	while (in)
 	{
-		printf("	  - redir in #%d\n", n);
+		printf("	  - redir in #%d\n", n++);
 		print_redir(in->content);
 		in = in->next;
 	}
 	printf("    - redir out:\n");
+	n = 1;
 	while (out)
 	{
-		printf("	  - redir out #%d\n", n);
+		printf("	  - redir out #%d\n", n++);
 		print_redir(out->content);
 		out = out->next;
 	}

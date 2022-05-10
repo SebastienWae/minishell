@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 17:26:26 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 20:06:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	parser_destructor(t_parser *self)
 	{
 		tmp = self->cmds->next;
 		((t_cmd *)self->cmds->content)->destructor(self->cmds->content);
+		free(self->cmds);
 		self->cmds = tmp;
 	}
 	if (self->curr_cmd)

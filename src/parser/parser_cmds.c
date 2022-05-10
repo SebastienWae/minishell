@@ -6,11 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 17:22:06 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 20:03:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
+#include <tokenizer.h>
 #include <libft.h>
 #include <minishell.h>
 #include <parser.h>

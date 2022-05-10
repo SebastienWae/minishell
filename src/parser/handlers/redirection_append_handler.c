@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:14:56 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 16:46:23 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 20:07:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	parser_redirection_append_handler(t_parser *p, t_token *t)
 	};
 
 	if (p->curr_cmd)
-		handlers[p->last_token_type].handler(p, t);
+		handlers[p->last_token_type - 1].handler(p, t);
 	else
 		parser_new_cmd(p, t);
 }

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 17:17:08 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 20:17:24 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,16 @@ void	parser_set_redir(t_parser *p, t_token *t)
 	tmp = ft_lstnew(redir);
 	if (!tmp)
 		return ; //TODO: handle error
-	if (t->type == T_TT_REDIRECTION_IN || t->type == T_TT_HEREDOC)
+	if (p->last_token_type == T_TT_REDIRECTION_IN
+		|| p->last_token_type == T_TT_HEREDOC)
 	{
 		if (p->curr_cmd->in)
 			ft_lstadd_back(&(p->curr_cmd->in), tmp);
 		else
 			p->curr_cmd->in = tmp;
 	}
-	else if (t->type == T_TT_REDIRECTION_OUT
-		|| t->type == T_TT_REDIRECTION_APPEND)
+	else if (p->last_token_type == T_TT_REDIRECTION_OUT
+		|| p->last_token_type == T_TT_REDIRECTION_APPEND)
 	{
 		if (p->curr_cmd->out)
 			ft_lstadd_back(&(p->curr_cmd->out), tmp);

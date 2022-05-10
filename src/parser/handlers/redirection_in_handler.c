@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:11:12 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 16:46:23 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 20:15:33 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	parser_redirection_in_handler(t_parser *p, t_token *t)
 {
 	static t_parser_token_handlers	handlers[] = {
 	{T_TT_WORD, parser_new_redir},
-	{T_TT_PIPE, parser_syntax_error},
+	{T_TT_PIPE, parser_new_redir},
 	{T_TT_HEREDOC, parser_syntax_error},
 	{T_TT_REDIRECTION_IN, parser_syntax_error},
 	{T_TT_REDIRECTION_OUT, parser_syntax_error},
@@ -25,7 +25,7 @@ void	parser_redirection_in_handler(t_parser *p, t_token *t)
 	};
 
 	if (p->curr_cmd)
-		handlers[p->last_token_type].handler(p, t);
+		handlers[p->last_token_type - 1].handler(p, t);
 	else
 		parser_new_cmd(p, t);
 }
