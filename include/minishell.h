@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 15:07:06 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/10 15:28:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ struct	s_elem_env
 /* Checks if the character is considered to be a whitespace.
 Returns 1 if true, 0 if false. */
 int			is_whitespace(char c);
+
+/* Join two strings with a separator */
+char		*ft_strjoin_sep(const char *s1, const char *s2, const char *sep);
 
 /* Split and classify the given string.*/
 t_tokenizer	*tokenize(char *line);

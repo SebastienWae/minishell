@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_append_handler.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:14:56 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 18:15:40 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/10 16:37:37 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	parser_redirection_append_handler(t_parser *p, t_token *t)
 {
 	static t_parser_token_handlers	handlers[] = {
-	{T_TT_WORD, parser_redirection_append_handler},
+	{T_TT_WORD, parser_new_redir},
 	{T_TT_PIPE, parser_error},
 	{T_TT_HEREDOC, parser_error},
 	{T_TT_REDIRECTION_IN, parser_error},

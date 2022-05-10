@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_out_handler.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:13:47 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 18:14:32 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/10 16:38:39 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	parser_redirection_out_handler(t_parser *p, t_token *t)
 {
 	static t_parser_token_handlers	handlers[] = {
-	{T_TT_WORD, parser_new_redir_out},
+	{T_TT_WORD, parser_new_redir},
 	{T_TT_PIPE, parser_error},
 	{T_TT_HEREDOC, parser_error},
 	{T_TT_REDIRECTION_IN, parser_error},

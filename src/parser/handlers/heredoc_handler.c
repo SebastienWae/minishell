@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:07:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 18:09:55 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/10 16:38:25 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void	parser_heredoc_handler(t_parser *p, t_token *t)
 {
 	static t_parser_token_handlers	handlers[] = {
-	{T_TT_WORD, parser_new_heredoc},
-	{T_TT_PIPE, parser_new_heredoc},
+	{T_TT_WORD, parser_new_redir},
+	{T_TT_PIPE, parser_new_redir},
 	{T_TT_HEREDOC, parser_error},
 	{T_TT_REDIRECTION_IN, parser_error},
 	{T_TT_REDIRECTION_OUT, parser_error},
