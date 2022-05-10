@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/09 18:26:21 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:26:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@
 static void	cmd_destructor(t_cmd *self)
 {
 	free(self->cmd);
+	ft_lstclear(&(self->in), free);
+	ft_lstclear(&(self->out), free);
 	*self = (t_cmd)
 	{
 		.cmd = NULL,
+		.in = NULL,
+		.out = NULL,
+		.piped = 0,
 		.destructor = NULL
 	};
 	free(self);
@@ -36,6 +41,9 @@ t_cmd	*cmd_constructor(void)
 	*self = (t_cmd)
 	{
 		.cmd = NULL,
+		.in = NULL,
+		.out = NULL,
+		.piped = 0,
 		.destructor = cmd_destructor
 	};
 	return (self);
@@ -57,6 +65,7 @@ static void	parser_destructor(t_parser *self)
 	{
 		.cmds = NULL,
 		.curr_cmd = NULL,
+		.last_token_type = 0,
 		.state = 0,
 		.destructor = NULL
 	};
@@ -74,6 +83,7 @@ static t_parser	*parser_constructor(void)
 	{
 		.cmds = NULL,
 		.curr_cmd = NULL,
+		.last_token_type = 0,
 		.state = P_S_WORKING,
 		.destructor = parser_destructor
 	};
@@ -87,9 +97,14 @@ t_parser	*parse(t_tokenizer *tokenizer)
 
 	parser = parser_constructor();
 	tokens = tokenizer->tokens;
-	while (tokens && parser->state == P_S_WORKING)
+	while (parser->state == P_S_WORKING)
 	{
-		if (((t_token *)tokens->content)->type == T_TT_WORD)
+		if (!tokens)
+		{
+			parser_end_cmd(parser);
+			break ;
+		}
+		else if (((t_token *)tokens->content)->type == T_TT_WORD)
 			parser_word_handler(parser, tokens->content);
 		else if (((t_token *)tokens->content)->type == T_TT_PIPE)
 			parser_pipe_handler(parser, tokens->content);
@@ -102,7 +117,7 @@ t_parser	*parse(t_tokenizer *tokenizer)
 		else if (((t_token *)tokens->content)->type == T_TT_REDIRECTION_APPEND)
 			parser_redirection_append_handler(parser, tokens->content);
 		else
-			parser_error(parser, tokens->content);
+			parser_syntax_error(parser, tokens->content);
 		tokens = tokens->next;
 	}
 	return (parser);

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 10:06:36 by seb               #+#    #+#             */
-/*   Updated: 2022/05/10 15:27:21 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 17:20:55 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strjoin_sep(const char *s1, const char *s2, const char *sep)
 	tmp = ft_strjoin(s1, sep);
 	if (!tmp)
 		return (NULL);
-	str = ft_strjoin(str, s2);
+	str = ft_strjoin(tmp, s2);
 	free(tmp);
 	return (str);
 }

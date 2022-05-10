@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:14:56 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 16:37:37 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 16:46:23 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	parser_redirection_append_handler(t_parser *p, t_token *t)
 {
 	static t_parser_token_handlers	handlers[] = {
 	{T_TT_WORD, parser_new_redir},
-	{T_TT_PIPE, parser_error},
-	{T_TT_HEREDOC, parser_error},
-	{T_TT_REDIRECTION_IN, parser_error},
-	{T_TT_REDIRECTION_OUT, parser_error},
-	{T_TT_REDIRECTION_APPEND, parser_error}
+	{T_TT_PIPE, parser_syntax_error},
+	{T_TT_HEREDOC, parser_syntax_error},
+	{T_TT_REDIRECTION_IN, parser_syntax_error},
+	{T_TT_REDIRECTION_OUT, parser_syntax_error},
+	{T_TT_REDIRECTION_APPEND, parser_syntax_error}
 	};
 
 	if (p->curr_cmd)

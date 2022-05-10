@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 16:37:30 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 17:04:45 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ enum e_parser_state
 
 enum e_redir_type
 {
-	P_RT_IN,
+	P_RT_IN = 1,
 	P_RT_OUT,
 	P_RT_HEREDOC,
 	P_RT_APPEND
@@ -82,7 +82,7 @@ void	parser_new_cmd(t_parser *p, t_token *t);
 void	parser_pipe_cmd(t_parser *p, t_token *t);
 void	parser_new_redir(t_parser *p, t_token *t);
 void	parser_set_redir(t_parser *p, t_token *t);
-void	parser_error(t_parser *p, t_token *t);
+void	parser_syntax_error(t_parser *p, t_token *t);
 
 void	parser_end_cmd(t_parser	*p);
 

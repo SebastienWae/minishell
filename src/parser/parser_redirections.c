@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 16:40:52 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 17:17:08 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	parser_new_redir(t_parser *p, t_token *t)
 	p->last_token_type = t->type;
 }
 
-void	parser_redir_set(t_parser *p, t_token *t)
+void	parser_set_redir(t_parser *p, t_token *t)
 {
 	t_redir	*redir;
 	t_list	*tmp;

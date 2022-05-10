@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/10 15:40:05 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/10 17:22:06 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	parser_new_cmd(t_parser *p, t_token *t)
 
 	parser_end_cmd(p);
 	cmd = cmd_constructor();
-	cmd->cmd = t->str;
+	cmd->cmd = ft_strdup(t->str);
 	p->curr_cmd = cmd;
 	p->last_token_type = t->type;
 }
