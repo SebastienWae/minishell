@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_handler.h                                      :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 15:58:52 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:58:53 by jeulliot         ###   ########.fr       */
+/*   Created: 2022/05/11 14:06:48 by swaegene          #+#    #+#             */
+/*   Updated: 2022/05/11 15:45:01 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_HANDLER_H
-# define SIG_HANDLER_H
+#include <minishell.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
-# include <libft.h>
+void	ft_pwd(void)
+{
+	char	*current_dir;
 
-int		ft_ctrl_d_handler(char *str);
-void	ft_sig(void);
-void	ft_sig_handler(int sig);
-
-#endif
+	current_dir = getcwd(NULL, 0);
+	printf("%s\n", current_dir);
+	free (current_dir);
+	g_out = 0;
+}

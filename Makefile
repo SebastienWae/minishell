@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/09 13:15:25 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/11 15:55:34 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,22 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
 LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
-SRCS = main.c strings.c debug.c \
+SRCS = main.c debug.c \
+	utils/ft_better_split.c \
+	utils/get_next_line.c \
+	utils/get_next_line_utils.c \
+	utils/strings.c \
+	sys/calls.c \
+	sys/cmds.c \
+	sys/exec.c \
+	sys/fd.c \
+	sys/signals.c \
+	functions/cd.c \
+	functions/echo.c \
+	functions/env.c \
+	functions/env_utils.c \
+	functions/exit.c \
+	functions/pwd.c \
 	tokenizer/tokenizer.c \
 	tokenizer/tokenizer_actions.c \
 	tokenizer/handlers/char_handler.c \

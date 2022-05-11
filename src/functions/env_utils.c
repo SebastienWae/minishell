@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_functions_utils2.c                        :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:32:24 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/02 14:32:26 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:41:23 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-#include <built_in_functions.h>
 #include <stdio.h>
+#include <libft.h>
+#include <unistd.h>
 
 int	ft_len_name_elem(char *elem)
 {
@@ -25,7 +25,6 @@ int	ft_len_name_elem(char *elem)
 		n ++;
 	return (n);
 }
-
 
 char	*ft_get_env_var_value(t_list *local_env, char *elem)
 {
@@ -82,14 +81,15 @@ int	ft_is_already_in_env(t_list *local_env, char *elem)
 
 t_list	*ft_check_next(char **cmd, t_list *local_env, int nb_cmd)
 {
-	char 	*c;
+	char	*c;
 	int		i;
 
 	i = 1;
 	while (i < nb_cmd && local_env->next && local_env)
 	{	
 		c = (char *)local_env->next->content;
-		if (cmd[i] && ft_strncmp(cmd[i], c, ft_strlen(cmd[i])) == 0 && c[ft_strlen(cmd[i])] == '=')
+		if (cmd[i] && ft_strncmp(cmd[i], c, ft_strlen(cmd[i])) == 0
+			&& c[ft_strlen(cmd[i])] == '=')
 		{
 			local_env->next->content = 0;
 			free(local_env->next->content);

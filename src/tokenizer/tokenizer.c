@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/07 22:06:35 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/11 16:00:00 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <minishell.h>
 #include <tokenizer.h>
 #include <stdlib.h>
+#include <utils.h>
 
 static void	token_destructor(t_token *self)
 {

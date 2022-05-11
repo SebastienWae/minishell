@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_better_split.c                                         :+:      :+:    :+:   */
+/*   ft_better_split.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 11:19:48 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/04/13 15:54:24 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:50:42 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//ce split ignore les espaces quand ils sont entre des quotes simples
-//a remplacer par rslt parser
-#include "minishell.h"
+#include <minishell.h>
+#include <utils.h>
 
 typedef struct s_split_params
 {
@@ -46,25 +45,6 @@ static size_t	ft_nb_slot(char *str, char c)
 		str ++;
 	}
 	return (nb_str);
-}
-
-char	*ft_strncpy(char *src, size_t index, size_t end)
-{
-	size_t	i;
-	char	*dest;
-
-	dest = malloc(sizeof(char) * (end - index + 1));
-	if (dest == NULL)
-		return (NULL);
-	i = 0;
-	while (index < end)
-	{
-		dest[i] = src[index];
-		i++;
-		index ++;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
 t_split_params	ft_init_params(void)

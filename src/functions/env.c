@@ -1,21 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_functions.c                                :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/04/28 14:44:32 by jeulliot         ###   ########.fr       */
+/*   Created: 2022/05/11 14:12:18 by swaegene          #+#    #+#             */
+/*   Updated: 2022/05/11 15:47:08 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <built_in_functions.h>
+#include <libft.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <utils.h>
+#include <functions.h>
 
-char	*ft_strncpy(char *src, size_t index, size_t end);
-//ok
+static int	ft_print_env(t_list *local_env, int choice)
+{
+	while (local_env)
+	{
+		if (choice != 1)
+			printf("declare -x ");
+		printf("%s\n", (char *)local_env->content);
+		local_env = local_env->next;
+	}
+	return (0);
+}
+
+static int	ft_check_char_export(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (!(str[0] == '_' || ft_isalpha(str[0])))
+		return (0);
+	while (str[i] != '\0' && str[i] != '=')
+	{
+		if (!(ft_isalnum(str[i]) || str[i] == '_'))
+			return (0);
+		i ++;
+	}
+	return (1);
+}
+
 t_list	*ft_export(char **cmd, t_list *local_env)
 {	
 	char	*elem;
@@ -26,9 +55,10 @@ t_list	*ft_export(char **cmd, t_list *local_env)
 	if (cmd[1] == 0)
 		ft_print_env(local_env, 2);
 	else
+	{
 		while (cmd[++i])
 		{
-			if (ft_check_char_export(cmd[i]) && ft_equal_is_in(cmd[i]))
+			if (ft_check_char_export(cmd[i]) && ft_strrchr(cmd[i], '='))
 			{
 				elem = ft_strncpy(cmd[i], 0, ft_strlen(cmd[i]));
 				if (ft_is_already_in_env(local_env, elem) == 0)
@@ -40,16 +70,16 @@ t_list	*ft_export(char **cmd, t_list *local_env)
 				g_out = 1;
 			}
 		}
+	}
 	return (local_env);
 }
 
-// a laver
 t_list	*ft_unset(char **cmd, t_list *local_env)
 {
 	t_list	*tmp;
 	int		i;
 	int		nb_cmd;
-	char 	*c;
+	char	*c;
 
 	g_out = 0;
 	nb_cmd = 0;
@@ -71,7 +101,8 @@ t_list	*ft_unset(char **cmd, t_list *local_env)
 				i ++;
 			}
 			c = (char *)local_env->content;
-			if (cmd[i] && ft_strncmp(cmd[i], c, ft_strlen(cmd[i])) == 0 && c[ft_strlen(cmd[i])] == '=')
+			if (cmd[i] && ft_strncmp(cmd[i], c, ft_strlen(cmd[i])) == 0
+				&& c[ft_strlen(cmd[i])] == '=')
 			{
 				local_env->content = 0;
 				free(local_env->content);
@@ -82,13 +113,12 @@ t_list	*ft_unset(char **cmd, t_list *local_env)
 			}
 			i ++;
 		}
-		local_env = ft_check_next (cmd, local_env, nb_cmd);
+		local_env = ft_check_next(cmd, local_env, nb_cmd);
 		local_env = local_env->next;
 	}
 	return (tmp);
 }
 
-// ne doit pas prendre d'argument cf sujet => sortie erreur a 1
 void	ft_env(char **cmd, t_list *local_env)
 {
 	if (cmd[1] != 0)
@@ -99,38 +129,4 @@ void	ft_env(char **cmd, t_list *local_env)
 	}
 	ft_print_env(local_env, 1);
 	g_out = 0;
-}
-
-//ok
-int	ft_exit(char **str, t_minishell shell)
-{
-	int	i;
-
-	i = 0;
-	if (str[1] == 0)
-	{
-		printf("exit\n");
-		ft_lstclear(&shell.local_env, free);
-		free(str);	
-		exit (0);
-	}
-	while (str[1][i] != 0)
-	{
-		if (!ft_isdigit(str[1][i]))
-		{
-			printf("exit: %s: numeric argument required\n", str[1]);
-			ft_lstclear(&shell.local_env, free);
-			free(str);		
-			exit(255);
-		}
-		i ++;
-	}		
-	if (str[2] != 0)
-	{
-		printf("exit\nexit: too many arguments\n");
-		return (0);
-	}
-	free(str);
-	ft_lstclear(&shell.local_env, free);
-	exit (ft_atoi(str[1]));
 }

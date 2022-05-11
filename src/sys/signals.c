@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 15:07:03 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:07:05 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:38:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-#include <sig_handler.h>
-#include <signal.h>
+#include <libft.h>
 #include <stdio.h>
 #include <readline/readline.h>
-#include <readline/history.h>
 
 /* Redirection of Ctrl C => newline and Ctrl \ => does nothing */
 void	ft_sig_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
+		ft_putchar_fd('\n', 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -37,12 +34,8 @@ void	ft_sig_handler(int sig)
 /* Checks signal error at launch */
 void	ft_sig(void)
 {
-	if (signal(SIGINT, &ft_sig_handler) == SIG_ERR)
-	{
-		write(2, "Cannot catch signal. Abort\n", 27);
-		exit(1);
-	}
-	if (signal(SIGQUIT, &ft_sig_handler) == SIG_ERR)
+	if (signal(SIGINT, &ft_sig_handler) == SIG_ERR
+		|| signal(SIGQUIT, &ft_sig_handler) == SIG_ERR)
 	{
 		write(2, "Cannot catch signal. Abort\n", 27);
 		exit(1);

@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   launch_command.c                                   :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 11:36:18 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:55:26 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <sys_call.h>
-#include <built_in_functions.h>
+#include <functions.h>
+#include <sys.h>
+#include <utils.h>
+
+char	**ft_better_split(char *s, char c);
 
 void	ft_next_process(pid_t process, int fd_tab[2])
 {
-	waitpid(process, NULL, 0);	
-	close(fd_tab[1]);						
-	dup2 (fd_tab[0], STDIN_FILENO);		
+	waitpid(process, NULL, 0);
+	close(fd_tab[1]);
+	dup2 (fd_tab[0], STDIN_FILENO);
 }
 
 t_minishell	ft_launch_cmd(char *str, t_minishell shell, char **env)
@@ -39,17 +42,16 @@ t_minishell	ft_launch_cmd(char *str, t_minishell shell, char **env)
 t_minishell	ft_pipe(t_minishell shell, char **env)
 {
 	char	**buffer;
+	int		i;
+	int		fd_tab[2];
+	pid_t	process;
 
 	buffer = malloc(sizeof(char *) * 5);
-	buffer[0] = "cat f1";	
+	buffer[0] = "cat f1";
 	buffer[1] = "grep blou";
 	buffer[2] = "tr 'o' 'n'";
 	buffer[3] = "tr 'n' '@'";
 	buffer[4] = 0;
-	int	i;
-	int fd_tab[2];
-	pid_t process;
-
 	i = -1;
 	while (buffer[++i] != 0)
 	{										
@@ -58,7 +60,7 @@ t_minishell	ft_pipe(t_minishell shell, char **env)
 			write (2, "Pipe creation failed\n", 21);
 			return (shell);
 		}				
-		process = fork();	
+		process = fork();
 		if (process == -1)
 		{
 			write (2, "Process creation failed\n", 24);
@@ -67,13 +69,13 @@ t_minishell	ft_pipe(t_minishell shell, char **env)
 		if (process == 0)
 		{				
 			close(fd_tab[0]);
-			if(buffer[i + 1] != NULL)									
-				dup2(fd_tab[1], STDOUT_FILENO);															
-			shell = ft_launch_cmd(buffer[i], shell, env);							
+			if (buffer[i + 1])
+				dup2(fd_tab[1], STDOUT_FILENO);
+			shell = ft_launch_cmd(buffer[i], shell, env);
 			exit(0);
 		}
 		else
-			ft_next_process(process, fd_tab);							
+			ft_next_process(process, fd_tab);
 	}	
 	return (shell);
-}				
+}

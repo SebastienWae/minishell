@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 13:41:32 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/03/03 13:41:35 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:00:40 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <get_next_line.h>
+#include <utils.h>
+#include <stdlib.h>
+#include <libft.h>
 
 char	*ft_strcat(char *dest, char *s1, char *s2)
 {
