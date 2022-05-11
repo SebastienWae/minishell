@@ -10,3 +10,6 @@ minishell:
 
 tokenizer.test: tokenizer.test.o minishell
 	$(CC) $(CFLAGS) $(call OBJS) tokenizer.test.o $(LDFLAGS) -o $@ 
+
+parser.test: parser.test.o minishell
+	$(CC) $(CFLAGS) $(call OBJS) parser.test.o $(LDFLAGS) -o $@ 
