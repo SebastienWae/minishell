@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 10:02:35 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/11 10:13:03 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	parser_add_to_cmd(t_parser *p)
 	else
 		p->curr_cmd->cmd = ft_strdup(((t_token *)p->tokens->content)->str);
 	if (!(p->curr_cmd->cmd))
-		return ; // TODO: handle erro
+	{
+		p->state = P_S_ERROR;
+		return ;
+	}
 	p->last_token_type = ((t_token *)p->tokens->content)->type;
 }
 
@@ -53,7 +56,10 @@ void	parser_end_cmd(t_parser	*p)
 	{
 		tmp = ft_lstnew(p->curr_cmd);
 		if (!tmp)
-			return ; // TODO: handle error
+		{
+			p->state = P_S_ERROR;
+			return ;
+		}
 		ft_lstadd_back(&(p->cmds), tmp);
 	}
 	p->curr_cmd = NULL;
