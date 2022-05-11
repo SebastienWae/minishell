@@ -15,6 +15,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <sys/errno.h>
+#include <minishell.h>
 
 //TODO: remove
 char	**ft_better_split(char *s, char c);
@@ -73,12 +74,16 @@ int	*ft_execute_sys_cmd(char **cmd, char **env)
 int	ft_sys_cmd_process(char **parsed_str, char *str, char **env)
 {
 	pid_t	process;
+	int		status;
 
-	(void) str;
-	process = fork ();
+	(void)str;
+	process = fork();
 	if (process == 0)
 		ft_execute_sys_cmd(parsed_str, env);
 	else
-		waitpid(process, NULL, 0);
-	return (0);
+	{
+		waitpid(process, &status, 0);
+		g_out = WEXITSTATUS(status);
+	}
+	return (g_out);
 }

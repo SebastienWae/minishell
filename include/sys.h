@@ -33,7 +33,7 @@ void		ft_sig_handler(int sig);
 void		ft_sig(void);
 int			ft_ctrl_d_handler(char *str);
 
-void		ft_next_process(pid_t process, int fd_tab[2]);
+int			ft_next_process(pid_t process, int fd_tab[2]);
 t_minishell	ft_launch_cmd(char *str, t_minishell shell, char **env);
 t_minishell	ft_pipe(t_minishell shell, char **env);
 

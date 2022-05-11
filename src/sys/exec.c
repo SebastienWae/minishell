@@ -17,11 +17,15 @@
 
 char	**ft_better_split(char *s, char c);
 
-void	ft_next_process(pid_t process, int fd_tab[2])
+int	ft_next_process(pid_t process, int fd_tab[2])
 {
-	waitpid(process, NULL, 0);
+	int status;
+
+	waitpid(process, &status, 0);
 	close(fd_tab[1]);
 	dup2 (fd_tab[0], STDIN_FILENO);
+	g_out = WEXITSTATUS(status);
+	return (g_out);
 }
 
 t_minishell	ft_launch_cmd(char *str, t_minishell shell, char **env)
@@ -72,10 +76,10 @@ t_minishell	ft_pipe(t_minishell shell, char **env)
 			if (buffer[i + 1])
 				dup2(fd_tab[1], STDOUT_FILENO);
 			shell = ft_launch_cmd(buffer[i], shell, env);
-			exit(0);
+			exit(g_out);
 		}
 		else
-			ft_next_process(process, fd_tab);
+			g_out = ft_next_process(process, fd_tab);
 	}	
 	return (shell);
 }
