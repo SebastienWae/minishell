@@ -2,6 +2,7 @@
 *.a
 *.d
 *.dSYM
+.DS_Store
 .vscode/*.log
 .codechecker
 .cache
