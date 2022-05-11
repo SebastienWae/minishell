@@ -6,11 +6,10 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 08:08:38 by seb               #+#    #+#             */
-/*   Updated: 2022/05/11 09:14:30 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/11 09:54:41 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
 #include <libft.h>
 #include <stdarg.h>
 #include <stddef.h>
@@ -19,6 +18,8 @@
 #include <limits.h>
 
 #include <minishell.h>
+#include <parser.h>
+#include <tokenizer.h>
 
 static void	parser_empty(void **state)
 {

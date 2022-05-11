@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 08:37:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/11 09:59:33 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,10 @@ static t_redir	*redir_constructor(t_token_type type, char *target)
 	return (redir);
 }
 
-void	parser_new_redir(t_parser *p, t_token *t)
+static void	parser_add_redir(t_parser *p, t_redir *redir)
 {
-	p->last_token_type = t->type;
-}
-
-void	parser_set_redir(t_parser *p, t_token *t)
-{
-	t_redir	*redir;
 	t_list	*tmp;
 
-	redir = redir_constructor(p->last_token_type, t->str);
-	if (!redir)
-		return ; //TODO: handle error
 	tmp = ft_lstnew(redir);
 	if (!tmp)
 		return ; //TODO: handle error
@@ -66,5 +57,21 @@ void	parser_set_redir(t_parser *p, t_token *t)
 		else
 			p->curr_cmd->out = tmp;
 	}
-	p->last_token_type = t->type;
+}
+
+void	parser_new_redir(t_parser *p)
+{
+	p->last_token_type = ((t_token *)p->tokens->content)->type;
+}
+
+void	parser_set_redir(t_parser *p)
+{
+	t_redir	*redir;
+
+	redir = redir_constructor(p->last_token_type,
+			((t_token *)p->tokens->content)->str);
+	if (!redir)
+		return ; //TODO: handle error
+	parser_add_redir(p, redir);
+	p->last_token_type = ((t_token *)p->tokens->content)->type;
 }

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 09:01:23 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/11 10:02:35 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,34 @@
 #include <minishell.h>
 #include <parser.h>
 
-void	parser_add_to_cmd(t_parser *p, t_token *t)
+void	parser_add_to_cmd(t_parser *p)
 {
 	char	*tmp;
 
 	if (p->curr_cmd->cmd)
 	{
 		tmp = p->curr_cmd->cmd;
-		p->curr_cmd->cmd = ft_strjoin_sep(p->curr_cmd->cmd, t->str, " ");
+		p->curr_cmd->cmd = ft_strjoin_sep(p->curr_cmd->cmd,
+				((t_token *)p->tokens->content)->str, " ");
 		free(tmp);
 	}
 	else
-		p->curr_cmd->cmd = ft_strdup(t->str);
+		p->curr_cmd->cmd = ft_strdup(((t_token *)p->tokens->content)->str);
 	if (!(p->curr_cmd->cmd))
 		return ; // TODO: handle erro
-	p->last_token_type = t->type;
+	p->last_token_type = ((t_token *)p->tokens->content)->type;
 }
 
-void	parser_new_cmd(t_parser *p, t_token *t)
+void	parser_new_cmd(t_parser *p)
 {
 	t_cmd	*cmd;
 
 	parser_end_cmd(p);
 	cmd = cmd_constructor();
-	if (t->type == T_TT_WORD)
-		cmd->cmd = ft_strdup(t->str);
+	if (((t_token *)p->tokens->content)->type == T_TT_WORD)
+		cmd->cmd = ft_strdup(((t_token *)p->tokens->content)->str);
 	p->curr_cmd = cmd;
-	p->last_token_type = t->type;
+	p->last_token_type = ((t_token *)p->tokens->content)->type;
 }
 
 void	parser_end_cmd(t_parser	*p)

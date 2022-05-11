@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/09 13:46:55 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/11 09:54:48 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <limits.h>
 
 #include <minishell.h>
+#include <tokenizer.h>
 
 static void	tokenizer_empty(void **state)
 {
