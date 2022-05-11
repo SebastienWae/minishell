@@ -25,7 +25,6 @@ int		ft_is_builtin_cmd(char *str);
 t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env);
 
 /* Environment handling functions */
-
 int		ft_equal_is_in(char *str);
 int		ft_len_name_elem(char *elem);
 int		ft_is_already_in_env(t_list *local_env, char *elem);
@@ -38,7 +37,6 @@ t_list	*ft_check_next(char **cmd, t_list *local_env, int nb_cmd);
 t_list	*ft_export(char **cmd, t_list *local_env);
 
 /* Others built-in functions */
-
 int		ft_exit(char **str, t_minishell shell);
 void	ft_pwd(char **cmd);
 void	ft_echo(char **cmd);
