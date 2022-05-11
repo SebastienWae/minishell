@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_functions.c                                  :+:      :+:    :+:   */
+/*   close.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeulliot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <close_functions.h>
+#include <close.h>
 
 void ft_close_fd(t_minishell shell, int fd_in, int fd_out)
 {

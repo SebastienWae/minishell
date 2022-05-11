@@ -12,6 +12,7 @@
 
 #ifndef SIG_HANDLER_H
 # define SIG_HANDLER_H
+
 # include <libft.h>
 
 int		ft_ctrl_d_handler(char *str);

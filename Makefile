@@ -35,7 +35,7 @@ SRCS = src/main.c src/init.c \
 		src/functions/builtin_functions_1.c src/functions/builtin_functions_2.c \
 		src/functions/builtin_functions_utils.c \
 		src/functions/builtin_functions_utils2.c \
-		src/functions/pipe.c src/functions/sys_call.c \
+		src/functions/launch_command.c src/functions/sys_call.c \
 		src/gnl/get_next_line.c src/gnl/get_next_line_utils.c \
 		src/strings_utils/ft_better_split.c src/strings_utils/ft_strcmp.c \
 		src/closing_utils.c src/errors.c src/fd_manager.c src/signal_handler.c

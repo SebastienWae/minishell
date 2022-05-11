@@ -15,8 +15,8 @@
 #include <string.h>
 #include <signal.h>
 #include <sys/wait.h>
-#include <init_functions.h>
-# include <close_functions.h>
+#include <init.h>
+#include <close.h>
 
 char	*ft_search_path(char **env)
 {

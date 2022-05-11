@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <sig_handler.h>
-#include <init_functions.h>
+#include <init.h>
 
 struct termios	ft_init_config(void)
 {

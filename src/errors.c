@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#include <minishell.h>
+
+/* To fulfil */
 
 void	ft_check_arg_error(int argc)
 {

@@ -11,12 +11,9 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <init_functions.h>
+#include <init.h>
 #include <stdio.h>
-
-
-char    *get_next_line(int fd);
-t_minishell	ft_launch_cmd(char *str, t_minishell shell, char **env);
+#include <get_next_line.h>
 
 //pas mal
 void   ft_heredoc_in(char *cmd, t_minishell shell, char **env)
