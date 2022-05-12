@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:57:31 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 15:43:46 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:34:16 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 int		is_whitespace(char c);
 int		ft_strcmp(char *str1, char *str2);
 char	*ft_strncpy(char *src, size_t index, size_t end);
+char	*ft_strappend(const char *s1, const char c);
 
 char	*ft_copy_temp(char *str);
 char	*ft_fill_line(char *tmp);

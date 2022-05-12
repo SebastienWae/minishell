@@ -6,11 +6,11 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 12:33:22 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/07 13:07:40 by seb              ###   ########.fr        #
+#    Updated: 2022/05/16 17:40:25 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC := gcc
+CC := clang
 CFLAGS := -Wall -Wextra -Werror
 
 NAME := libft.a

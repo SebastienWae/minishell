@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 10:00:48 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/16 17:51:00 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
+# include <minishell.h>
 # include <tokenizer.h>
 # include <libft.h>
 
@@ -35,6 +36,7 @@ enum e_redir_type
 	P_RT_IN = 1,
 	P_RT_OUT,
 	P_RT_HEREDOC,
+	P_RT_HEREDOC_UNQUOTED,
 	P_RT_APPEND
 };
 
@@ -45,6 +47,7 @@ struct s_parser
 	t_token_type	last_token_type;
 	t_parser_state	state;
 	t_list			*tokens;
+	t_minishell		*shell;
 	void			(*destructor)(t_parser *);
 };
 
@@ -69,23 +72,26 @@ struct s_parser_token_handlers
 	void			(*handler)(t_parser *);
 };
 
-t_cmd	*cmd_constructor(void);
+t_cmd		*cmd_constructor(void);
 
-void	parser_word_handler(t_parser *p);
-void	parser_pipe_handler(t_parser *p);
-void	parser_heredoc_handler(t_parser *p);
-void	parser_redirection_in_handler(t_parser *p);
-void	parser_redirection_out_handler(t_parser *p);
-void	parser_redirection_append_handler(t_parser *p);
+void		parser_word_handler(t_parser *p);
+void		parser_pipe_handler(t_parser *p);
+void		parser_heredoc_handler(t_parser *p);
+void		parser_redirection_in_handler(t_parser *p);
+void		parser_redirection_out_handler(t_parser *p);
+void		parser_redirection_append_handler(t_parser *p);
 
-void	parser_add_to_cmd(t_parser *p);
-void	parser_new_cmd(t_parser *p);
-void	parser_end_cmd(t_parser	*p);
-void	parser_pipe_cmd(t_parser *p);
-void	parser_new_redir(t_parser *p);
-void	parser_set_redir(t_parser *p);
-void	parser_syntax_error(t_parser *p);
+void		parser_add_to_cmd(t_parser *p);
+void		parser_new_cmd(t_parser *p);
+void		parser_end_cmd(t_parser	*p);
+void		parser_pipe_cmd(t_parser *p);
+void		parser_new_redir(t_parser *p);
+void		parser_set_redir(t_parser *p);
+void		parser_syntax_error(t_parser *p);
 
-void	parser_end(t_parser *p);
+void		parser_end(t_parser *p);
+
+/* Parse a list of tokens into a list of cmds.*/
+t_parser	*parse(t_tokenizer *tokenizer, t_minishell *shell);
 
 #endif
