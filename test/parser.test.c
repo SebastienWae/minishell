@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 08:08:38 by seb               #+#    #+#             */
-/*   Updated: 2022/05/11 09:54:41 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/16 16:16:45 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,49 @@
 
 #include <minishell.h>
 #include <parser.h>
-#include <tokenizer.h>
+
+int	g_out;
+
+static t_minishell	*shell_builder(int n, ...)
+{
+	va_list		ap;
+	t_minishell	*shell;
+	t_list		*env;
+	char		*el;
+
+	va_start(ap, n);
+	env = NULL;
+	while (n)
+	{
+		el = va_arg(ap, char *);
+		if (env)
+			ft_lstadd_back(&env, ft_lstnew(el));
+		else
+			env = ft_lstnew(el);
+		n--;
+	}
+	shell = malloc(sizeof(t_minishell));
+	*shell = (t_minishell)
+	{
+		.local_env = env,
+		.config = {0},
+		.saved_stdin = 0,
+		.saved_stdout = 0
+	};
+	return (shell);
+}
 
 static void	parser_empty(void **state)
 {
 	t_tokenizer	*tokens;
 	t_parser	*parser;
+	t_minishell	*shell;
 	char		line[] = "";
 
+	shell = shell_builder(0, NULL);
 	(void)state;
 	tokens = tokenize(line);
-	parser = parse(tokens);
+	parser = parse(tokens, shell);
 	assert_null(parser->cmds);
 	tokens->destructor(tokens);
 	parser->destructor(parser);
@@ -39,11 +71,13 @@ static void	parser_whitespaces(void **state)
 {
 	t_tokenizer	*tokens;
 	t_parser	*parser;
+	t_minishell	*shell;
 	char		line[] = "    \t    \t ";
 
+	shell = shell_builder(0, NULL);
 	(void)state;
 	tokens = tokenize(line);
-	parser = parse(tokens);
+	parser = parse(tokens, shell);
 	assert_null(parser->cmds);
 	tokens->destructor(tokens);
 	parser->destructor(parser);
@@ -54,11 +88,13 @@ static void	parser_simple(void **state)
 	t_list		*cmd;
 	t_tokenizer	*tokens;
 	t_parser	*parser;
+	t_minishell	*shell;
 	char		line[] = "echo 123";
 
+	shell = shell_builder(0, NULL);
 	(void)state;
 	tokens = tokenize(line);
-	parser = parse(tokens);
+	parser = parse(tokens, shell);
 	cmd = parser->cmds;
 	assert_string_equal(((t_cmd *)(cmd->content))->cmd, "echo 123");
 	assert_null(((t_cmd *)(cmd->content))->in);
@@ -76,11 +112,13 @@ static void	parser_redir_in(void **state)
 	t_list		*in;
 	t_tokenizer	*tokens;
 	t_parser	*parser;
+	t_minishell	*shell;
 	char		line[] = "< in echo << HERE 123 <in";
 
+	shell = shell_builder(0, NULL);
 	(void)state;
 	tokens = tokenize(line);
-	parser = parse(tokens);
+	parser = parse(tokens, shell);
 	cmd = parser->cmds;
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
 	assert_null(((t_cmd *)(cmd->content))->out);
@@ -109,11 +147,13 @@ static void	parser_redir_out(void **state)
 	t_list		*out;
 	t_tokenizer	*tokens;
 	t_parser	*parser;
+	t_minishell	*shell;
 	char		line[] = "> out echo >>append 123 >out";
 
+	shell = shell_builder(0, NULL);
 	(void)state;
 	tokens = tokenize(line);
-	parser = parse(tokens);
+	parser = parse(tokens, shell);
 	cmd = parser->cmds;
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
 	assert_null(((t_cmd *)(cmd->content))->in);
@@ -143,11 +183,13 @@ static void	parser_redir_pipe(void **state)
 	t_list		*out;
 	t_tokenizer	*tokens;
 	t_parser	*parser;
+	t_minishell	*shell;
 	char		line[] = "echo 123 | cat < in > out";
 
+	shell = shell_builder(0, NULL);
 	(void)state;
 	tokens = tokenize(line);
-	parser = parse(tokens);
+	parser = parse(tokens, shell);
 	cmd = parser->cmds;
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 1);
 	assert_null(((t_cmd *)(cmd->content))->in);
@@ -181,6 +223,5 @@ int	main(void)
 		cmocka_unit_test(parser_redir_out),
 		cmocka_unit_test(parser_redir_pipe),
 	};
-
 	return (cmocka_run_group_tests(parser_tests, NULL, NULL));
 }
