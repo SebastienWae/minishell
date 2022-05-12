@@ -6,10 +6,11 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 16:13:53 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:45:39 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "tokenizer.h"
 #include <minishell.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -78,12 +79,19 @@ int	main(int argc, char **argv, char **env)
 	t_minishell		shell;
 	char			*str;
 	t_fd_in_out		fd;
+	t_parser		*parsed;
+	t_tokenizer		*token;
+	t_list 			*cmd;
 
 	(void)argv;
 	shell = init_all(argc, env); // init env, config, sig, save default stdin and out 
 	while (1)
-	{
+	{		
 		str = readline("Minishell>");
+		char *cpy = ft_strncpy(str, 0, ft_strlen(str)); //car modifie str sinon
+		token = tokenize(cpy);
+		parsed = parse(token);		
+		cmd = parsed->cmds;
 		if (ft_ctrl_d_handler(str))
 		{
 			add_history(str);
@@ -97,11 +105,12 @@ int	main(int argc, char **argv, char **env)
 					if (ft_strcmp(str, "pipe") == 0) // test provisoire pipe
 						ft_pipe(shell); // remplacer avec appel sur liste de cmd
 					else // une seule commande
-						ft_launch_cmd(str, shell);	// remplacer par commande
+						ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);	// remplacer par commande
 				}
 			ft_close_fd(shell, fd.in, fd.out); //restaure les stdin et out par defaut pour le rendre a readline
 		}
 		free(str);
+		free(cpy);
 	}
 	ft_close_saved_fd(shell);
 	ft_lstclear(&shell.local_env, free);

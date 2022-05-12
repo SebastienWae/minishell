@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 16:18:22 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:44:31 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ char	*ft_build_cmd(char **path, char *cmd)
 	char	*str;
 	char	*cmd_out;
 
-	if (path == NULL)
-		return (0);
 	if (cmd[0] == '/')
 		if (access(cmd, 0) == 0)
 			return (cmd);
+	if (path == NULL)
+		return (0);
 	while (*path)
 	{
 		str = ft_strjoin(*path, "/");
