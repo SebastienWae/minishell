@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 15:30:05 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:18:22 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 #include <sys/errno.h>
 #include <minishell.h>
 
-//TODO: remove
-char	**ft_better_split(char *s, char c);
-
-char	*ft_search_path(char **env)
+char	*ft_search_path(t_list *local_env)
 {
-	while (ft_strncmp("PATH", *env, 4))
-		env ++;
-	return (*env + 5);
+	char	*path;
+
+	path = NULL;
+	while (local_env && ft_strncmp("PATH=", (char *)local_env->content, 5))
+		local_env = local_env->next;
+	if (local_env == NULL)
+		return (NULL);
+	path = ft_substr((char *)local_env->content, 5,
+			ft_strlen((char *)local_env->content) - 5);
+	return (path);
 }
 
 char	*ft_build_cmd(char **path, char *cmd)
@@ -32,6 +36,8 @@ char	*ft_build_cmd(char **path, char *cmd)
 	char	*str;
 	char	*cmd_out;
 
+	if (path == NULL)
+		return (0);
 	if (cmd[0] == '/')
 		if (access(cmd, 0) == 0)
 			return (cmd);
@@ -48,18 +54,18 @@ char	*ft_build_cmd(char **path, char *cmd)
 	return (0);
 }
 
-int	*ft_execute_sys_cmd(char **cmd, char **env)
+int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 {
 	char	*main_cmd;
 
-	main_cmd = ft_build_cmd(ft_better_split(ft_search_path(env), ':'), cmd[0]);
+	main_cmd = ft_build_cmd(ft_split(ft_search_path(local_env), ':'), cmd[0]);
 	if (main_cmd == NULL)
 	{
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
 	}	
-	if (execve(main_cmd, cmd, env) == -1)
+	if (execve(main_cmd, cmd, 0) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 2);
 		free(main_cmd);
@@ -71,7 +77,7 @@ int	*ft_execute_sys_cmd(char **cmd, char **env)
 	return (0);
 }
 
-int	ft_sys_cmd_process(char **parsed_str, char *str, char **env)
+int	ft_sys_cmd_process(char **parsed_str, char *str, t_list *local_env)
 {
 	pid_t	process;
 	int		status;
@@ -79,7 +85,7 @@ int	ft_sys_cmd_process(char **parsed_str, char *str, char **env)
 	(void)str;
 	process = fork();
 	if (process == 0)
-		ft_execute_sys_cmd(parsed_str, env);
+		ft_execute_sys_cmd(parsed_str, local_env);
 	else
 	{
 		waitpid(process, &status, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 13:49:37 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:13:53 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <readline/history.h>
 #include <utils.h>
 #include <sys.h>
+
 int	g_out;
 
 static void	args_check_error(int argc)
@@ -94,9 +95,9 @@ int	main(int argc, char **argv, char **env)
 				if (str[0] != 0)
 				{			
 					if (ft_strcmp(str, "pipe") == 0) // test provisoire pipe
-						shell = ft_pipe(shell, env); // remplacer avec appel sur liste de cmd
+						ft_pipe(shell); // remplacer avec appel sur liste de cmd
 					else // une seule commande
-						shell = ft_launch_cmd(str, shell, env);	// remplacer par commande
+						ft_launch_cmd(str, shell);	// remplacer par commande
 				}
 			ft_close_fd(shell, fd.in, fd.out); //restaure les stdin et out par defaut pour le rendre a readline
 		}

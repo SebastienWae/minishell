@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:12:18 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 15:47:08 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:01:35 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	ft_print_env(t_list *local_env, int choice)
 	return (0);
 }
 
-static int	ft_check_char_export(char *str)
+static int	ft_check_export(char *str)
 {
 	int	i;
 
@@ -48,73 +48,56 @@ static int	ft_check_char_export(char *str)
 t_list	*ft_export(char **cmd, t_list *local_env)
 {	
 	char	*elem;
-	int		i;
 
-	i = 0;
 	g_out = 0;
 	if (cmd[1] == 0)
 		ft_print_env(local_env, 2);
 	else
 	{
-		while (cmd[++i])
+		while (*cmd)
 		{
-			if (ft_check_char_export(cmd[i]) && ft_strrchr(cmd[i], '='))
+			if (ft_check_export(*cmd) && ft_strrchr(*cmd, '='))
 			{
-				elem = ft_strncpy(cmd[i], 0, ft_strlen(cmd[i]));
+				elem = ft_strncpy(*cmd, 0, ft_strlen(*cmd));
 				if (ft_is_already_in_env(local_env, elem) == 0)
 					ft_lstadd_back(&local_env, ft_lstnew(elem));
 			}
-			else if (!ft_check_char_export(cmd[i]))
+			else if (!ft_check_export(*cmd))
 			{
-				printf("export: %s: not a valid identifier\n", cmd[i]);
+				ft_print_env_error("export: '", *cmd);
 				g_out = 1;
 			}
-		}
-	}
+			cmd ++;
+		}	
+	}	
 	return (local_env);
 }
 
 t_list	*ft_unset(char **cmd, t_list *local_env)
 {
-	t_list	*tmp;
 	int		i;
-	int		nb_cmd;
-	char	*c;
+	char	*value;
+	t_list	*tmp;
 
-	g_out = 0;
-	nb_cmd = 0;
-	while (cmd[nb_cmd])
-		nb_cmd ++;
+	i = 0;
 	tmp = local_env;
-	i = 1;
-	if (cmd[1] == 0)
-		return (local_env);
-	while (local_env)
+	while (cmd[++i])
 	{
-		while (i < nb_cmd && local_env)
-		{
-			if (cmd[i] && !ft_check_char_export(cmd[i]))
-			{		
-				printf("unset: %s: not a valid identifier\n", cmd[i]);
-				cmd[i] = NULL;
-				g_out = 1;
-				i ++;
-			}
-			c = (char *)local_env->content;
-			if (cmd[i] && ft_strncmp(cmd[i], c, ft_strlen(cmd[i])) == 0
-				&& c[ft_strlen(cmd[i])] == '=')
+		local_env = tmp;
+		if (cmd[i] && (ft_strrchr(cmd[i], '=') || !ft_check_export(cmd[i])))
+			ft_print_env_error("unset: '", cmd[i]);
+		else
+		{				
+			value = ft_get_env_var_value(local_env, cmd[i]);
+			if (value)
 			{
-				local_env->content = 0;
-				free(local_env->content);
-				if (ft_lstsize(local_env) == 1)
-					return (NULL);
-				local_env = local_env->next;
-				tmp = local_env;
+				if (!ft_strncmp(tmp->content, cmd[i], ft_strlen(cmd[i])))
+					tmp = ft_check_first_link(tmp, cmd[i], local_env);
+				else
+					ft_check_next_link(cmd[i], local_env);
+				free(value);
 			}
-			i ++;
 		}
-		local_env = ft_check_next(cmd, local_env, nb_cmd);
-		local_env = local_env->next;
 	}
 	return (tmp);
 }
@@ -123,7 +106,7 @@ void	ft_env(char **cmd, t_list *local_env)
 {
 	if (cmd[1] != 0)
 	{
-		printf("env: does not take arguments\n");
+		ft_putstr_fd("env: does not take arguments\n", 2);
 		g_out = 1;
 		return ;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:43:27 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 15:47:37 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:17:45 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env)
 		ft_pwd();
 	else if (ft_strcmp(parsed_str[0], "cd") == 0)
 		ft_cd(parsed_str, local_env);
-	else if (ft_strcmp(parsed_str[0], "unset") == 0)
+	else if (ft_strcmp(parsed_str[0], "unset") == 0 && parsed_str[1])
 		local_env = ft_unset(parsed_str, local_env);
 	else if (ft_strcmp(parsed_str[0], "export") == 0)
 		local_env = ft_export(parsed_str, local_env);

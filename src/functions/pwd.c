@@ -6,11 +6,11 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:06:48 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 13:16:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:45:01 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 #include <minishell.h>
 #include <stdlib.h>
 #include <stdio.h>
