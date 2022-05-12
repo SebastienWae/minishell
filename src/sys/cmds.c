@@ -29,15 +29,15 @@ t_list	*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env)
 {
 	if (ft_strcmp(parsed_str[0], "echo") == 0)
 		ft_echo(parsed_str);
-	if (ft_strcmp(parsed_str[0], "pwd") == 0)
+	else if (ft_strcmp(parsed_str[0], "pwd") == 0)
 		ft_pwd();
-	if (ft_strcmp(parsed_str[0], "cd") == 0)
+	else if (ft_strcmp(parsed_str[0], "cd") == 0)
 		ft_cd(parsed_str, local_env);
-	if (ft_strcmp(parsed_str[0], "unset") == 0)
+	else if (ft_strcmp(parsed_str[0], "unset") == 0)
 		local_env = ft_unset(parsed_str, local_env);
-	if (ft_strcmp(parsed_str[0], "export") == 0)
+	else if (ft_strcmp(parsed_str[0], "export") == 0)
 		local_env = ft_export(parsed_str, local_env);
-	if (ft_strcmp(parsed_str[0], "env") == 0)
+	else if (ft_strcmp(parsed_str[0], "env") == 0)
 		ft_env(parsed_str, local_env);
 	return (local_env);
 }

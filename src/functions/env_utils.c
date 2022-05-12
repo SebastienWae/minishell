@@ -29,7 +29,6 @@ int	ft_len_name_elem(char *elem)
 char	*ft_get_env_var_value(t_list *local_env, char *elem)
 {
 	int		len;
-	int		i;
 	char	*val;
 	char	*tmp;	
 
@@ -41,14 +40,7 @@ char	*ft_get_env_var_value(t_list *local_env, char *elem)
 			tmp = (char *)local_env->content;
 			if (tmp[len] == '=')
 			{				
-				val = malloc(sizeof(char) * (ft_strlen(tmp) - len + 1));
-				i = 0;
-				while (tmp[i + len + 1] != '\0')
-				{
-					val[i] = tmp[len + i + 1];
-					i ++;
-				}
-				val[i] = '\0';
+				val = ft_substr(tmp, len + 1, ft_strlen(tmp) - len + 1);
 				return (val);
 			}
 		}

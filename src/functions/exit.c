@@ -15,18 +15,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int	ft_exit(char **str, t_minishell shell)
+static int	ft_exit_no_arg(char **str, t_minishell shell)
 {
-	int	i;
-
-	i = 0;
 	if (str[1] == 0)
 	{
 		printf("exit\n");
 		ft_lstclear(&shell.local_env, free);
 		free(str);
-		exit (0);
+		exit(0);
 	}
+	return (0);
+}
+
+int	ft_exit(char **str, t_minishell shell)
+{
+	int	i;
+
+	i = 0;
+	ft_exit_no_arg(str, shell);
 	while (str[1][i] != 0)
 	{
 		if (!ft_isdigit(str[1][i]))
@@ -41,7 +47,8 @@ int	ft_exit(char **str, t_minishell shell)
 	if (str[2] != 0)
 	{
 		printf("exit\nexit: too many arguments\n");
-		return (0);
+		g_out = 1;
+		return (1);
 	}
 	free(str);
 	ft_lstclear(&shell.local_env, free);

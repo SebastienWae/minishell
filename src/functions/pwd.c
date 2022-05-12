@@ -10,17 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
+#include <sys/errno.h>
 
 void	ft_pwd(void)
 {
 	char	*current_dir;
 
 	current_dir = getcwd(NULL, 0);
-	printf("%s\n", current_dir);
+	if (current_dir == NULL)
+	{
+		ft_putstr_fd("pwd : Error - Permission denied / Failure\n", 2);
+		g_out = 1;
+	}
+	else
+	{
+		printf("%s\n", current_dir);
+		g_out = 0;
+	}
 	free (current_dir);
-	g_out = 0;
 }
