@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:08:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 16:12:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:31:04 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static t_expand	*expand_constructor(char *str, int flags)
 		.result = NULL,
 		.cursor = 0,
 		.variable = NULL,
-		.state = E_S_IN_WORD,
+		.state = E_S_EXPANDING,
 		.destructor = expand_destructor
 	};
 	return (self);
@@ -72,9 +72,10 @@ t_expand	*expand(char *str, int flags)
 	{
 		if (!expand->str[expand->cursor])
 			expand->state = E_S_FINISHED;
-		else if (expand->str[expand->cursor] == '\''
-			|| str[expand->cursor] == '"')
-			expand_quote_handler(expand);
+		else if (expand->str[expand->cursor] == '\'')
+			expand_single_quote_handler(expand);
+		else if (expand->str[expand->cursor] == '"')
+			expand_double_quote_handler(expand);
 		else if (expand->str[expand->cursor] == '$')
 			expand_var_handler(expand);
 		else if (is_whitespace(expand->str[expand->cursor]))

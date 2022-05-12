@@ -23,10 +23,11 @@ typedef struct s_variable			t_variable;
 
 enum	e_expand_state
 {
-	E_S_IN_WORD = 1,
+	E_S_EXPANDING = 1,
 	E_S_IN_SINGLE_QUOTE,
 	E_S_IN_DOUBLE_QUOTE,
-	E_S_FINISHED
+	E_S_FINISHED,
+	E_S_ERROR
 };
 
 struct s_variable
@@ -57,7 +58,8 @@ t_expand	*expand(char *str, int flags);
 
 t_variable	*variable_constructor(int start, int end);
 
-void		expand_quote_handler(t_expand *e);
+void		expand_single_quote_handler(t_expand *e);
+void		expand_double_quote_handler(t_expand *e);
 void		expand_var_handler(t_expand *e);
 void		expand_space_handler(t_expand *e);
 void		expand_char_handler(t_expand *e);
