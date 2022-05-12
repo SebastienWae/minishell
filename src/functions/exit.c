@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_functions_2.c                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 14:24:42 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:00:51 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	ft_exit(char **str, t_minishell shell)
 		g_out = 1;
 		return (1);
 	}
+	i = ft_atoi(str[1]);
 	free(str);
 	ft_lstclear(&shell.local_env, free);
-	exit(ft_atoi(str[1]));
+	exit(i);
 }

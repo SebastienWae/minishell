@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 15:50:18 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:08:31 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_heredoc_in(char *cmd, t_minishell shell, char **env)
 	char	*line;
 	int		fd_tmp;
 
+	(void) env; // A ENLEVER
 	input = "";
 	line = get_next_line(STDIN_FILENO);
 	while (1)
@@ -49,7 +50,7 @@ void	ft_heredoc_in(char *cmd, t_minishell shell, char **env)
 	fd_tmp = open("fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	write(fd_tmp, input, ft_strlen(input));
 	//dup2(fd_tmp, STDIN_FILENO);
-	shell = ft_launch_cmd(ft_strjoin(cmd, " fd_tmp"), shell, env);
+	ft_launch_cmd(ft_strjoin(cmd, " fd_tmp"), shell);
 	unlink("fd_tmp");
 	close(fd_tmp);
 }

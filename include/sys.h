@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sys.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 15:49:32 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 16:13:45 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 char		*ft_search_path(char **env);
 char		*ft_build_cmd(char **path, char *cmd);
-int			*ft_execute_sys_cmd(char **cmd, char **env);
-int			ft_sys_cmd_process(char **parsed_str, char *str, char **env);
+int			*ft_execute_sys_cmd(char **cmd, t_list *local_env);
+int			ft_sys_cmd_process(char **parsed_str, char *str, t_list *local_env);
 
 int			ft_is_builtin_cmd(char *str);
 t_list		*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env);
@@ -34,7 +34,7 @@ void		ft_sig(void);
 int			ft_ctrl_d_handler(char *str);
 
 int			ft_next_process(pid_t process, int fd_tab[2]);
-t_minishell	ft_launch_cmd(char *str, t_minishell shell, char **env);
-t_minishell	ft_pipe(t_minishell shell, char **env);
+void		ft_launch_cmd(char *str, t_minishell shell);
+t_minishell	ft_pipe(t_minishell shell);
 
 #endif
