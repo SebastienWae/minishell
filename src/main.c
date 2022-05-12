@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 16:04:23 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:49:37 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <readline/history.h>
 #include <utils.h>
 #include <sys.h>
-
 int	g_out;
 
 static void	args_check_error(int argc)
