@@ -6,12 +6,13 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 10:06:36 by seb               #+#    #+#             */
-/*   Updated: 2022/05/11 15:43:38 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:57:46 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <libft.h>
 
 int	is_whitespace(char c)
 {
@@ -56,4 +57,17 @@ char	*ft_strncpy(char *src, size_t index, size_t end)
 	}
 	dest[i] = '\0';
 	return (dest);
+}
+
+char	*ft_strjoin_sep(const char *s1, const char *s2, const char *sep)
+{
+	char	*str;
+	char	*tmp;
+
+	tmp = ft_strjoin(s1, sep);
+	if (!tmp)
+		return (NULL);
+	str = ft_strjoin(tmp, s2);
+	free(tmp);
+	return (str);
 }
