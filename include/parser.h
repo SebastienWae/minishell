@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 10:00:48 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/12 15:03:57 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ enum e_redir_type
 	P_RT_IN = 1,
 	P_RT_OUT,
 	P_RT_HEREDOC,
+	P_RT_HEREDOC_UNQUOTED,
 	P_RT_APPEND
 };
 
