@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/13 15:52:11 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 18:17:05 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_list		*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env);
 
 void		ft_close_fd(t_minishell shell, int fd_in, int fd_out);
 void		ft_close_saved_fd(t_minishell shell);
-void		ft_heredoc_in(char *cmd, t_minishell shell, char **env);
-t_fd_in_out	ft_fd_manager(t_cmd *cmd);
+int			ft_heredoc_in(t_redir *redir);
+t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice);
 t_fd_in_out	ft_init_fd(void);
 
 void		ft_sig_handler(int sig);
