@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/13 14:57:57 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:08:30 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 #include <functions.h>
 #include <sys.h>
 #include <sys/wait.h>
+#include <unistd.h>
 #include <utils.h>
+
+/* TO DO :
+heredoc issue when in pipe (works only in 1st cmd)
+*/
 
 int	ft_next_process(pid_t process, int fd_tab[2])
 {
@@ -46,6 +51,7 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 {	
 	int			fd_tab[2];
 	pid_t		process;
+	t_fd_in_out	fd;
 
 	while (cmd != 0)
 	{										
@@ -59,13 +65,19 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 		{
 			write (2, "Process creation failed\n", 24);
 			return (shell);
-		}	
+		}
 		if (process == 0)
 		{				
 			close(fd_tab[0]);
-			if (cmd->next)
+			
+			if(((t_cmd *)(cmd->content))->in)
+				fd = ft_fd_manager((t_cmd *)(cmd->content), 1);
+			if (cmd->next)	
 				dup2(fd_tab[1], STDOUT_FILENO);
-			ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
+			if(((t_cmd *)(cmd->content))->out)
+				fd = ft_fd_manager((t_cmd *)(cmd->content), 2);
+			if (fd.in != -1)
+				ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
 			exit(g_out);
 		}
 		else

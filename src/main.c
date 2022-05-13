@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/13 15:51:33 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 19:09:00 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **env)
 				parsed = parse(token);
 				cmd = parsed->cmds;
 				fd = ft_init_fd();
-				if (cmd)
+				if (cmd && ((t_cmd *)(cmd->content))->cmd)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
 						ft_pipe(shell, cmd);
@@ -106,8 +106,9 @@ int	main(int argc, char **argv, char **env)
 					{
 						while (cmd)
 						{						
-							fd = ft_fd_manager((t_cmd *)(cmd->content));
-							ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
+							fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
+							if (fd.in != -1)
+								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
 							ft_close_fd(shell, fd.in, fd.out);
 							cmd = cmd->next;
 						}				
@@ -122,7 +123,3 @@ int	main(int argc, char **argv, char **env)
 	ft_lstclear(&shell.local_env, free);
 	return (0);
 }
-
-		/*if (str[0] == '@') //test provisoire heredoc
-							ft_heredoc_in("cat -e", shell, env);
-						else*/	
