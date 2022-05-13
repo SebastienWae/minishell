@@ -6,12 +6,13 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 16:08:31 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:40:01 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <utils.h>
+#include <sys/fcntl.h>
 #include <utils.h>
 #include <fcntl.h>
 #include <sys.h>
@@ -55,18 +56,76 @@ void	ft_heredoc_in(char *cmd, t_minishell shell, char **env)
 	close(fd_tmp);
 }
 
-t_fd_in_out	ft_init_fd_minishell(void)// faire passer les fd in et out depuis struct de seb
+static int	redir_in(t_redir *redir)
+{
+	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
+	int fd;
+
+	/*printf("	    - type: %s\n", redir_types[redir->type]);
+	printf("	    - target: %s\n", redir->target);*/	
+	if (ft_strcmp(redir_types[redir->type], "IN") == 0)
+		fd = open(redir->target, O_RDONLY);
+	else if (ft_strcmp(redir_types[redir->type], "HEREDOC") == 0)
+		fd = dup(0);
+	else 
+		fd = dup(0);
+	return (fd);
+}
+static int	redir_out(t_redir *redir)
+{
+	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
+	int	fd;
+	
+	/*printf("	    - type: %s\n", redir_types[redir->type]);
+	printf("	    - target: %s\n", redir->target);*/
+	if (ft_strcmp(redir_types[redir->type], "OUT") == 0)
+		fd = open(redir->target, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	else if (ft_strcmp(redir_types[redir->type], "APPEND") == 0)
+		fd = open(redir->target, O_RDWR | O_CREAT | O_APPEND, 0644);
+	else 
+		fd = dup(1);
+	return (fd);
+}
+
+t_fd_in_out	ft_fd_manager(t_cmd *cmd)// faire passer les fd in et out depuis struct de seb
+{
+	t_fd_in_out		fd;
+	int	fd_tmp;
+	
+	t_list	*in;
+	t_list	*out;
+
+	in = cmd->in;
+	out = cmd->out;	
+	while (in)
+	{		
+		fd_tmp = redir_in(in->content);
+		fd.in = dup(fd_tmp);
+		if (in->next)
+			close(fd.in);
+		close(fd_tmp);
+		in = in->next;
+	}
+	dup2(fd.in, STDIN_FILENO);	
+	while (out)
+	{		
+		fd_tmp = redir_out(out->content);
+		fd.out = dup(fd_tmp);
+		if (out->next)
+			close(fd.out);
+		close(fd_tmp);
+		out = out->next;
+	}
+	dup2(fd.out, STDOUT_FILENO);
+	return (fd);
+}
+
+t_fd_in_out	ft_init_fd(void)// faire passer les fd in et out depuis struct de seb
 {
 	t_fd_in_out		fd;
 
-	// par defaut
+
 	fd.out = dup(1);
 	fd.in = dup(0);
-	/* tout ce bloc pour mettre un file in ou file out 
-	fd.out = open("f2", O_RDWR | O_CREAT | O_TRUNC, 0777); //ajouter les bons flags selon > ou >>
-	fd.in = open("f1", O_RDONLY);
-	dup2(fd.out, STDOUT_FILENO);
-	dup2(fd.in, STDIN_FILENO);
-	*/
 	return (fd);
 }

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/13 15:20:56 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:51:33 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	main(int argc, char **argv, char **env)
 				token = tokenize(str);
 				parsed = parse(token);
 				cmd = parsed->cmds;
+				fd = ft_init_fd();
 				if (cmd)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
@@ -105,13 +106,14 @@ int	main(int argc, char **argv, char **env)
 					{
 						while (cmd)
 						{						
-							fd = ft_init_fd_minishell();
+							fd = ft_fd_manager((t_cmd *)(cmd->content));
 							ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
 							ft_close_fd(shell, fd.in, fd.out);
 							cmd = cmd->next;
 						}				
 					}					
 				}
+				ft_close_fd(shell, fd.in, fd.out);
 			}
 		}
 		free(str);
