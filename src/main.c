@@ -6,23 +6,23 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/13 14:51:47 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:20:56 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <minishell.h>
-#include <stdio.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdlib.h>
-#include <sys.h>
-#include <termios.h>
 #include <tokenizer.h>
+#include <minishell.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <termios.h>
+#include <libft.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include <utils.h>
+#include <sys.h>
 
-int						g_out;
+int	g_out;
 
 static void	args_check_error(int argc)
 {
@@ -55,11 +55,12 @@ static t_list	*init_env(char **env)
 	while (env[++i])
 	{
 		ft_lstadd_back(&local_env,
-						ft_lstnew(ft_strncpy(env[i], 0, ft_strlen(env[i]))));
+			ft_lstnew(ft_strncpy(env[i], 0, ft_strlen(env[i]))));
 	}
 	return (local_env);
 }
 
+// init env, config, sig, save default stdin and out
 static t_minishell	init_all(int argc, char **env)
 {
 	t_minishell	shell;
@@ -84,7 +85,7 @@ int	main(int argc, char **argv, char **env)
 	t_list		*cmd;
 
 	(void)argv;
-	shell = init_all(argc, env); // init env, config, sig, save default stdin and out
+	shell = init_all(argc, env);
 	while (1)
 	{
 		str = readline("Minishell>");
@@ -95,24 +96,21 @@ int	main(int argc, char **argv, char **env)
 				add_history(str);
 				token = tokenize(str);
 				parsed = parse(token);
-				cmd = parsed->cmds;		
-				fd = ft_init_fd_minishell();			
+				cmd = parsed->cmds;
 				if (cmd)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
-						ft_pipe(shell, cmd);       
-					else 
+						ft_pipe(shell, cmd);
+					else
 					{
 						while (cmd)
 						{						
-							fd = ft_init_fd_minishell();// a modifier pour mettre les fd de la cmd		
-							ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);						
+							fd = ft_init_fd_minishell();
+							ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
 							ft_close_fd(shell, fd.in, fd.out);
-								//restaure les stdin et out par defaut pour le rendre a readline
 							cmd = cmd->next;
 						}				
 					}					
-					ft_close_fd(shell, fd.in, fd.out);
 				}
 			}
 		}
