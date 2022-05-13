@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/13 14:51:46 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:57:57 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 #include <sys.h>
 #include <sys/wait.h>
 #include <utils.h>
-/*
+
 int	ft_next_process(pid_t process, int fd_tab[2])
 {
 	int	status;
 
-
+	waitpid(process, &status, 0);
 	close(fd_tab[1]);
 	dup2 (fd_tab[0], STDIN_FILENO);
 	g_out = WEXITSTATUS(status);
 	return (g_out);
-}*/
+}
 
 void	ft_launch_cmd(char *str, t_minishell shell)
 {
@@ -43,11 +43,10 @@ void	ft_launch_cmd(char *str, t_minishell shell)
 }
 
 t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
-{
-	
+{	
 	int			fd_tab[2];
 	pid_t		process;
-	
+
 	while (cmd != 0)
 	{										
 		if (pipe(fd_tab) == -1)
@@ -66,17 +65,11 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 			close(fd_tab[0]);
 			if (cmd->next)
 				dup2(fd_tab[1], STDOUT_FILENO);
-			ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);			
+			ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
 			exit(g_out);
 		}
 		else
-		{		
-			int status;
-			waitpid(process, &status, 0);
-			close(fd_tab[1]);
-			dup2 (fd_tab[0], STDIN_FILENO);
-			g_out = WEXITSTATUS(status);		
-		}
+			g_out = ft_next_process(process, fd_tab);
 		cmd = cmd->next;
 	}	
 	return (shell);
