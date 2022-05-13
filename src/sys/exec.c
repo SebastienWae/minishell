@@ -6,34 +6,32 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 16:19:52 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:51:46 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 #include <functions.h>
 #include <sys.h>
+#include <sys/wait.h>
 #include <utils.h>
-
-char	**ft_better_split(char *s, char c);
-
+/*
 int	ft_next_process(pid_t process, int fd_tab[2])
 {
 	int	status;
 
-	waitpid(process, &status, 0);
+
 	close(fd_tab[1]);
 	dup2 (fd_tab[0], STDIN_FILENO);
 	g_out = WEXITSTATUS(status);
 	return (g_out);
-}
+}*/
 
-//split a enlever qd fusion faite
 void	ft_launch_cmd(char *str, t_minishell shell)
 {
 	char	**parsed_str;
 
-	parsed_str = ft_better_split(str, ' ');
+	parsed_str = ft_split(str, ' ');
 	if (ft_strcmp(parsed_str[0], "exit") == 0)
 		ft_exit(parsed_str, shell);
 	else if (ft_is_builtin_cmd(parsed_str[0]))
@@ -44,21 +42,13 @@ void	ft_launch_cmd(char *str, t_minishell shell)
 	free (parsed_str);
 }
 
-t_minishell	ft_pipe(t_minishell shell)
+t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 {
-	static char	*buffer[] = {
-		"cat f1",
-		"grep blou",
-		"tr 'o' 'n'",
-		"tr 'n' '@'",
-		0
-	};
-	int			i;
+	
 	int			fd_tab[2];
 	pid_t		process;
-
-	i = -1;
-	while (buffer[++i] != 0)
+	
+	while (cmd != 0)
 	{										
 		if (pipe(fd_tab) == -1)
 		{
@@ -74,13 +64,20 @@ t_minishell	ft_pipe(t_minishell shell)
 		if (process == 0)
 		{				
 			close(fd_tab[0]);
-			if (buffer[i + 1])
+			if (cmd->next)
 				dup2(fd_tab[1], STDOUT_FILENO);
-			ft_launch_cmd(buffer[i], shell);
+			ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);			
 			exit(g_out);
 		}
 		else
-			g_out = ft_next_process(process, fd_tab);
+		{		
+			int status;
+			waitpid(process, &status, 0);
+			close(fd_tab[1]);
+			dup2 (fd_tab[0], STDIN_FILENO);
+			g_out = WEXITSTATUS(status);		
+		}
+		cmd = cmd->next;
 	}	
 	return (shell);
 }
