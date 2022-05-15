@@ -13,6 +13,9 @@
 #include <libft.h>
 #include <stdio.h>
 #include <readline/readline.h>
+#if __linux__
+# include <signal.h>
+#endif
 
 /* Redirection of Ctrl C => newline and Ctrl \ => does nothing */
 void	ft_sig_handler(int sig)

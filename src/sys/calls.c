@@ -16,6 +16,9 @@
 #include <stdio.h>
 #include <sys/errno.h>
 #include <minishell.h>
+#if __linux__
+# include <sys/wait.h>
+#endif
 
 char	*ft_search_path(t_list *local_env)
 {
