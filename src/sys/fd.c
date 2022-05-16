@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 12:08:12 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 12:56:15 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 /* TO DO :
 close fd if necessary
-tmp dir for heredoc
 */
 void	ft_close_fd(t_minishell shell, int fd_in, int fd_out)
 {
@@ -45,6 +44,7 @@ int	ft_heredoc_in(t_redir *redir)
 	int		fd_tmp;
 
 	input = "";
+	
 	line = get_next_line(STDIN_FILENO);
 	while (1)
 	{
@@ -74,7 +74,7 @@ static int	redir_in(t_redir *redir)
 	{
 		fd_tmp = ft_heredoc_in(redir);
 		close (fd_tmp);		
-		fd = open("fd_tmp", O_RDWR, 0644);
+		fd = open("tmp/fd_tmp", O_RDWR, 0644);
 		if (fd == -1)
 			ft_putstr_fd("Cannot read tmp file\n", 2);
 	}
