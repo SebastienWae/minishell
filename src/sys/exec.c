@@ -6,10 +6,11 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 15:40:33 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 17:53:36 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 #include <functions.h>
 #include <sys.h>
@@ -43,36 +44,46 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 	return (g_out);
 }
 
+static void	ft_current_process(t_minishell shell, t_list *cmd, \
+								char **env, int fd_tab[2])
+{
+	t_fd_in_out	fd;
+
+	close(fd_tab[0]);
+	if (((t_cmd *)(cmd->content))->in)
+		fd = ft_fd_manager((t_cmd *)(cmd->content), 1);
+	if (cmd->next)
+		dup2(fd_tab[1], STDOUT_FILENO);
+	if (((t_cmd *)(cmd->content))->out)
+		fd = ft_fd_manager((t_cmd *)(cmd->content), 2);
+	if (fd.in != -1)
+		ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell, env);
+}
+
+t_minishell	ft_pipe_error(t_minishell shell, int choice)
+{
+	if (choice == 1)
+		ft_putstr_fd ("Pipe initialization failed\n", 2);
+	if (choice == 2)
+		ft_putstr_fd ("Pipe process failed\n", 2);
+	return (shell);
+}
+
 t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
 {	
 	int			fd_tab[2];
 	pid_t		process;
-	t_fd_in_out	fd;
 
 	while (cmd != 0)
 	{										
 		if (pipe(fd_tab) == -1)
-		{
-			write (2, "Pipe creation failed\n", 21);
-			return (shell);
-		}				
+			return (ft_pipe_error(shell, 1));
 		process = fork();
 		if (process == -1)
-		{
-			write (2, "Process creation failed\n", 24);
-			return (shell);
-		}
+			return (ft_pipe_error(shell, 2));
 		if (process == 0)
 		{
-			close(fd_tab[0]);
-			if (((t_cmd *)(cmd->content))->in)
-				fd = ft_fd_manager((t_cmd *)(cmd->content), 1);
-			if (cmd->next)
-				dup2(fd_tab[1], STDOUT_FILENO);
-			if (((t_cmd *)(cmd->content))->out)
-				fd = ft_fd_manager((t_cmd *)(cmd->content), 2);
-			if (fd.in != -1)
-				ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell, env);
+			ft_current_process(shell, cmd, env, fd_tab);
 			exit(g_out);
 		}
 		else
