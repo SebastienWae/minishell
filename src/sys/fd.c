@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 12:56:15 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 14:07:21 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <utils.h>
 #include <string.h>
 #include <sys/fcntl.h>
+#include <unistd.h>
 #include <utils.h>
 #include <fcntl.h>
 #include <sys.h>
@@ -22,6 +23,7 @@
 
 /* TO DO :
 close fd if necessary
+expand in heredoc
 */
 void	ft_close_fd(t_minishell shell, int fd_in, int fd_out)
 {
@@ -44,10 +46,11 @@ int	ft_heredoc_in(t_redir *redir)
 	int		fd_tmp;
 
 	input = "";
-	
-	line = get_next_line(STDIN_FILENO);
+	ft_putstr_fd("\U0001F984 ", 2);
+	line = get_next_line(STDIN_FILENO);	
 	while (1)
-	{
+	{		
+		ft_putstr_fd("\U0001F984 ", 2);
 		input = ft_strjoin(input, line);
 		line = NULL;
 		free(line);
