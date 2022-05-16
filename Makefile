@@ -6,7 +6,7 @@
 #    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/16 15:47:15 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/05/16 17:17:53 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) tmp/fd_tmp
 
 re: fclean all
 
