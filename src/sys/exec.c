@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 14:06:38 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 15:40:33 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,7 @@
 #include <unistd.h>
 #include <utils.h>
 
-/* TO DO :
-heredoc issue when in pipe (works only in 1st cmd)
-*/
-
-int	ft_next_process(pid_t process, int fd_tab[2])
-{
-	int	status;
-
-	waitpid(process, &status,0);
-	close(fd_tab[1]);
-	dup2 (fd_tab[0], STDIN_FILENO);
-	g_out = WEXITSTATUS(status);
-	return (g_out);
-}
-
-void	ft_launch_cmd(char *str, t_minishell shell)
+void	ft_launch_cmd(char *str, t_minishell shell, char **env)
 {
 	char	**parsed_str;
 
@@ -43,11 +28,22 @@ void	ft_launch_cmd(char *str, t_minishell shell)
 		shell.local_env = ft_execute_builtin_cmd(parsed_str,
 				shell.local_env);
 	else
-		g_out = ft_sys_cmd_process(parsed_str, str, shell.local_env);
+		g_out = ft_sys_cmd_process(parsed_str, str, shell.local_env, env);
 	free (parsed_str);
 }
 
-t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
+static int	ft_next_process(pid_t process, int fd_tab[2])
+{
+	int	status;
+
+	waitpid(process, &status, 0);
+	close(fd_tab[1]);
+	dup2 (fd_tab[0], STDIN_FILENO);
+	g_out = WEXITSTATUS(status);
+	return (g_out);
+}
+
+t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
 {	
 	int			fd_tab[2];
 	pid_t		process;
@@ -67,31 +63,23 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 			return (shell);
 		}
 		if (process == 0)
-		{				
+		{
 			close(fd_tab[0]);
-			
-			if(((t_cmd *)(cmd->content))->in)
-			{			
-
-				fd = ft_fd_manager((t_cmd *)(cmd->content), 1);	
-			}				
-			if (cmd->next)	
+			if (((t_cmd *)(cmd->content))->in)
+				fd = ft_fd_manager((t_cmd *)(cmd->content), 1);
+			if (cmd->next)
 				dup2(fd_tab[1], STDOUT_FILENO);
-			if(((t_cmd *)(cmd->content))->out)
+			if (((t_cmd *)(cmd->content))->out)
 				fd = ft_fd_manager((t_cmd *)(cmd->content), 2);
 			if (fd.in != -1)
-				ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
+				ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell, env);
 			exit(g_out);
 		}
 		else
 		{
 			g_out = ft_next_process(process, fd_tab);
-			if(((t_cmd *)(cmd->next)) && ((t_cmd *)(cmd->next->content))->in)
-			{			
+			if (((t_cmd *)(cmd->next)) && ((t_cmd *)(cmd->next->content))->in)
 				dup2(shell.saved_stdin, STDIN_FILENO);
-				//close(shell.saved_stdin);				
-			}
-			
 		}
 		cmd = cmd->next;
 	}	

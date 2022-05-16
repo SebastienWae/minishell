@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
+#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/12 13:50:01 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/16 15:47:15 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = main.c debug.c \
 	sys/cmds.c \
 	sys/exec.c \
 	sys/fd.c \
+	sys/fd_utils.c \
 	sys/signals.c \
 	functions/cd.c \
 	functions/echo.c \

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 14:07:21 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 16:52:43 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static t_list	*init_env(char **env)
 	return (local_env);
 }
 
-// init env, config, sig, save default stdin and out
 static t_minishell	init_all(int argc, char **env)
 {
 	t_minishell	shell;
@@ -101,21 +100,23 @@ int	main(int argc, char **argv, char **env)
 				if (cmd && ((t_cmd *)(cmd->content))->cmd)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
-						ft_pipe(shell, cmd);
+						ft_pipe(shell, cmd, env);
 					else
 					{
 						while (cmd)
 						{						
 							fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
-							if (fd.in != -1)
-								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell);
+							if (fd.in != -1 && fd.out != -1)
+								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd,
+									shell, env);
 							ft_close_fd(shell, fd.in, fd.out);
 							cmd = cmd->next;
 						}				
 					}					
 				}
-				else if(((t_cmd *)(cmd->content))->in || ((t_cmd *)(cmd->content))->out)
-					fd = ft_fd_manager((t_cmd *)(cmd->content), 0); //creation des fichiers si pas de commande
+				else if (cmd && (((t_cmd *)(cmd->content))->in
+					|| ((t_cmd *)(cmd->content))->out))
+					fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
 				ft_close_fd(shell, fd.in, fd.out);
 			}
 		}
