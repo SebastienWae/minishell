@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 10:08:53 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/16 17:49:14 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <tokenizer.h>
 #include <parser.h>
+#include <minishell.h>
 
 static void	cmd_destructor(t_cmd *self)
 {
@@ -68,12 +69,14 @@ static void	parser_destructor(t_parser *self)
 		.curr_cmd = NULL,
 		.last_token_type = 0,
 		.state = 0,
+		.tokens = NULL,
+		.shell = NULL,
 		.destructor = NULL
 	};
 	free(self);
 }
 
-static t_parser	*parser_constructor(t_list *tokens)
+static t_parser	*parser_constructor(t_list *tokens, t_minishell *shell)
 {
 	t_parser	*self;
 
@@ -87,16 +90,17 @@ static t_parser	*parser_constructor(t_list *tokens)
 		.last_token_type = 0,
 		.state = P_S_WORKING,
 		.tokens = tokens,
+		shell,
 		.destructor = parser_destructor
 	};
 	return (self);
 }
 
-t_parser	*parse(t_tokenizer *tokenizer)
+t_parser	*parse(t_tokenizer *tokenizer, t_minishell *shell)
 {
 	t_parser	*p;
 
-	p = parser_constructor(tokenizer->tokens);
+	p = parser_constructor(tokenizer->tokens, shell);
 	while (p->state == P_S_WORKING)
 	{
 		if (!p->tokens)

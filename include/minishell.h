@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include <tokenizer.h>
-# include <parser.h>
 # include <libft.h>
 # include <termios.h>
 
@@ -41,8 +40,5 @@ char		*ft_strjoin_sep(const char *s1, const char *s2, const char *sep);
 
 /* Split and classify the given string.*/
 t_tokenizer	*tokenize(char *line);
-
-/* Parse a list of tokens into a list of cmds.*/
-t_parser	*parse(t_tokenizer *tokenizer, t_minishell *shell);
 
 #endif

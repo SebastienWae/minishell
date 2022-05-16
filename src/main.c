@@ -21,6 +21,7 @@
 #include <readline/history.h>
 #include <utils.h>
 #include <sys.h>
+#include <parser.h>
 
 int	g_out;
 
