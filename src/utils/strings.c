@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 10:06:36 by seb               #+#    #+#             */
-/*   Updated: 2022/05/12 16:33:36 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/16 14:20:23 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,15 @@ char	*ft_strappend(const char *s1, const char c)
 	char	*str;
 	int		len;
 
-	len = ft_strlen(s1);
+	if (s1)
+		len = ft_strlen(s1);
+	else
+		len = 0;
 	str = malloc(sizeof(char) * (len + 2));
 	if (!str)
 		return (NULL);
-	str = ft_strdup(s1);
+	if (s1)
+		ft_strlcpy(str, s1, len + 1);
 	str[len] = c;
 	str[len + 1] = 0;
 	return (str);

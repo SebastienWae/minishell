@@ -6,34 +6,35 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:08:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 17:31:10 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/16 17:18:17 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <utils.h>
 #include <expand.h>
+#include <minishell.h>
 
-t_variable	*variable_constructor(int start, int end)
+t_variable	*variable_constructor(int start)
 {
 	t_variable	*variable;
 
 	variable = malloc(sizeof(t_variable));
 	if (!variable)
 		return (NULL);
-	*variable = (t_variable){start, end};
+	*variable = (t_variable){start, 0};
 	return (variable);
 }
 
 static void	expand_destructor(t_expand *self)
 {
-	free(self->str);
 	if (self->variable)
 		free(self->variable);
 	*self = (t_expand)
 	{
 		.str = NULL,
 		.flags = 0,
+		.shell = NULL,
 		.result = NULL,
 		.cursor = 0,
 		.variable = NULL,
@@ -43,7 +44,7 @@ static void	expand_destructor(t_expand *self)
 	free(self);
 }
 
-static t_expand	*expand_constructor(char *str, int flags)
+static t_expand	*expand_constructor(char *str, int flags, t_minishell *shell)
 {
 	t_expand		*self;
 
@@ -54,6 +55,7 @@ static t_expand	*expand_constructor(char *str, int flags)
 	{
 		str,
 		flags,
+		shell,
 		.result = NULL,
 		.cursor = 0,
 		.variable = NULL,
@@ -63,15 +65,19 @@ static t_expand	*expand_constructor(char *str, int flags)
 	return (self);
 }
 
-t_expand	*expand(char *str, int flags)
+t_expand	*expand(char *str, int flags, t_minishell *shell)
 {
 	t_expand	*expand;
 
-	expand = expand_constructor(str, flags);
+	expand = expand_constructor(str, flags, shell);
 	while (expand->state != E_S_FINISHED)
 	{
 		if (!expand->str[expand->cursor])
+		{
+			if (expand->variable && expand->state == E_S_EXPANDING)
+				expand_append_var(expand);
 			expand->state = E_S_FINISHED;
+		}
 		else if (expand->str[expand->cursor] == '\'')
 			expand_single_quote_handler(expand);
 		else if (expand->str[expand->cursor] == '"')

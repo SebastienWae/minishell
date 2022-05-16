@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
 /*   Updated: 2022/05/16 16:52:43 by jeulliot         ###   ########.fr       */
@@ -94,7 +94,7 @@ int	main(int argc, char **argv, char **env)
 			{				
 				add_history(str);
 				token = tokenize(str);
-				parsed = parse(token);
+				parsed = parse(token, &shell);
 				cmd = parsed->cmds;
 				fd = ft_init_fd();
 				if (cmd && ((t_cmd *)(cmd->content))->cmd)

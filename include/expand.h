@@ -13,6 +13,8 @@
 #ifndef EXPAND_H
 # define EXPAND_H
 
+#include <minishell.h>
+
 typedef enum e_expand_state			t_expand_state;
 typedef struct s_expand				t_expand;
 typedef struct s_expand_handlers	t_expand_handlers;
@@ -40,6 +42,7 @@ struct s_expand
 {
 	char			*str;
 	int				flags;
+	t_minishell		*shell;
 	char			*result;
 	int				cursor;
 	t_variable		*variable;
@@ -54,14 +57,17 @@ struct	s_expand_handlers
 	t_expand_state	next_state;
 };
 
-t_expand	*expand(char *str, int flags);
+t_expand	*expand(char *str, int flags, t_minishell *shell);
 
-t_variable	*variable_constructor(int start, int end);
+t_variable	*variable_constructor(int start);
 
 void		expand_single_quote_handler(t_expand *e);
 void		expand_double_quote_handler(t_expand *e);
 void		expand_var_handler(t_expand *e);
 void		expand_space_handler(t_expand *e);
 void		expand_char_handler(t_expand *e);
+
+void		expand_append_char(t_expand *e);
+void		expand_append_var(t_expand *e);
 
 #endif

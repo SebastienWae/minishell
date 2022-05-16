@@ -67,7 +67,10 @@ SRCS = main.c debug.c \
 	parser/handlers/redirection_append_handler.c \
 	parser/handlers/redirection_in_handler.c \
 	parser/handlers/redirection_out_handler.c \
-	parser/handlers/word_handler.c
+	parser/handlers/word_handler.c \
+	expand/expand.c \
+	expand/expand_handlers.c \
+	expand/expand_actions.c
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
