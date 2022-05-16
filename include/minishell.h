@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 13:54:09 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/16 16:24:15 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@
 
 /* Global variable to save commands exit code */
 extern int	g_out;
-
-typedef struct s_elem_env {
-	char	*name;
-	char	*content;
-}	t_elem_env;
 
 /* sets input and output for the current command */
 typedef struct s_fd_in_out {
