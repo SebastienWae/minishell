@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/13 19:10:40 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 12:08:12 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_heredoc_in(t_redir *redir)
 		if (ft_strcmp(line, ft_strjoin(redir->target, "\n")) == 0)
 			break ;
 	}
-	fd_tmp = open("fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd_tmp = open("tmp/fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_tmp == -1)
 		ft_putstr_fd("Cannot create tmp file\n", 2);
 	write(fd_tmp, input, ft_strlen(input));

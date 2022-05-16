@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/13 19:09:00 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 12:17:08 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ int	main(int argc, char **argv, char **env)
 							cmd = cmd->next;
 						}				
 					}					
+				}
+				else if(((t_cmd *)(cmd->content))->in || ((t_cmd *)(cmd->content))->out)
+				{
+					fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
 				}
 				ft_close_fd(shell, fd.in, fd.out);
 			}
