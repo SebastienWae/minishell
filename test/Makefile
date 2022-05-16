@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -g3 -fsanitize=address
 CPPFLAGS = -I../include -I../libft -I/goinfre/$(USER)/.brew/include -I/goinfre/$(USER)/.brew/opt/readline/include
 LDFLAGS = -L../libft -L/goinfre/$(USER)/.brew/lib -lft -lcmocka -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft

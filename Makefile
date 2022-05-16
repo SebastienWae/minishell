@@ -26,7 +26,7 @@ else
 OUT_DIR = out
 endif
 
-CC = gcc
+CC = clang
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
 LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
