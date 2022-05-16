@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 12:57:21 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/16 14:06:38 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_next_process(pid_t process, int fd_tab[2])
 {
 	int	status;
 
-	waitpid(process, &status, 0);
+	waitpid(process, &status,0);
 	close(fd_tab[1]);
 	dup2 (fd_tab[0], STDIN_FILENO);
 	g_out = WEXITSTATUS(status);
@@ -71,7 +71,10 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 			close(fd_tab[0]);
 			
 			if(((t_cmd *)(cmd->content))->in)
-				fd = ft_fd_manager((t_cmd *)(cmd->content), 1);
+			{			
+
+				fd = ft_fd_manager((t_cmd *)(cmd->content), 1);	
+			}				
 			if (cmd->next)	
 				dup2(fd_tab[1], STDOUT_FILENO);
 			if(((t_cmd *)(cmd->content))->out)
@@ -81,7 +84,15 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 			exit(g_out);
 		}
 		else
+		{
 			g_out = ft_next_process(process, fd_tab);
+			if(((t_cmd *)(cmd->next)) && ((t_cmd *)(cmd->next->content))->in)
+			{			
+				dup2(shell.saved_stdin, STDIN_FILENO);
+				//close(shell.saved_stdin);				
+			}
+			
+		}
 		cmd = cmd->next;
 	}	
 	return (shell);
