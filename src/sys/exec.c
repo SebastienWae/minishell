@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 15:14:34 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:43:20 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 		fd = ft_fd_manager((t_cmd *)(cmd->content), 2, shell);
 	if (fd.in != -1)
 		ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
+	if (fd.in != 0)
+		close(fd.in);
+	if (fd.out != 1)
+		close(fd.out);
 }
 
 t_minishell	ft_pipe_error(t_minishell shell, int choice)

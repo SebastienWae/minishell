@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 16:14:38 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:19:48 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	redir_in(t_redir *redir, t_minishell shell)
 	{
 		fd_tmp = ft_heredoc_in(redir, shell);
 		close(fd_tmp);
-		fd = open("tmp/fd_tmp", O_RDWR, 0644);
+		fd = open("/tmp/minishell_fd_tmp", O_RDWR, 0644);
 		if (fd == -1)
 			ft_putstr_fd("Heredoc : Cannot read tmp file. Abort\n", 2);
 	}
