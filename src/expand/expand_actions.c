@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:36:14 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:02:53 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,43 @@ void	expand_append_char(t_expand *e)
 	free(tmp);
 }
 
-void	expand_append_var(t_expand *e)
+static char	*expand_get_var_value(t_expand *e)
 {
-	char	*tmp[2];
+	char	*val;
+	char	*tmp;
 
 	if (e->variable->end == 0)
-		tmp[0] = NULL;
+		val = NULL;
 	else if (e->variable->end == 1 && e->str[e->variable->start] == '?')
-		tmp[0] = ft_itoa(g_out);
+		val = ft_itoa(g_out);
 	else
 	{
-		tmp[1] = ft_substr(e->str, e->variable->start, e->variable->end);
-		if (tmp[1])
+		tmp = ft_substr(e->str, e->variable->start, e->variable->end);
+		if (tmp)
 		{
-			tmp[0] = ft_get_env_var_value(e->shell->local_env, tmp[1]);
-			free(tmp[1]);
+			val = ft_get_env_var_value(e->shell->local_env, tmp);
+			free(tmp);
 		}
 		else
-			tmp[0] = NULL;
+			val = NULL;
 	}
-	if (tmp[0])
+	return (val);
+}
+
+void	expand_append_var(t_expand *e)
+{
+	char	*val;
+	char	*tmp;
+
+	val = expand_get_var_value(e);
+	if (e->result)
 	{
-		tmp[1] = e->result;
-		e->result = ft_strjoin(e->result, tmp[0]);
-		free(tmp[1]);
+		tmp = e->result;
+		e->result = ft_strjoin(e->result, val);
+		free(tmp);
 	}
+	else
+		e->result = val;
 	free(e->variable);
 	e->variable = NULL;
 }

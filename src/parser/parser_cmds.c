@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 15:43:22 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:47:41 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ static void	parser_expand_cmd(t_parser *p)
 			values[i] = e->result;
 			e->destroy(e);
 		}
-		else
-			values[i] = NULL;
 		i++;
 	}
 	values[i++] = NULL;

@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:52:03 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 15:42:51 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:12:36 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ static void	expand_unquote_flag_ok(void **state)
 
 	(void)state;
 	shell = shell_builder(0, NULL);
-	expanded = expand("echo 'test' \"test\"", E_UNQUOTE, shell);
-	assert_string_equal(expanded->result, "echo test test");
+	expanded = expand("echo 'test' \"test\" \"\" \" \"", E_UNQUOTE, shell);
+	assert_string_equal(expanded->result, "echo test test   ");
 	expanded->destroy(expanded);
 }
 
@@ -95,8 +95,8 @@ static void	expand_unquote_flag_no(void **state)
 
 	(void)state;
 	shell = shell_builder(0, NULL);
-	expanded = expand("echo 'test' \"test\"", 0, shell);
-	assert_string_equal(expanded->result, "echo 'test' \"test\"");
+	expanded = expand("echo 'test' \"test\" \"\" \" \" ", 0, shell);
+	assert_string_equal(expanded->result, "echo 'test' \"test\" \"\" \" \" ");
 	expanded->destroy(expanded);
 }
 
@@ -131,8 +131,8 @@ static void	expand_var_quotes_flags_ok(void **state)
 
 	(void)state;
 	shell = shell_builder(1, "USER=swaegene");
-	expanded = expand("echo ' $USER ' \"$USER\"", E_VARIABLE | E_UNQUOTE, shell);
-	assert_string_equal(expanded->result, "echo  $USER  swaegene");
+	expanded = expand("echo ' $USER ' \" $USER \"", E_VARIABLE | E_UNQUOTE, shell);
+	assert_string_equal(expanded->result, "echo  $USER   swaegene ");
 	expanded->destroy(expanded);
 }
 
