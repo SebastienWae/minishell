@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 17:38:15 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 19:11:29 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,19 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 	{
 		ft_putstr_fd("\U0001F984 ", 2);
 		input = ft_strjoin(input, line);
-		line = NULL;
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 		if (ft_strcmp(line, ft_strjoin(redir->target, "\n")) == 0)
 			break ;
 	}
-	exp = expand(input, 0, &shell); //voir flags
+	if (redir->type == P_RT_HEREDOC_UNQUOTED)
+		exp = expand(input, 0, &shell);
+	else
+		exp = expand(input, 0, &shell); // expand variable even if '' 
 	fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_tmp == -1)
 		ft_putstr_fd("Cannot create tmp file\n", 2);
-	write(fd_tmp, exp->result, ft_strlen(input));
+	write(fd_tmp, exp->result, ft_strlen(exp->result));
 	free(line);
 	free(input);
 	return (fd_tmp);
