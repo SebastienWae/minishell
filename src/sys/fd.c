@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 17:19:48 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:59:20 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@
 
 static int	redir_in(t_redir *redir, t_minishell shell)
 {
-	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
-	int			fd;
-	int			fd_tmp;
+	int	fd;
+	int	fd_tmp;
 
-	if (ft_strcmp(redir_types[redir->type], "HEREDOC") == 0)
+	if (redir->type == P_RT_HEREDOC)
 	{
 		fd_tmp = ft_heredoc_in(redir, shell);
 		close(fd_tmp);
@@ -35,7 +34,7 @@ static int	redir_in(t_redir *redir, t_minishell shell)
 		if (fd == -1)
 			ft_putstr_fd("Heredoc : Cannot read tmp file. Abort\n", 2);
 	}
-	else if (ft_strcmp(redir_types[redir->type], "IN") == 0)
+	else if (redir->type == P_RT_IN)
 	{
 		fd = open(redir->target, O_RDONLY);
 		if (fd == -1)
@@ -48,16 +47,15 @@ static int	redir_in(t_redir *redir, t_minishell shell)
 
 static int	redir_out(t_redir *redir)
 {
-	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
-	int			fd;
+	int	fd;
 
-	if (ft_strcmp(redir_types[redir->type], "OUT") == 0)
+	if (redir->type == P_RT_OUT)
 	{
 		fd = open(redir->target, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 			ft_fd_error(redir->target);
 	}
-	else if (ft_strcmp(redir_types[redir->type], "APPEND") == 0)
+	else if (redir->type == P_RT_APPEND)
 	{
 		fd = open(redir->target, O_RDWR | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
