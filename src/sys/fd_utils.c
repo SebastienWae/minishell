@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 14:39:14 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:11:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	ft_close_fd(t_minishell shell, int fd_in, int fd_out)
 {
 	dup2(shell.saved_stdout, 1);
 	dup2(shell.saved_stdin, 0);
-	close(fd_out);
-	close(fd_in);
+	(void)fd_in;
+	(void)fd_out;
+	//close(fd_out);
+	//close(fd_in);
 }
 
 void	ft_close_saved_fd(t_minishell shell)

@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 08:08:38 by seb               #+#    #+#             */
-/*   Updated: 2022/05/16 16:16:45 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:31:50 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static void	parser_empty(void **state)
 	tokens = tokenize(line);
 	parser = parse(tokens, shell);
 	assert_null(parser->cmds);
-	tokens->destructor(tokens);
-	parser->destructor(parser);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
 }
 
 static void	parser_whitespaces(void **state)
@@ -79,8 +79,8 @@ static void	parser_whitespaces(void **state)
 	tokens = tokenize(line);
 	parser = parse(tokens, shell);
 	assert_null(parser->cmds);
-	tokens->destructor(tokens);
-	parser->destructor(parser);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
 }
 
 static void	parser_simple(void **state)
@@ -96,14 +96,16 @@ static void	parser_simple(void **state)
 	tokens = tokenize(line);
 	parser = parse(tokens, shell);
 	cmd = parser->cmds;
-	assert_string_equal(((t_cmd *)(cmd->content))->cmd, "echo 123");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[0], "echo");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[1], "123");
+	assert_null(((t_cmd *)(cmd->content))->cmd->values[2]);
 	assert_null(((t_cmd *)(cmd->content))->in);
 	assert_null(((t_cmd *)(cmd->content))->out);
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
 	cmd = cmd->next;
 	assert_null(cmd);
-	tokens->destructor(tokens);
-	parser->destructor(parser);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
 }
 
 static void	parser_redir_in(void **state)
@@ -123,7 +125,9 @@ static void	parser_redir_in(void **state)
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
 	assert_null(((t_cmd *)(cmd->content))->out);
 	in = ((t_cmd *)(cmd->content))->in;
-	assert_string_equal(((t_cmd *)(cmd->content))->cmd, "echo 123");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[0], "echo");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[1], "123");
+	assert_null(((t_cmd *)(cmd->content))->cmd->values[2]);
 	assert_int_equal(((t_redir *)(in->content))->type, P_RT_IN);
 	assert_string_equal(((t_redir *)(in->content))->target, "in");
 	assert_non_null(in->next);
@@ -137,8 +141,8 @@ static void	parser_redir_in(void **state)
 	assert_null(in->next);
 	cmd = cmd->next;
 	assert_null(cmd);
-	tokens->destructor(tokens);
-	parser->destructor(parser);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
 }
 
 static void	parser_redir_out(void **state)
@@ -158,7 +162,9 @@ static void	parser_redir_out(void **state)
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
 	assert_null(((t_cmd *)(cmd->content))->in);
 	out = ((t_cmd *)(cmd->content))->out;
-	assert_string_equal(((t_cmd *)(cmd->content))->cmd, "echo 123");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[0], "echo");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[1], "123");
+	assert_null(((t_cmd *)(cmd->content))->cmd->values[2]);
 	assert_int_equal(((t_redir *)(out->content))->type, P_RT_OUT);
 	assert_string_equal(((t_redir *)(out->content))->target, "out");
 	assert_non_null(out->next);
@@ -172,8 +178,8 @@ static void	parser_redir_out(void **state)
 	assert_null(out->next);
 	cmd = cmd->next;
 	assert_null(cmd);
-	tokens->destructor(tokens);
-	parser->destructor(parser);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
 }
 
 static void	parser_redir_pipe(void **state)
@@ -194,13 +200,16 @@ static void	parser_redir_pipe(void **state)
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 1);
 	assert_null(((t_cmd *)(cmd->content))->in);
 	assert_null(((t_cmd *)(cmd->content))->out);
-	assert_string_equal(((t_cmd *)(cmd->content))->cmd, "echo 123");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[0], "echo");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[1], "123");
+	assert_null(((t_cmd *)(cmd->content))->cmd->values[2]);
 	cmd = cmd->next;
 	assert_non_null(cmd);
 	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
 	in = ((t_cmd *)(cmd->content))->in;
 	out = ((t_cmd *)(cmd->content))->out;
-	assert_string_equal(((t_cmd *)(cmd->content))->cmd, "cat");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[0], "cat");
+	assert_null(((t_cmd *)(cmd->content))->cmd->values[1]);
 	assert_int_equal(((t_redir *)(in->content))->type, P_RT_IN);
 	assert_string_equal(((t_redir *)(in->content))->target, "in");
 	assert_null(in->next);
@@ -209,8 +218,8 @@ static void	parser_redir_pipe(void **state)
 	assert_null(out->next);
 	cmd = cmd->next;
 	assert_null(cmd);
-	tokens->destructor(tokens);
-	parser->destructor(parser);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
 }
 
 int	main(void)
