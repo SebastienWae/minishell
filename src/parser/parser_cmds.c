@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 15:01:52 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:43:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,17 @@ static void	parser_expand_cmd(t_parser *p)
 
 	i = 0;
 	values = p->curr_cmd->cmd->values;
-	while (values)
+	while (values[i])
 	{
 		e = expand(values[i], E_VARIABLE | E_UNQUOTE, p->shell);
-		if (e && e->result)
-			values[i++] = e->result;
 		if (e)
+		{
+			values[i] = e->result;
 			e->destroy(e);
+		}
+		else
+			values[i] = NULL;
+		i++;
 	}
 	values[i++] = NULL;
 	p->curr_cmd->cmd->len = i;
@@ -72,7 +76,7 @@ void	parser_end_cmd(t_parser *p)
 		parser_expand_cmd(p);
 		if (p->curr_cmd->cmd->values)
 		{
-			tmp = ft_lstnew(p->curr_cmd->cmd->values);
+			tmp = ft_lstnew(p->curr_cmd);
 			if (!tmp)
 			{
 				p->state = P_S_ERROR;

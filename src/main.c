@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 15:11:08 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:26:37 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <tokenizer.h>
 #include <unistd.h>
 #include <utils.h>
+
+#include <debug.h>
 
 int						g_out;
 
@@ -78,10 +80,10 @@ int	main(int argc, char **argv, char **env)
 {
 	t_minishell	shell;
 	char		*str;
-	t_fd_in_out	fd;
+	//t_fd_in_out	fd;
 	t_parser	*parsed;
 	t_tokenizer	*token;
-	t_list		*cmd;
+	//t_list		*cmd;
 
 	(void)argv;
 	shell = init_all(argc, env);
@@ -95,28 +97,30 @@ int	main(int argc, char **argv, char **env)
 				add_history(str);
 				token = tokenize(str);
 				parsed = parse(token, &shell);
-				cmd = parsed->cmds;
-				fd = ft_init_fd();
-				if (cmd && ((t_cmd *)(cmd->content))->cmd)
-				{
-					if (((t_cmd *)(cmd->content))->piped == 1)
-						ft_pipe(shell, cmd, env);
-					else
-					{
-						while (cmd)
-						{
-							fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
-							if (fd.in != -1 && fd.out != -1)
-								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
-							ft_close_fd(shell, fd.in, fd.out);
-							cmd = cmd->next;
-						}
-					}
-				}
-				else if (cmd && (((t_cmd *)(cmd->content))->in
-					|| ((t_cmd *)(cmd->content))->out))
-					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
-				ft_close_fd(shell, fd.in, fd.out);
+				//cmd = parsed->cmds;
+				print_tokenizer(token);
+				print_parser(parsed);
+				//fd = ft_init_fd();
+				//if (cmd && ((t_cmd *)(cmd->content))->cmd)
+				//{
+				//	if (((t_cmd *)(cmd->content))->piped == 1)
+				//		ft_pipe(shell, cmd, env);
+				//	else
+				//	{
+				//		while (cmd)
+				//		{
+				//			fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
+				//			if (fd.in != -1 && fd.out != -1)
+				//				ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
+				//			ft_close_fd(shell, fd.in, fd.out);
+				//			cmd = cmd->next;
+				//		}
+				//	}
+				//}
+				//else if (cmd && (((t_cmd *)(cmd->content))->in
+				//	|| ((t_cmd *)(cmd->content))->out))
+				//	fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
+				//ft_close_fd(shell, fd.in, fd.out);
 			}
 		}
 		free(str);

@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:52:03 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 17:23:06 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:42:51 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	expand_empty(void **state)
 	shell = shell_builder(0, NULL);
 	expanded = expand("", 0, shell);
 	assert_null(expanded->result);
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_nothing(void **state)
@@ -73,7 +73,7 @@ static void	expand_nothing(void **state)
 	shell = shell_builder(0, NULL);
 	expanded = expand("echo 123", 0, shell);
 	assert_string_equal(expanded->result, "echo 123");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_unquote_flag_ok(void **state)
@@ -85,7 +85,7 @@ static void	expand_unquote_flag_ok(void **state)
 	shell = shell_builder(0, NULL);
 	expanded = expand("echo 'test' \"test\"", E_UNQUOTE, shell);
 	assert_string_equal(expanded->result, "echo test test");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_unquote_flag_no(void **state)
@@ -97,7 +97,7 @@ static void	expand_unquote_flag_no(void **state)
 	shell = shell_builder(0, NULL);
 	expanded = expand("echo 'test' \"test\"", 0, shell);
 	assert_string_equal(expanded->result, "echo 'test' \"test\"");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_var_flag_ok(void **state)
@@ -109,7 +109,7 @@ static void	expand_var_flag_ok(void **state)
 	shell = shell_builder(1, "USER=swaegene");
 	expanded = expand("echo $USER", E_VARIABLE, shell);
 	assert_string_equal(expanded->result, "echo swaegene");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_var_flag_no(void **state)
@@ -121,7 +121,7 @@ static void	expand_var_flag_no(void **state)
 	shell = shell_builder(1, "USER=swaegene");
 	expanded = expand("echo $USER", 0, shell);
 	assert_string_equal(expanded->result, "echo $USER");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_var_quotes_flags_ok(void **state)
@@ -131,11 +131,9 @@ static void	expand_var_quotes_flags_ok(void **state)
 
 	(void)state;
 	shell = shell_builder(1, "USER=swaegene");
-	//expanded = expand("echo ' $USER ' \" $USER \"", E_VARIABLE | E_UNQUOTE, shell);
-	//assert_string_equal(expanded->result, "echo  $USER  swaegene ");
 	expanded = expand("echo ' $USER ' \"$USER\"", E_VARIABLE | E_UNQUOTE, shell);
 	assert_string_equal(expanded->result, "echo  $USER  swaegene");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_var_quotes_flags_unquote(void **state)
@@ -147,7 +145,7 @@ static void	expand_var_quotes_flags_unquote(void **state)
 	shell = shell_builder(1, "USER=swaegene");
 	expanded = expand("echo ' $USER ' \" $USER \"", E_UNQUOTE, shell);
 	assert_string_equal(expanded->result, "echo  $USER   $USER ");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_var_quotes_flags_variable(void **state)
@@ -159,7 +157,7 @@ static void	expand_var_quotes_flags_variable(void **state)
 	shell = shell_builder(1, "USER=swaegene");
 	expanded = expand("echo ' $USER ' \" $USER \"", E_VARIABLE, shell);
 	assert_string_equal(expanded->result, "echo ' $USER ' \" swaegene \"");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_var_quotes_flags_no(void **state)
@@ -171,7 +169,7 @@ static void	expand_var_quotes_flags_no(void **state)
 	shell = shell_builder(1, "USER=swaegene");
 	expanded = expand("echo ' $USER ' \" $USER \"", 0, shell);
 	assert_string_equal(expanded->result, "echo ' $USER ' \" $USER \"");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 static void	expand_question(void **state)
@@ -184,7 +182,7 @@ static void	expand_question(void **state)
 	shell = shell_builder(1, "USER=swaegene");
 	expanded = expand("echo ' $? ' $?", E_VARIABLE, shell);
 	assert_string_equal(expanded->result, "echo ' $? ' 123");
-	expanded->destructor(expanded);
+	expanded->destroy(expanded);
 }
 
 int	main(void)
