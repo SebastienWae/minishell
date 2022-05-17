@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 15:47:41 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 18:05:38 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	parser_end_cmd(t_parser *p)
 {
 	t_list	*tmp;
 
-	if (p->curr_cmd)
+	if (p->curr_cmd && p->curr_cmd->cmd)
 	{
 		parser_expand_cmd(p);
 		if (p->curr_cmd->cmd->values)
