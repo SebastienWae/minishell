@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 16:00:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:39:49 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
 #include <libft.h>
+#include <minishell.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,8 +42,8 @@ int	ft_exit(char **str, t_minishell shell)
 			free(str);
 			exit(255);
 		}
-		i ++;
-	}		
+		i++;
+	}
 	if (str[2] != 0)
 	{
 		printf("exit\nexit: too many arguments\n");

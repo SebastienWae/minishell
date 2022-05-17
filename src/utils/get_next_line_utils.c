@@ -6,13 +6,13 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 13:41:32 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 15:00:40 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:44:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <utils.h>
-#include <stdlib.h>
 #include <libft.h>
+#include <stdlib.h>
+#include <utils.h>
 
 char	*ft_strcat(char *dest, char *s1, char *s2)
 {
@@ -24,15 +24,15 @@ char	*ft_strcat(char *dest, char *s1, char *s2)
 	while (s1[i] != '\0')
 	{
 		dest[i] = s1[i];
-		i ++;
+		i++;
 	}
 	if (s2 != NULL)
 	{
 		while (s2[j] != '\0')
 		{
 			dest[i] = s2[j];
-			i ++;
-			j ++;
+			i++;
+			j++;
 		}
 	}
 	dest[i] = '\0';
@@ -50,7 +50,7 @@ int	ft_is_a_line(char *s)
 	{
 		if (s[i] == '\n')
 			return (1);
-		i ++;
+		i++;
 	}
 	return (0);
 }
@@ -66,7 +66,7 @@ char	*ft_charge_buffer(int fd, char *buf, char *tmp, char *next)
 		r = read(fd, buf, BUFFER_SIZE);
 		if (r == -1)
 		{
-			free (buf);
+			free(buf);
 			return (NULL);
 		}
 		buf[r] = '\0';
@@ -76,10 +76,10 @@ char	*ft_charge_buffer(int fd, char *buf, char *tmp, char *next)
 			next[0] = '\0';
 		}
 		tmp = ft_strjoin(next, buf);
-		free (next);
+		free(next);
 		if (ft_is_a_line(tmp) == 1)
 			break ;
 	}
-	free (buf);
+	free(buf);
 	return (tmp);
 }

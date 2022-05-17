@@ -6,13 +6,13 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 10:06:36 by seb               #+#    #+#             */
-/*   Updated: 2022/05/16 14:20:23 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:44:39 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include <libft.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 int	is_whitespace(char c)
 {
@@ -53,7 +53,7 @@ char	*ft_strncpy(char *src, size_t index, size_t end)
 	{
 		dest[i] = src[index];
 		i++;
-		index ++;
+		index++;
 	}
 	dest[i] = '\0';
 	return (dest);

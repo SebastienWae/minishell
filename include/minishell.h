@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 16:24:15 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:33:32 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <tokenizer.h>
 # include <libft.h>
 # include <termios.h>
 
@@ -22,23 +21,11 @@
 /* Global variable to save commands exit code */
 extern int	g_out;
 
-/* sets input and output for the current command */
-typedef struct s_fd_in_out {
-	int	in;
-	int	out;
-}	t_fd_in_out;
-
 typedef struct s_minishell {
 	t_list			*local_env;
 	struct termios	config;
 	int				saved_stdin;
 	int				saved_stdout;
 }	t_minishell;
-
-/* Join two strings with a separator */
-char		*ft_strjoin_sep(const char *s1, const char *s2, const char *sep);
-
-/* Split and classify the given string.*/
-t_tokenizer	*tokenize(char *line);
 
 #endif

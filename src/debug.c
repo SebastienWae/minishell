@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:46:15 by seb               #+#    #+#             */
-/*   Updated: 2022/05/10 20:12:12 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/17 13:47:14 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <parser.h>
 #include <libft.h>
-#include <tokenizer.h>
+#include <parser.h>
 #include <stdio.h>
+#include <tokenizer.h>
 
 void	print_redir(t_redir *redir)
 {
 	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 
-	printf("	    - type: %s\n", redir_types[redir->type]);
-	printf("	    - target: %s\n", redir->target);
+	printf("		 - type: %s\n", redir_types[redir->type]);
+	printf("		 - target: %s\n", redir->target);
 }
 
 void	print_cmd(t_cmd *cmd)
@@ -37,7 +37,7 @@ void	print_cmd(t_cmd *cmd)
 	n = 1;
 	while (in)
 	{
-		printf("	  - redir in #%d\n", n++);
+		printf("		- redir in #%d\n", n++);
 		print_redir(in->content);
 		in = in->next;
 	}
@@ -45,7 +45,7 @@ void	print_cmd(t_cmd *cmd)
 	n = 1;
 	while (out)
 	{
-		printf("	  - redir out #%d\n", n++);
+		printf("		- redir out #%d\n", n++);
 		print_redir(out->content);
 		out = out->next;
 	}

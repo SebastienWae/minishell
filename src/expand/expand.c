@@ -6,14 +6,14 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:08:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 17:18:17 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:37:11 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <utils.h>
 #include <expand.h>
 #include <minishell.h>
+#include <stdlib.h>
+#include <utils.h>
 
 t_variable	*variable_constructor(int start)
 {
@@ -30,8 +30,7 @@ static void	expand_destructor(t_expand *self)
 {
 	if (self->variable)
 		free(self->variable);
-	*self = (t_expand)
-	{
+	*self = (t_expand){
 		.str = NULL,
 		.flags = 0,
 		.shell = NULL,
@@ -39,20 +38,18 @@ static void	expand_destructor(t_expand *self)
 		.cursor = 0,
 		.variable = NULL,
 		.state = 0,
-		.destructor = NULL
-	};
+		.destructor = NULL};
 	free(self);
 }
 
 static t_expand	*expand_constructor(char *str, int flags, t_minishell *shell)
 {
-	t_expand		*self;
+	t_expand	*self;
 
 	self = malloc(sizeof(t_expand));
 	if (!self)
 		return (NULL);
-	*self = (t_expand)
-	{
+	*self = (t_expand){
 		str,
 		flags,
 		shell,
@@ -60,8 +57,7 @@ static t_expand	*expand_constructor(char *str, int flags, t_minishell *shell)
 		.cursor = 0,
 		.variable = NULL,
 		.state = E_S_EXPANDING,
-		.destructor = expand_destructor
-	};
+		.destructor = expand_destructor};
 	return (self);
 }
 

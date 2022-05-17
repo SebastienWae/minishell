@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 17:08:39 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:43:38 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <parser.h>
+#include <errno.h>
+#include <fcntl.h>
 #include <libft.h>
 #include <minishell.h>
-#include <utils.h>
+#include <parser.h>
 #include <string.h>
+#include <sys.h>
 #include <sys/fcntl.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <sys.h>
-#include <errno.h>
+#include <utils.h>
 
 /* TO DO :
 expand in heredoc
@@ -27,14 +27,15 @@ expand in heredoc
 
 static int	redir_in(t_redir *redir)
 {
-	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
+	static char	*redir_types[];
 	int			fd;
 	int			fd_tmp;
 
+	redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 	if (ft_strcmp(redir_types[redir->type], "HEREDOC") == 0)
 	{
 		fd_tmp = ft_heredoc_in(redir);
-		close (fd_tmp);
+		close(fd_tmp);
 		fd = open("tmp/fd_tmp", O_RDWR, 0644);
 		if (fd == -1)
 			ft_putstr_fd("Heredoc : Cannot read tmp file. Abort\n", 2);
@@ -52,9 +53,10 @@ static int	redir_in(t_redir *redir)
 
 static int	redir_out(t_redir *redir)
 {
-	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
+	static char	*redir_types[];
 	int			fd;
 
+	redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 	if (ft_strcmp(redir_types[redir->type], "OUT") == 0)
 	{
 		fd = open(redir->target, O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -80,7 +82,7 @@ static t_fd_in_out	ft_infile_scan(t_cmd *cmd)
 
 	in = cmd->in;
 	while (in)
-	{		
+	{
 		fd_tmp = redir_in(in->content);
 		if (fd_tmp == -1)
 		{
@@ -106,7 +108,7 @@ static t_fd_in_out	ft_outfile_scan(t_cmd *cmd)
 
 	out = cmd->out;
 	while (out)
-	{		
+	{
 		fd_tmp = redir_out(out->content);
 		fd.out = dup(fd_tmp);
 		if (out->next)
@@ -120,7 +122,7 @@ static t_fd_in_out	ft_outfile_scan(t_cmd *cmd)
 
 t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice)
 {
-	t_fd_in_out		fd;
+	t_fd_in_out	fd;
 
 	if (choice == 1 || choice == 0)
 		fd = ft_infile_scan(cmd);

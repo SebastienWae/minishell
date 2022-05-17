@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:43:27 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 14:17:45 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:42:31 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,9 @@
 
 int	ft_is_builtin_cmd(char *str)
 {
-	if (ft_strcmp(str, "echo") == 0
-		|| ft_strcmp(str, "cd") == 0
-		|| ft_strcmp(str, "pwd") == 0
-		|| ft_strcmp(str, "unset") == 0
-		|| ft_strcmp(str, "export") == 0
-		|| ft_strcmp(str, "env") == 0)
+	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "cd") == 0
+		|| ft_strcmp(str, "pwd") == 0 || ft_strcmp(str, "unset") == 0
+		|| ft_strcmp(str, "export") == 0 || ft_strcmp(str, "env") == 0)
 		return (1);
 	return (0);
 }

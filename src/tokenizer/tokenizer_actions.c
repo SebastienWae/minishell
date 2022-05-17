@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_actions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:45:59 by seb               #+#    #+#             */
-/*   Updated: 2022/05/07 14:48:42 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/17 13:44:09 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokenizer.h>
 #include <libft.h>
+#include <tokenizer.h>
 
 void	tokenizer_new_token(t_tokenizer *t, t_token_type type)
 {

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 17:53:36 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:43:18 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <minishell.h>
 #include <functions.h>
+#include <minishell.h>
 #include <sys.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -26,11 +25,10 @@ void	ft_launch_cmd(char *str, t_minishell shell, char **env)
 	if (ft_strcmp(parsed_str[0], "exit") == 0)
 		ft_exit(parsed_str, shell);
 	else if (ft_is_builtin_cmd(parsed_str[0]))
-		shell.local_env = ft_execute_builtin_cmd(parsed_str,
-				shell.local_env);
+		shell.local_env = ft_execute_builtin_cmd(parsed_str, shell.local_env);
 	else
 		g_out = ft_sys_cmd_process(parsed_str, str, shell.local_env, env);
-	free (parsed_str);
+	free(parsed_str);
 }
 
 static int	ft_next_process(pid_t process, int fd_tab[2])
@@ -39,13 +37,13 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 
 	waitpid(process, &status, 0);
 	close(fd_tab[1]);
-	dup2 (fd_tab[0], STDIN_FILENO);
+	dup2(fd_tab[0], STDIN_FILENO);
 	g_out = WEXITSTATUS(status);
 	return (g_out);
 }
 
-static void	ft_current_process(t_minishell shell, t_list *cmd, \
-								char **env, int fd_tab[2])
+static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
+		int fd_tab[2])
 {
 	t_fd_in_out	fd;
 
@@ -63,19 +61,19 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, \
 t_minishell	ft_pipe_error(t_minishell shell, int choice)
 {
 	if (choice == 1)
-		ft_putstr_fd ("Pipe initialization failed\n", 2);
+		ft_putstr_fd("Pipe initialization failed\n", 2);
 	if (choice == 2)
-		ft_putstr_fd ("Pipe process failed\n", 2);
+		ft_putstr_fd("Pipe process failed\n", 2);
 	return (shell);
 }
 
 t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
-{	
-	int			fd_tab[2];
-	pid_t		process;
+{
+	int		fd_tab[2];
+	pid_t	process;
 
 	while (cmd != 0)
-	{										
+	{
 		if (pipe(fd_tab) == -1)
 			return (ft_pipe_error(shell, 1));
 		process = fork();
@@ -93,6 +91,6 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
 				dup2(shell.saved_stdin, STDIN_FILENO);
 		}
 		cmd = cmd->next;
-	}	
+	}
 	return (shell);
 }

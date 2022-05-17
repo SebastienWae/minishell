@@ -3,22 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   calls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 17:44:31 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:42:20 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <minishell.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <sys/errno.h>
-#include <minishell.h>
-#if __linux__
-# include <sys/wait.h>
-#endif
 
 char	*ft_search_path(t_list *local_env)
 {
@@ -66,15 +63,15 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	{
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
-	}	
+		exit(127);
+	}
 	if (execve(main_cmd, cmd, 0) == -1)
 	{
 		ft_putstr_fd(strerror(errno), 2);
 		free(main_cmd);
 		//ft_free_char_tab(cmd);
-		exit (1);
-	}	
+		exit(1);
+	}
 	free(main_cmd);
 	//ft_free_char_tab(cmd);
 	return (0);

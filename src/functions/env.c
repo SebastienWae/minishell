@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:12:18 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 16:01:35 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:39:31 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <functions.h>
 #include <libft.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <utils.h>
-#include <functions.h>
 
 static int	ft_print_env(t_list *local_env, int choice)
 {
@@ -40,13 +39,13 @@ static int	ft_check_export(char *str)
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
 			return (0);
-		i ++;
+		i++;
 	}
 	return (1);
 }
 
 t_list	*ft_export(char **cmd, t_list *local_env)
-{	
+{
 	char	*elem;
 
 	g_out = 0;
@@ -67,9 +66,9 @@ t_list	*ft_export(char **cmd, t_list *local_env)
 				ft_print_env_error("export: '", *cmd);
 				g_out = 1;
 			}
-			cmd ++;
-		}	
-	}	
+			cmd++;
+		}
+	}
 	return (local_env);
 }
 
@@ -87,7 +86,7 @@ t_list	*ft_unset(char **cmd, t_list *local_env)
 		if (cmd[i] && (ft_strrchr(cmd[i], '=') || !ft_check_export(cmd[i])))
 			ft_print_env_error("unset: '", cmd[i]);
 		else
-		{				
+		{
 			value = ft_get_env_var_value(local_env, cmd[i]);
 			if (value)
 			{

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 10:13:34 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/17 13:41:53 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokenizer.h>
 #include <libft.h>
 #include <parser.h>
 #include <stdlib.h>
+#include <tokenizer.h>
 
 static t_redir	*redir_constructor(t_token_type type, char *target)
 {

@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:06:48 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 16:31:46 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:40:24 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <minishell.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/errno.h>
 
 void	ft_pwd(void)
 {

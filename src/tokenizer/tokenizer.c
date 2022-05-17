@@ -6,24 +6,22 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:44:15 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 16:00:00 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:44:12 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <minishell.h>
-#include <tokenizer.h>
 #include <stdlib.h>
+#include <tokenizer.h>
 #include <utils.h>
 
 static void	token_destructor(t_token *self)
 {
-	*self = (t_token)
-	{
+	*self = (t_token){
 		.str = NULL,
 		.type = 0,
-		.destructor = NULL
-	};
+		.destructor = NULL};
 	free(self);
 }
 
@@ -34,12 +32,10 @@ t_token	*token_constructor(t_token_type type, char *str)
 	self = malloc(sizeof(t_token));
 	if (!self)
 		return (NULL);
-	*self = (t_token)
-	{
+	*self = (t_token){
 		str,
 		type,
-		.destructor = token_destructor
-	};
+		.destructor = token_destructor};
 	return (self);
 }
 
@@ -55,15 +51,13 @@ static void	tokenizer_destructor(t_tokenizer *self)
 		self->tokens = tmp;
 	}
 	free(self->curr_token);
-	*self = (t_tokenizer)
-	{
+	*self = (t_tokenizer){
 		.tokens = NULL,
 		.line = NULL,
 		.cursor = 0,
 		.curr_token = NULL,
 		.state = 0,
-		.destructor = NULL
-	};
+		.destructor = NULL};
 	free(self);
 }
 
@@ -74,21 +68,19 @@ static t_tokenizer	*tokenizer_constructor(char *line)
 	self = malloc(sizeof(t_tokenizer));
 	if (!self)
 		return (NULL);
-	*self = (t_tokenizer)
-	{
+	*self = (t_tokenizer){
 		.tokens = NULL,
 		line,
 		.cursor = 0,
 		.curr_token = NULL,
 		.state = T_S_WORKING,
-		.destructor = tokenizer_destructor
-	};
+		.destructor = tokenizer_destructor};
 	return (self);
 }
 
 t_tokenizer	*tokenize(char *line)
 {
-	t_tokenizer		*tokenizer;
+	t_tokenizer	*tokenizer;
 
 	tokenizer = tokenizer_constructor(line);
 	while (tokenizer && tokenizer->state == T_S_WORKING)

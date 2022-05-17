@@ -6,14 +6,11 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:10:49 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 17:06:48 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:36:35 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
-#include <libft.h>
-#include <stdlib.h>
-#include <utils.h>
 
 void	expand_var_handler(t_expand *e)
 {

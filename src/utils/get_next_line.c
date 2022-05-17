@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 13:41:11 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/12 16:32:05 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:44:31 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <utils.h>
-#include <stdlib.h>
 #include <libft.h>
+#include <stdlib.h>
+#include <utils.h>
 
 char	*ft_copy_temp(char *str)
 {
@@ -25,13 +25,13 @@ char	*ft_copy_temp(char *str)
 	if (str == NULL)
 		return (NULL);
 	while (str[i] != '\n' && str[i] != '\0')
-		i ++;
+		i++;
 	if (i == ft_strlen(str))
 	{
 		free(str);
 		return (NULL);
 	}
-	i ++;
+	i++;
 	end = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
 	if (end == NULL)
 		return (NULL);
@@ -51,7 +51,7 @@ char	*ft_fill_line(char *tmp)
 	if (tmp == NULL)
 		return (NULL);
 	while (tmp[i] != '\n' && tmp[i] != '\0')
-		i ++;
+		i++;
 	if (tmp[0] == '\0')
 		return (NULL);
 	line = malloc(sizeof(char) * (i + 2));
@@ -61,7 +61,7 @@ char	*ft_fill_line(char *tmp)
 	while (tmp[i] != '\n' && tmp[i] != '\0')
 	{
 		line[i] = tmp[i];
-		i ++;
+		i++;
 	}
 	if (tmp[i] == '\n')
 		line[i++] = '\n';

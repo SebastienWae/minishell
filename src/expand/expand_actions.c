@@ -6,16 +6,14 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 17:20:46 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:36:14 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
+#include <functions.h>
 #include <stdlib.h>
 #include <utils.h>
-#include <libft.h>
-#include <functions.h>
-#include <minishell.h>
 
 void	expand_append_char(t_expand *e)
 {

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 17:09:25 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:43:29 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <libft.h>
 #include <minishell.h>
+#include <string.h>
 #include <sys/fcntl.h>
 #include <utils.h>
-#include <errno.h>
-#include <string.h>
 
 void	ft_close_fd(t_minishell shell, int fd_in, int fd_out)
 {
@@ -33,7 +33,7 @@ void	ft_close_saved_fd(t_minishell shell)
 
 t_fd_in_out	ft_init_fd(void)
 {
-	t_fd_in_out		fd;
+	t_fd_in_out	fd;
 
 	fd.out = dup(1);
 	fd.in = dup(0);
@@ -58,7 +58,7 @@ int	ft_heredoc_in(t_redir *redir)
 	ft_putstr_fd("\U0001F984 ", 2);
 	line = get_next_line(STDIN_FILENO);
 	while (1)
-	{		
+	{
 		ft_putstr_fd("\U0001F984 ", 2);
 		input = ft_strjoin(input, line);
 		line = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:04:36 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 17:24:47 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:38:51 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	ft_echo(char **cmd)
 		i = 1;
 	while (cmd[++i])
 	{
-		if (!(ft_strcmp(cmd[1], "-n") != 0 && i == 1)
-			&& (!(i == 2 && ft_strcmp(cmd[1], "-n") == 0)))
+		if (!(ft_strcmp(cmd[1], "-n") != 0 && i == 1) && (!(i == 2
+					&& ft_strcmp(cmd[1], "-n") == 0)))
 			printf(" ");
 		else
 			printf("%s", cmd[i]);

@@ -6,24 +6,24 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/16 16:52:43 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:47:42 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokenizer.h>
-#include <minishell.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <termios.h>
 #include <libft.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <utils.h>
-#include <sys.h>
+#include <minishell.h>
 #include <parser.h>
+#include <stdio.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdlib.h>
+#include <sys.h>
+#include <termios.h>
+#include <tokenizer.h>
+#include <unistd.h>
+#include <utils.h>
 
-int	g_out;
+int						g_out;
 
 static void	args_check_error(int argc)
 {
@@ -92,7 +92,7 @@ int	main(int argc, char **argv, char **env)
 		if (ft_ctrl_d_handler(str))
 		{
 			if (str[0] != 0)
-			{				
+			{
 				add_history(str);
 				token = tokenize(str);
 				parsed = parse(token, &shell);
@@ -105,18 +105,19 @@ int	main(int argc, char **argv, char **env)
 					else
 					{
 						while (cmd)
-						{						
+						{
 							fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
 							if (fd.in != -1 && fd.out != -1)
 								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd,
-									shell, env);
+												shell,
+												env);
 							ft_close_fd(shell, fd.in, fd.out);
 							cmd = cmd->next;
-						}				
-					}					
+						}
+					}
 				}
 				else if (cmd && (((t_cmd *)(cmd->content))->in
-					|| ((t_cmd *)(cmd->content))->out))
+							|| ((t_cmd *)(cmd->content))->out))
 					fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
 				ft_close_fd(shell, fd.in, fd.out);
 			}

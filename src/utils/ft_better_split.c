@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 11:19:48 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/11 15:50:42 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:44:23 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 typedef struct s_split_params
 {
-	char	**tab;
-	size_t	nb_str;
-	size_t	i;
-	int		k;
-	int		iq;
-}	t_split_params;
+	char		**tab;
+	size_t		nb_str;
+	size_t		i;
+	int			k;
+	int			iq;
+}				t_split_params;
 
 static size_t	ft_nb_slot(char *str, char c)
 {
@@ -38,11 +38,11 @@ static size_t	ft_nb_slot(char *str, char c)
 		if (*str != c && k == 0)
 		{
 			k = 1;
-			nb_str ++;
+			nb_str++;
 		}
 		else if (*str == c && inside_quote == -1)
 			k = 0;
-		str ++;
+		str++;
 	}
 	return (nb_str);
 }
@@ -74,8 +74,8 @@ char	**ft_better_split(char *s, char c)
 			sp.iq *= -1;
 		if (s[sp.i] != c && sp.k == -1)
 			sp.k = sp.i;
-		else if (((s[sp.i] == c && sp.iq == -1)
-				|| sp.i == ft_strlen(s)) && sp.k != -1)
+		else if (((s[sp.i] == c && sp.iq == -1) || sp.i == ft_strlen(s))
+			&& sp.k != -1)
 		{
 			sp.tab[sp.nb_str++] = ft_strtrim(ft_strncpy(s, sp.k, sp.i), "'");
 			sp.k = -1;

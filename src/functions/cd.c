@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:08:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 16:31:34 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:38:42 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include <functions.h>
-#include <minishell.h>
-#include <stdio.h>
+#include <libft.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/errno.h>
@@ -47,7 +45,7 @@ void	ft_cd(char **cmd, t_list *local_env)
 	while (local_env)
 	{
 		if (!ft_strncmp("PWD=", local_env->content, 4))
-		{		
+		{
 			free(local_env->content);
 			if (!getcwd(NULL, 0))
 				local_env->content = ft_strjoin("PWD=", "ERROR");
@@ -55,7 +53,7 @@ void	ft_cd(char **cmd, t_list *local_env)
 				local_env->content = ft_strjoin("PWD=", getcwd(NULL, 0));
 		}
 		if (!ft_strncmp("OLDPWD=", local_env->content, 7))
-		{			
+		{
 			free(local_env->content);
 			local_env->content = ft_strjoin("OLDPWD=", old_dir);
 		}

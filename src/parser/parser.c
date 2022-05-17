@@ -6,29 +6,27 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 17:49:14 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:42:10 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <minishell.h>
+#include <parser.h>
 #include <stdlib.h>
 #include <tokenizer.h>
-#include <parser.h>
-#include <minishell.h>
 
 static void	cmd_destructor(t_cmd *self)
 {
 	free(self->cmd);
 	ft_lstclear(&(self->in), free);
 	ft_lstclear(&(self->out), free);
-	*self = (t_cmd)
-	{
+	*self = (t_cmd){
 		.cmd = NULL,
 		.in = NULL,
 		.out = NULL,
 		.piped = 0,
-		.destructor = NULL
-	};
+		.destructor = NULL};
 	free(self);
 }
 
@@ -39,14 +37,12 @@ t_cmd	*cmd_constructor(void)
 	self = malloc(sizeof(t_cmd));
 	if (!self)
 		return (NULL);
-	*self = (t_cmd)
-	{
+	*self = (t_cmd){
 		.cmd = NULL,
 		.in = NULL,
 		.out = NULL,
 		.piped = 0,
-		.destructor = cmd_destructor
-	};
+		.destructor = cmd_destructor};
 	return (self);
 }
 
@@ -63,16 +59,14 @@ static void	parser_destructor(t_parser *self)
 	}
 	if (self->curr_cmd)
 		self->curr_cmd->destructor(self->curr_cmd);
-	*self = (t_parser)
-	{
+	*self = (t_parser){
 		.cmds = NULL,
 		.curr_cmd = NULL,
 		.last_token_type = 0,
 		.state = 0,
 		.tokens = NULL,
 		.shell = NULL,
-		.destructor = NULL
-	};
+		.destructor = NULL};
 	free(self);
 }
 
@@ -83,16 +77,14 @@ static t_parser	*parser_constructor(t_list *tokens, t_minishell *shell)
 	self = malloc(sizeof(t_parser));
 	if (!self)
 		return (NULL);
-	*self = (t_parser)
-	{
+	*self = (t_parser){
 		.cmds = NULL,
 		.curr_cmd = NULL,
 		.last_token_type = 0,
 		.state = P_S_WORKING,
 		.tokens = tokens,
 		shell,
-		.destructor = parser_destructor
-	};
+		.destructor = parser_destructor};
 	return (self);
 }
 
