@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 17:09:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:43:57 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,6 @@ int	main(int argc, char **argv, char **env)
 				token = tokenize(str);
 				parsed = parse(token, &shell);
 				cmd = parsed->cmds;
-				//print_tokenizer(token);
-				//print_parser(parsed);
-				fd = ft_init_fd();
 				if (cmd && ((t_cmd *)(cmd->content))->cmd)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
@@ -112,6 +109,10 @@ int	main(int argc, char **argv, char **env)
 							fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 							if (fd.in != -1 && fd.out != -1)
 								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
+							if (fd.in != 0)
+								close(fd.in);
+							if (fd.out != 1)
+								close(fd.out);
 							ft_close_fd(shell, fd.in, fd.out);
 							cmd = cmd->next;
 						}

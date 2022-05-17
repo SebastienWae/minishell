@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 17:11:27 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:38:15 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,12 @@ void	ft_close_fd(t_minishell shell, int fd_in, int fd_out)
 	dup2(shell.saved_stdin, 0);
 	(void)fd_in;
 	(void)fd_out;
-	//close(fd_out);
-	//close(fd_in);
 }
 
 void	ft_close_saved_fd(t_minishell shell)
 {
 	close(shell.saved_stdout);
 	close(shell.saved_stdin);
-}
-
-t_fd_in_out	ft_init_fd(void)
-{
-	t_fd_in_out	fd;
-
-	fd.out = dup(1);
-	fd.in = dup(0);
-	return (fd);
 }
 
 void	ft_fd_error(char *cmd)
@@ -73,7 +62,7 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 			break ;
 	}
 	exp = expand(input, 0, &shell); //voir flags
-	fd_tmp = open("tmp/fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_tmp == -1)
 		ft_putstr_fd("Cannot create tmp file\n", 2);
 	write(fd_tmp, exp->result, ft_strlen(input));
