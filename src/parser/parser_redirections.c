@@ -3,34 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:41:53 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 10:28:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <expand.h>
 #include <libft.h>
 #include <parser.h>
 #include <stdlib.h>
 #include <tokenizer.h>
 
-static t_redir	*redir_constructor(t_token_type type, char *target)
+static t_redir	redir_heredoc(t_parser *p)
+{
+	t_redir		redir;
+	t_expand	*unquoted;
+
+	unquoted = expand(((t_token *)p->tokens->content)->str, E_UNQUOTE,
+			p->shell);
+	if (ft_strcmp(unquoted->result, ((t_token *)p->tokens->content)->str))
+	{
+		redir.type = P_RT_HEREDOC_QUOTED;
+		redir.target = unquoted->result;
+	}
+	else
+	{
+		redir.type = P_RT_HEREDOC;
+		redir.target = ((t_token *)p->tokens->content)->str;
+	}
+	return (redir);
+}
+
+static t_redir	*redir_constructor(t_parser *p)
 {
 	t_redir	*redir;
 
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-	if (type == T_TT_REDIRECTION_IN)
-		redir->type = P_RT_IN;
-	else if (type == T_TT_REDIRECTION_OUT)
-		redir->type = P_RT_OUT;
-	else if (type == T_TT_HEREDOC)
-		redir->type = P_RT_HEREDOC;
-	else if (type == T_TT_REDIRECTION_APPEND)
-		redir->type = P_RT_APPEND;
-	redir->target = target;
+	if (p->last_token_type == T_TT_HEREDOC)
+		*redir = redir_heredoc(p);
+	else
+	{
+		if (p->last_token_type == T_TT_REDIRECTION_IN)
+			redir->type = P_RT_IN;
+		else if (p->last_token_type == T_TT_REDIRECTION_OUT)
+			redir->type = P_RT_OUT;
+		else if (p->last_token_type == T_TT_REDIRECTION_APPEND)
+			redir->type = P_RT_APPEND;
+		redir->target = ((t_token *)p->tokens->content)->str;
+	}
 	return (redir);
 }
 
@@ -71,8 +95,7 @@ void	parser_set_redir(t_parser *p)
 {
 	t_redir	*redir;
 
-	redir = redir_constructor(p->last_token_type,
-			((t_token *)p->tokens->content)->str);
+	redir = redir_constructor(p);
 	if (!redir)
 	{
 		p->state = P_S_ERROR;
