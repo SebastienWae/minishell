@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 14:19:08 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:50:17 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,15 @@
 #include <libft.h>
 #include <minishell.h>
 #include <parser.h>
+#include <stddef.h>
 #include <tokenizer.h>
-#include <utils.h> // a enlever quand plus besoin de ft_strjoin_sep 
+#include <utils.h>
 
 void	parser_add_to_cmd(t_parser *p)
 {
-	char	*tmp;
-
-	if (p->curr_cmd->cmd)
-	{
-		tmp = p->curr_cmd->cmd;
-		p->curr_cmd->cmd = ft_strjoin_sep(p->curr_cmd->cmd,
-				((t_token *)p->tokens->content)->str, " ");
-		free(tmp);
-	}
-	else
-		p->curr_cmd->cmd = ft_strdup(((t_token *)p->tokens->content)->str);
+	if (!(p->curr_cmd->cmd))
+		p->curr_cmd->cmd = array_constructor();
+	array_push(p->curr_cmd->cmd, ((t_token *)p->tokens->content)->str);
 	if (!(p->curr_cmd->cmd))
 	{
 		p->state = P_S_ERROR;
@@ -44,23 +37,40 @@ void	parser_new_cmd(t_parser *p)
 
 	parser_end_cmd(p);
 	cmd = cmd_constructor();
-	if (((t_token *)p->tokens->content)->type == T_TT_WORD)
-		cmd->cmd = ft_strdup(((t_token *)p->tokens->content)->str);
 	p->curr_cmd = cmd;
+	if (((t_token *)p->tokens->content)->type == T_TT_WORD)
+		parser_add_to_cmd(p);
 	p->last_token_type = ((t_token *)p->tokens->content)->type;
+}
+
+static void	parser_expand_cmd(t_parser *p)
+{
+	int			i;
+	char		**values;
+	t_expand	*e;
+
+	i = 0;
+	values = p->curr_cmd->cmd->values;
+	while (values)
+	{
+		e = expand(values[i], E_VARIABLE | E_UNQUOTE, p->shell);
+		if (e && e->result)
+			values[i++] = e->result;
+	}
+	values[i++] = NULL;
+	p->curr_cmd->cmd->len = i;
 }
 
 void	parser_end_cmd(t_parser *p)
 {
-	t_list		*tmp;
-	t_expand	*e;
+	t_list	*tmp;
 
 	if (p->curr_cmd)
 	{
-		e = expand(p->curr_cmd->cmd, E_VARIABLE | E_UNQUOTE, p->shell);
-		if (e && e->result)
+		parser_expand_cmd(p);
+		if (p->curr_cmd->cmd->values)
 		{
-			tmp = ft_lstnew(e->result);
+			tmp = ft_lstnew(p->curr_cmd->cmd->values);
 			if (!tmp)
 			{
 				p->state = P_S_ERROR;
