@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 19:07:37 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 10:28:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	redir_in(t_redir *redir, t_minishell shell)
 	int	fd;
 	int	fd_tmp;
 
-	if (redir->type == P_RT_HEREDOC || redir->type == P_RT_HEREDOC_UNQUOTED)
+	if (redir->type == P_RT_HEREDOC || redir->type == P_RT_HEREDOC_QUOTED)
 	{
 		fd_tmp = ft_heredoc_in(redir, shell);
 		close(fd_tmp);

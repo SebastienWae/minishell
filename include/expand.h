@@ -22,6 +22,7 @@ typedef struct s_variable			t_variable;
 
 #define E_UNQUOTE (1 << 1)
 #define E_VARIABLE (1 << 2)
+#define E_FORCE_VARIABLE (1 << 3)
 
 enum	e_expand_state
 {
