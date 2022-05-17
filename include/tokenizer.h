@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/17 14:04:25 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:55:12 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ struct s_tokenizer
 	int						cursor;
 	t_token					*curr_token;
 	t_tokenizer_state		state;
-	void					(*destructor)(t_tokenizer *);
+	void					(*destroy)(t_tokenizer *);
 };
 
 struct s_token {
 	char			*str;
 	t_token_type	type;
-	void			(*destructor)(t_token *);
+	void			(*destroy)(t_token *);
 };
 
 struct s_tokenizer_char_handlers

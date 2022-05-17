@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:08:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:37:11 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:55:34 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	expand_destructor(t_expand *self)
 		.cursor = 0,
 		.variable = NULL,
 		.state = 0,
-		.destructor = NULL};
+		.destroy = NULL};
 	free(self);
 }
 
@@ -57,7 +57,7 @@ static t_expand	*expand_constructor(char *str, int flags, t_minishell *shell)
 		.cursor = 0,
 		.variable = NULL,
 		.state = E_S_EXPANDING,
-		.destructor = expand_destructor};
+		.destroy = expand_destructor};
 	return (self);
 }
 

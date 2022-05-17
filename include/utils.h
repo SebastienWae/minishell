@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:57:31 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 14:26:17 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:05:09 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ char	*ft_charge_buffer(int fd, char *buf, char *tmp, char *next);
 
 t_array	*array_constructor(void);
 void	array_push(t_array *arr, char *str);
+void	array_print(t_array *arr);
 
 #endif

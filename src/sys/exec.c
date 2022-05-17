@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 14:43:25 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:14:34 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,14 @@
 #include <unistd.h>
 #include <utils.h>
 
-void	ft_launch_cmd(char *str, t_minishell shell, char **env)
+void	ft_launch_cmd(char **cmd, t_minishell shell, char **env)
 {
-	char	**parsed_str;
-
-	parsed_str = ft_split(str, ' ');
-	if (ft_strcmp(parsed_str[0], "exit") == 0)
-		ft_exit(parsed_str, shell);
-	else if (ft_is_builtin_cmd(parsed_str[0]))
-		shell.local_env = ft_execute_builtin_cmd(parsed_str, shell.local_env);
+	if (ft_strcmp(cmd[0], "exit") == 0)
+		ft_exit(cmd, shell);
+	else if (ft_is_builtin_cmd(cmd[0]))
+		shell.local_env = ft_execute_builtin_cmd(cmd, shell.local_env);
 	else
-		g_out = ft_sys_cmd_process(parsed_str, str, shell.local_env, env);
-	free(parsed_str);
+		g_out = ft_sys_cmd_process(cmd, shell.local_env, env);
 }
 
 static int	ft_next_process(pid_t process, int fd_tab[2])
@@ -56,7 +52,7 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 	if (((t_cmd *)(cmd->content))->out)
 		fd = ft_fd_manager((t_cmd *)(cmd->content), 2, shell);
 	if (fd.in != -1)
-		ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell, env);
+		ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
 }
 
 t_minishell	ft_pipe_error(t_minishell shell, int choice)

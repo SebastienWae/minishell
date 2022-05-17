@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 14:27:00 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:55:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ struct s_parser
 	t_parser_state	state;
 	t_list			*tokens;
 	t_minishell		*shell;
-	void			(*destructor)(t_parser *);
+	void			(*destroy)(t_parser *);
 };
 
 struct s_redir
@@ -64,7 +64,7 @@ struct s_cmd
 	t_list	*in;
 	t_list	*out;
 	int		piped;
-	void	(*destructor)(t_cmd *);
+	void	(*destroy)(t_cmd *);
 };
 
 struct s_parser_token_handlers

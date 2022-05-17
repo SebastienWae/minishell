@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:42:20 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:13:34 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,14 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	return (0);
 }
 
-int	ft_sys_cmd_process(char **parsed_str, char *str, t_list *local_env)
+int	ft_sys_cmd_process(char **cmd, t_list *local_env)
 {
 	pid_t	process;
 	int		status;
 
-	(void)str;
 	process = fork();
 	if (process == 0)
-		ft_execute_sys_cmd(parsed_str, local_env);
+		ft_execute_sys_cmd(cmd, local_env);
 	else
 	{
 		waitpid(process, &status, 0);

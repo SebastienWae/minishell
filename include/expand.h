@@ -47,7 +47,7 @@ struct s_expand
 	int				cursor;
 	t_variable		*variable;
 	t_expand_state	state;
-	void			(*destructor)(t_expand *);
+	void			(*destroy)(t_expand *);
 };
 
 struct	s_expand_handlers

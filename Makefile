@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/16 17:17:53 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/05/17 15:15:19 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = main.c debug.c \
 	utils/get_next_line.c \
 	utils/get_next_line_utils.c \
 	utils/strings.c \
+	utils/arrays.c \
 	sys/calls.c \
 	sys/cmds.c \
 	sys/exec.c \

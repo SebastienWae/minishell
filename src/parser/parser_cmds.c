@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 14:50:17 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:01:52 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static void	parser_expand_cmd(t_parser *p)
 		e = expand(values[i], E_VARIABLE | E_UNQUOTE, p->shell);
 		if (e && e->result)
 			values[i++] = e->result;
+		if (e)
+			e->destroy(e);
 	}
 	values[i++] = NULL;
 	p->curr_cmd->cmd->len = i;

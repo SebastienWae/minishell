@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:42:10 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:55:22 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void	cmd_destructor(t_cmd *self)
 {
-	free(self->cmd);
+	self->cmd->destroy(self->cmd);
 	ft_lstclear(&(self->in), free);
 	ft_lstclear(&(self->out), free);
 	*self = (t_cmd){
@@ -26,7 +26,7 @@ static void	cmd_destructor(t_cmd *self)
 		.in = NULL,
 		.out = NULL,
 		.piped = 0,
-		.destructor = NULL};
+		.destroy = NULL};
 	free(self);
 }
 
@@ -42,7 +42,7 @@ t_cmd	*cmd_constructor(void)
 		.in = NULL,
 		.out = NULL,
 		.piped = 0,
-		.destructor = cmd_destructor};
+		.destroy = cmd_destructor};
 	return (self);
 }
 
@@ -53,12 +53,12 @@ static void	parser_destructor(t_parser *self)
 	while (self->cmds)
 	{
 		tmp = self->cmds->next;
-		((t_cmd *)self->cmds->content)->destructor(self->cmds->content);
+		((t_cmd *)self->cmds->content)->destroy(self->cmds->content);
 		free(self->cmds);
 		self->cmds = tmp;
 	}
 	if (self->curr_cmd)
-		self->curr_cmd->destructor(self->curr_cmd);
+		self->curr_cmd->destroy(self->curr_cmd);
 	*self = (t_parser){
 		.cmds = NULL,
 		.curr_cmd = NULL,
@@ -66,7 +66,7 @@ static void	parser_destructor(t_parser *self)
 		.state = 0,
 		.tokens = NULL,
 		.shell = NULL,
-		.destructor = NULL};
+		.destroy = NULL};
 	free(self);
 }
 
@@ -84,7 +84,7 @@ static t_parser	*parser_constructor(t_list *tokens, t_minishell *shell)
 		.state = P_S_WORKING,
 		.tokens = tokens,
 		shell,
-		.destructor = parser_destructor};
+		.destroy = parser_destructor};
 	return (self);
 }
 

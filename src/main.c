@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 14:36:32 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:11:08 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,16 +107,14 @@ int	main(int argc, char **argv, char **env)
 						{
 							fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 							if (fd.in != -1 && fd.out != -1)
-								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd,
-												shell,
-												env);
+								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
 							ft_close_fd(shell, fd.in, fd.out);
 							cmd = cmd->next;
 						}
 					}
 				}
 				else if (cmd && (((t_cmd *)(cmd->content))->in
-							|| ((t_cmd *)(cmd->content))->out))
+					|| ((t_cmd *)(cmd->content))->out))
 					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 				ft_close_fd(shell, fd.in, fd.out);
 			}

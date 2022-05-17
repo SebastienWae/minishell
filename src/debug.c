@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:46:15 by seb               #+#    #+#             */
-/*   Updated: 2022/05/17 13:47:14 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:05:30 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <parser.h>
 #include <stdio.h>
 #include <tokenizer.h>
+#include <utils.h>
 
 void	print_redir(t_redir *redir)
 {
@@ -31,7 +32,8 @@ void	print_cmd(t_cmd *cmd)
 
 	in = cmd->in;
 	out = cmd->out;
-	printf("    - cmd: %s\n", cmd->cmd);
+	printf("    - cmd:\n");
+	array_print(cmd->cmd);
 	printf("    - piped: %d\n", cmd->piped);
 	printf("    - redir in:\n");
 	n = 1;
