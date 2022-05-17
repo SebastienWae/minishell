@@ -1,0 +1,25 @@
+---
+MainSourceFile:  '/Users/jeulliot/Desktop/Minishell1705/src/sys/fd_utils.c'
+Diagnostics:
+  - DiagnosticName:  clang-diagnostic-error
+    DiagnosticMessage:
+      Message:         'passing ''t_minishell'' (aka ''struct s_minishell'') to parameter of incompatible type ''t_minishell *'' (aka ''struct s_minishell *''); take the address with &'
+      FilePath:        '/Users/jeulliot/Desktop/Minishell1705/src/sys/fd_utils.c'
+      FileOffset:      1998
+      Replacements:
+        - FilePath:        '/Users/jeulliot/Desktop/Minishell1705/src/sys/fd_utils.c'
+          Offset:          1998
+          Length:          0
+          ReplacementText: '&'
+      Ranges:
+        - FilePath:        '/Users/jeulliot/Desktop/Minishell1705/src/sys/fd_utils.c'
+          FileOffset:      1998
+          Length:          5
+    Notes:
+      - Message:         'passing argument to parameter ''shell'' here'
+        FilePath:        '/Users/jeulliot/Desktop/Minishell1705/include/expand.h'
+        FileOffset:      1708
+        Replacements:    []
+    Level:           Error
+    BuildDirectory:  '/Users/jeulliot/Desktop/Minishell1705'
+...

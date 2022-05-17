@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:43:38 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:44:21 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,15 @@
 #include <unistd.h>
 #include <utils.h>
 
-/* TO DO :
-expand in heredoc
-*/
-
-static int	redir_in(t_redir *redir)
+static int	redir_in(t_redir *redir, t_minishell shell)
 {
-	static char	*redir_types[];
+	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 	int			fd;
 	int			fd_tmp;
 
-	redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 	if (ft_strcmp(redir_types[redir->type], "HEREDOC") == 0)
 	{
-		fd_tmp = ft_heredoc_in(redir);
+		fd_tmp = ft_heredoc_in(redir, shell);
 		close(fd_tmp);
 		fd = open("tmp/fd_tmp", O_RDWR, 0644);
 		if (fd == -1)
@@ -53,10 +48,9 @@ static int	redir_in(t_redir *redir)
 
 static int	redir_out(t_redir *redir)
 {
-	static char	*redir_types[];
+	static char	*redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 	int			fd;
 
-	redir_types[] = {"NONE", "IN", "OUT", "HEREDOC", "APPEND"};
 	if (ft_strcmp(redir_types[redir->type], "OUT") == 0)
 	{
 		fd = open(redir->target, O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -74,16 +68,17 @@ static int	redir_out(t_redir *redir)
 	return (fd);
 }
 
-static t_fd_in_out	ft_infile_scan(t_cmd *cmd)
+static t_fd_in_out	ft_infile_scan(t_cmd *cmd, t_minishell shell)
 {
 	t_fd_in_out	fd;
 	int			fd_tmp;
 	t_list		*in;
 
 	in = cmd->in;
+	fd.in = 0;
 	while (in)
 	{
-		fd_tmp = redir_in(in->content);
+		fd_tmp = redir_in(in->content, shell);
 		if (fd_tmp == -1)
 		{
 			close(fd_tmp);
@@ -107,6 +102,7 @@ static t_fd_in_out	ft_outfile_scan(t_cmd *cmd)
 	t_list		*out;
 
 	out = cmd->out;
+	fd.out = 1;
 	while (out)
 	{
 		fd_tmp = redir_out(out->content);
@@ -120,12 +116,12 @@ static t_fd_in_out	ft_outfile_scan(t_cmd *cmd)
 	return (fd);
 }
 
-t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice)
+t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell)
 {
 	t_fd_in_out	fd;
 
 	if (choice == 1 || choice == 0)
-		fd = ft_infile_scan(cmd);
+		fd = ft_infile_scan(cmd, shell);
 	if (choice == 2 || choice == 0)
 		fd = ft_outfile_scan(cmd);
 	return (fd);

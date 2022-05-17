@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:41:38 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:19:08 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <minishell.h>
 #include <parser.h>
 #include <tokenizer.h>
+#include <utils.h> // a enlever quand plus besoin de ft_strjoin_sep 
 
 void	parser_add_to_cmd(t_parser *p)
 {

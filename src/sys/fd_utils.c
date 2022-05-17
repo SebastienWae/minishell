@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:43:29 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:39:14 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
+#include <expand.h>
 #include <libft.h>
 #include <minishell.h>
 #include <string.h>
 #include <sys/fcntl.h>
+#include <sys.h>
 #include <utils.h>
 
 void	ft_close_fd(t_minishell shell, int fd_in, int fd_out)
@@ -48,11 +50,12 @@ void	ft_fd_error(char *cmd)
 	ft_putchar_fd('\n', 2);
 }
 
-int	ft_heredoc_in(t_redir *redir)
+int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 {
-	char	*input;
-	char	*line;
-	int		fd_tmp;
+	char		*input;
+	char		*line;
+	int			fd_tmp;
+	t_expand	*exp;
 
 	input = "";
 	ft_putstr_fd("\U0001F984 ", 2);
@@ -67,10 +70,11 @@ int	ft_heredoc_in(t_redir *redir)
 		if (ft_strcmp(line, ft_strjoin(redir->target, "\n")) == 0)
 			break ;
 	}
+	exp = expand(input, 0, &shell); //voir flags
 	fd_tmp = open("tmp/fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_tmp == -1)
 		ft_putstr_fd("Cannot create tmp file\n", 2);
-	write(fd_tmp, input, ft_strlen(input));
+	write(fd_tmp, exp->result, ft_strlen(input));
 	free(line);
 	free(input);
 	return (fd_tmp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/07 22:12:16 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/17 14:04:25 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ string.*/
 void		tokenizer_new_token(t_tokenizer *t, t_token_type type);
 
 t_token		*token_constructor(t_token_type type, char *token);
+t_tokenizer	*tokenize(char *line);
 
 #endif

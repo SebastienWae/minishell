@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:47:42 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:36:32 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <minishell.h>
-#include <parser.h>
 #include <stdio.h>
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -106,7 +105,7 @@ int	main(int argc, char **argv, char **env)
 					{
 						while (cmd)
 						{
-							fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
+							fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 							if (fd.in != -1 && fd.out != -1)
 								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd,
 												shell,
@@ -118,7 +117,7 @@ int	main(int argc, char **argv, char **env)
 				}
 				else if (cmd && (((t_cmd *)(cmd->content))->in
 							|| ((t_cmd *)(cmd->content))->out))
-					fd = ft_fd_manager((t_cmd *)(cmd->content), 0);
+					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 				ft_close_fd(shell, fd.in, fd.out);
 			}
 		}

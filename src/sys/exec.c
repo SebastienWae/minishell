@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:43:18 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:43:25 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,14 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 {
 	t_fd_in_out	fd;
 
+	fd.in = 0;
 	close(fd_tab[0]);
 	if (((t_cmd *)(cmd->content))->in)
-		fd = ft_fd_manager((t_cmd *)(cmd->content), 1);
+		fd = ft_fd_manager((t_cmd *)(cmd->content), 1, shell);
 	if (cmd->next)
 		dup2(fd_tab[1], STDOUT_FILENO);
 	if (((t_cmd *)(cmd->content))->out)
-		fd = ft_fd_manager((t_cmd *)(cmd->content), 2);
+		fd = ft_fd_manager((t_cmd *)(cmd->content), 2, shell);
 	if (fd.in != -1)
 		ft_launch_cmd(((t_cmd *)(cmd->content))->cmd, shell, env);
 }

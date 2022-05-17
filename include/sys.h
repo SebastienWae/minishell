@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/16 17:01:29 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:36:19 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 # include <libft.h>
 # include <minishell.h>
+# include <parser.h>
 # include <sys/_types/_pid_t.h>
+
+typedef struct s_fd_in_out {
+	int	in;
+	int	out;
+}	t_fd_in_out;
 
 char		*ft_search_path(char **env);
 char		*ft_build_cmd(char **path, char *cmd);
@@ -27,8 +33,8 @@ t_list		*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env);
 
 void		ft_close_fd(t_minishell shell, int fd_in, int fd_out);
 void		ft_close_saved_fd(t_minishell shell);
-int			ft_heredoc_in(t_redir *redir);
-t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice);
+int			ft_heredoc_in(t_redir *redir, t_minishell shell);
+t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell);
 t_fd_in_out	ft_init_fd(void);
 void		ft_fd_error (char *cmd);
 
