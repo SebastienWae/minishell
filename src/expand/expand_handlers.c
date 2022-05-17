@@ -6,11 +6,12 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:10:49 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:36:35 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:53:30 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
+#include <stdlib.h>
 
 void	expand_var_handler(t_expand *e)
 {
@@ -80,6 +81,11 @@ void	expand_double_quote_handler(t_expand *e)
 			expand_append_var(e);
 		if ((e->flags & E_UNQUOTE) == 0)
 			expand_append_char(e);
+		else if (!e->result)
+		{
+			e->result = malloc(sizeof(char));
+			e->result[0] = 0;
+		}
 		e->state = E_S_EXPANDING;
 	}
 	e->cursor++;

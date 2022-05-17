@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 08:08:38 by seb               #+#    #+#             */
-/*   Updated: 2022/05/17 16:31:50 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:50:14 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,59 @@ static void	parser_redir_pipe(void **state)
 	parser->destroy(parser);
 }
 
+static void	parser_var(void **state)
+{
+	t_list		*cmd;
+	t_tokenizer	*tokens;
+	t_parser	*parser;
+	t_minishell	*shell;
+	char		line[] = "echo $USER";
+
+	shell = shell_builder(1, "USER=test");
+	(void)state;
+	tokens = tokenize(line);
+	parser = parse(tokens, shell);
+	cmd = parser->cmds;
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[0], "echo");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[1], "test");
+	assert_null(((t_cmd *)(cmd->content))->cmd->values[2]);
+	assert_null(((t_cmd *)(cmd->content))->in);
+	assert_null(((t_cmd *)(cmd->content))->out);
+	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
+	cmd = cmd->next;
+	assert_null(cmd);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
+}
+
+static void	parser_var_quotes(void **state)
+{
+	t_list		*cmd;
+	t_tokenizer	*tokens;
+	t_parser	*parser;
+	t_minishell	*shell;
+	char		line[] = "echo \"$USER\" '$USER' $USER \"$TEST\" '$TEST' $TEST";
+
+	shell = shell_builder(1, "USER=test");
+	(void)state;
+	tokens = tokenize(line);
+	parser = parse(tokens, shell);
+	cmd = parser->cmds;
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[0], "echo");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[1], "test");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[2], "$USER");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[3], "test");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[4], "");
+	assert_string_equal(((t_cmd *)(cmd->content))->cmd->values[5], "$TEST");
+	assert_null(((t_cmd *)(cmd->content))->cmd->values[6]);
+	assert_null(((t_cmd *)(cmd->content))->in);
+	assert_null(((t_cmd *)(cmd->content))->out);
+	assert_int_equal(((t_cmd *)(cmd->content))->piped, 0);
+	cmd = cmd->next;
+	assert_null(cmd);
+	tokens->destroy(tokens);
+	parser->destroy(parser);
+}
 int	main(void)
 {
 	const struct CMUnitTest	parser_tests[] = {
@@ -231,6 +284,8 @@ int	main(void)
 		cmocka_unit_test(parser_redir_in),
 		cmocka_unit_test(parser_redir_out),
 		cmocka_unit_test(parser_redir_pipe),
+		cmocka_unit_test(parser_var),
+		cmocka_unit_test(parser_var_quotes),
 	};
 	return (cmocka_run_group_tests(parser_tests, NULL, NULL));
 }
