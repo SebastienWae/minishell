@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 17:43:57 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 18:25:40 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **env)
 				token = tokenize(str);
 				parsed = parse(token, &shell);
 				cmd = parsed->cmds;
-				if (cmd && ((t_cmd *)(cmd->content))->cmd)
+				if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
 						ft_pipe(shell, cmd, env);

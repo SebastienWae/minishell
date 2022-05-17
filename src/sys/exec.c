@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 17:43:20 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/17 18:35:31 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 void	ft_launch_cmd(char **cmd, t_minishell shell, char **env)
 {
-	if (ft_strcmp(cmd[0], "exit") == 0)
+	if (cmd[0] && ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(cmd, shell);
-	else if (ft_is_builtin_cmd(cmd[0]))
+	else if (cmd[0] && ft_is_builtin_cmd(cmd[0]))
 		shell.local_env = ft_execute_builtin_cmd(cmd, shell.local_env);
 	else
 		g_out = ft_sys_cmd_process(cmd, shell.local_env, env);
@@ -51,7 +51,7 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 		dup2(fd_tab[1], STDOUT_FILENO);
 	if (((t_cmd *)(cmd->content))->out)
 		fd = ft_fd_manager((t_cmd *)(cmd->content), 2, shell);
-	if (fd.in != -1)
+	if (fd.in != -1 && ((t_cmd *)(cmd->content))->cmd)
 		ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
 	if (fd.in != 0)
 		close(fd.in);
