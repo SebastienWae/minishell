@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:34:08 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/17 14:27:00 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <minishell.h>
 # include <tokenizer.h>
 # include <libft.h>
+# include <utils.h>
 
 typedef enum e_parser_state				t_parser_state;
 typedef enum e_redir_type				t_redir_type;
@@ -59,7 +60,7 @@ struct s_redir
 
 struct s_cmd
 {
-	char	*cmd;
+	t_array	*cmd;
 	t_list	*in;
 	t_list	*out;
 	int		piped;
