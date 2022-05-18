@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 16:02:53 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:26:10 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 #include <functions.h>
 #include <stdlib.h>
 #include <utils.h>
+
+void	expand_finish(t_expand *e)
+{
+	if (e->variable && e->state == E_S_EXPANDING)
+		expand_append_var(e);
+	e->state = E_S_FINISHED;
+}
+
+void	expand_add_empty(t_expand *e)
+{
+	e->result = malloc(sizeof(char));
+	if (e->result)
+		e->result[0] = 0;
+	else
+		e->state = E_S_ERROR;
+}
 
 void	expand_append_char(t_expand *e)
 {

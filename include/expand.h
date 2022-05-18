@@ -70,5 +70,7 @@ void		expand_char_handler(t_expand *e);
 
 void		expand_append_char(t_expand *e);
 void		expand_append_var(t_expand *e);
+void		expand_add_empty(t_expand *e);
+void		expand_finish(t_expand *e);
 
 #endif

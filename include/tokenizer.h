@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 21:46:57 by seb               #+#    #+#             */
-/*   Updated: 2022/05/17 14:55:12 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:28:21 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ enum e_toke_type
 	T_TT_WORD = 1,
 	T_TT_PIPE,
 	T_TT_HEREDOC,
-	T_TT_REDIRECTION_IN,
-	T_TT_REDIRECTION_OUT,
-	T_TT_REDIRECTION_APPEND,
+	T_TT_REDIR_IN,
+	T_TT_REDIR_OUT,
+	T_TT_REDIR_APPEND,
 	T_TT_SINGLE_QUOTE_WORD,
 	T_TT_DOUBLE_QUOTE_WORD,
 	T_TT_SYNTAX_ERROR

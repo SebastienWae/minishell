@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:52:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 15:07:11 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:29:16 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_array	*array_constructor(void)
 	t_array	*self;
 
 	self = malloc(sizeof(t_array));
+	if (!self)
+		return (NULL);
 	*self = (t_array)
 	{
 		.len = 0,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 10:28:26 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 13:28:21 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ static t_redir	*redir_constructor(t_parser *p)
 		*redir = redir_heredoc(p);
 	else
 	{
-		if (p->last_token_type == T_TT_REDIRECTION_IN)
+		if (p->last_token_type == T_TT_REDIR_IN)
 			redir->type = P_RT_IN;
-		else if (p->last_token_type == T_TT_REDIRECTION_OUT)
+		else if (p->last_token_type == T_TT_REDIR_OUT)
 			redir->type = P_RT_OUT;
-		else if (p->last_token_type == T_TT_REDIRECTION_APPEND)
+		else if (p->last_token_type == T_TT_REDIR_APPEND)
 			redir->type = P_RT_APPEND;
 		redir->target = ((t_token *)p->tokens->content)->str;
 	}
@@ -68,7 +68,7 @@ static void	parser_add_redir(t_parser *p, t_redir *redir)
 		p->state = P_S_ERROR;
 		return ;
 	}
-	if (p->last_token_type == T_TT_REDIRECTION_IN
+	if (p->last_token_type == T_TT_REDIR_IN
 		|| p->last_token_type == T_TT_HEREDOC)
 	{
 		if (p->curr_cmd->in)
@@ -76,8 +76,8 @@ static void	parser_add_redir(t_parser *p, t_redir *redir)
 		else
 			p->curr_cmd->in = tmp;
 	}
-	else if (p->last_token_type == T_TT_REDIRECTION_OUT
-		|| p->last_token_type == T_TT_REDIRECTION_APPEND)
+	else if (p->last_token_type == T_TT_REDIR_OUT
+		|| p->last_token_type == T_TT_REDIR_APPEND)
 	{
 		if (p->curr_cmd->out)
 			ft_lstadd_back(&(p->curr_cmd->out), tmp);
