@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 15:07:03 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 09:59:15 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 12:07:58 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
+#include <minishell.h>
 #include <stdio.h>
 #include <readline/readline.h>
 #if __linux__
@@ -40,7 +41,8 @@ void	ft_sig(void)
 	if (signal(SIGINT, &ft_sig_handler) == SIG_ERR || signal(SIGQUIT,
 			&ft_sig_handler) == SIG_ERR)
 	{
-		write(2, "Cannot catch signal. Abort\n", 27);
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd("Cannot catch signal. Abort\n", 2);
 		exit(1);
 	}
 }

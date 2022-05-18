@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:08:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:38:42 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:52:05 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	ft_cd_error(char *dir)
 	if (chdir(dir) == -1)
 	{
 		g_out = 1;
-		ft_putstr_fd("cd : ", 2);
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": cd : ", 2);
 		ft_putstr_fd(dir, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);

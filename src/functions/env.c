@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:12:18 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:39:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:52:43 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ void	ft_env(char **cmd, t_list *local_env)
 {
 	if (cmd[1] != 0)
 	{
-		ft_putstr_fd("env: does not take arguments\n", 2);
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": env: does not take arguments\n", 2);
 		g_out = 1;
 		return ;
 	}

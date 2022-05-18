@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 19:11:29 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:55:52 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_close_saved_fd(t_minishell shell)
 
 void	ft_fd_error(char *cmd)
 {
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
@@ -66,7 +68,11 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 		exp = expand(input, 0, &shell); // expand variable even if '' 
 	fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_tmp == -1)
+	{
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd("Cannot create tmp file\n", 2);
+	}
 	write(fd_tmp, exp->result, ft_strlen(exp->result));
 	free(line);
 	free(input);

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 19:07:37 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:55:21 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ static int	redir_in(t_redir *redir, t_minishell shell)
 		close(fd_tmp);
 		fd = open("/tmp/minishell_fd_tmp", O_RDWR, 0644);
 		if (fd == -1)
+		{
+			ft_putstr_fd(SHELL_NAME, 2);
+			ft_putstr_fd(": ", 2);
 			ft_putstr_fd("Heredoc : Cannot read tmp file. Abort\n", 2);
+		}
 	}
 	else if (redir->type == P_RT_IN)
 	{
