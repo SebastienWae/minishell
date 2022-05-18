@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_better_split.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 11:19:48 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:44:23 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:00:10 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_split_params	ft_init_params(void)
 	sp.i = -1;
 	sp.nb_str = 0;
 	sp.k = -1;
+	sp.tab = NULL;
 	return (sp);
 }
 

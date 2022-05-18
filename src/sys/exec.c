@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 18:35:31 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:13:17 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 	t_fd_in_out	fd;
 
 	fd.in = 0;
+	// initialize fd.out?
 	close(fd_tab[0]);
 	if (((t_cmd *)(cmd->content))->in)
 		fd = ft_fd_manager((t_cmd *)(cmd->content), 1, shell);

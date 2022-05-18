@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 18:20:33 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:03:02 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	parser_add_to_cmd(t_parser *p)
 {
 	if (!(p->curr_cmd->cmd))
 		p->curr_cmd->cmd = array_constructor();
-	array_push(p->curr_cmd->cmd, ((t_token *)p->tokens->content)->str);
 	if (!(p->curr_cmd->cmd))
 	{
 		p->state = P_S_ERROR;
 		return ;
 	}
+	array_push(p->curr_cmd->cmd, ((t_token *)p->tokens->content)->str);
 	p->last_token_type = ((t_token *)p->tokens->content)->type;
 }
 

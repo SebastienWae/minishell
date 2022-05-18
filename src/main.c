@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 18:25:40 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:10:59 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	main(int argc, char **argv, char **env)
 			if (str[0] != 0)
 			{
 				add_history(str);
+				// handle null token or parser
 				token = tokenize(str);
 				parsed = parse(token, &shell);
 				cmd = parsed->cmds;
@@ -121,7 +122,7 @@ int	main(int argc, char **argv, char **env)
 				else if (cmd && (((t_cmd *)(cmd->content))->in
 					|| ((t_cmd *)(cmd->content))->out))
 					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
-				ft_close_fd(shell, fd.in, fd.out);
+				ft_close_fd(shell, fd.in, fd.out); // fd not initialized?
 			}
 		}
 		free(str);

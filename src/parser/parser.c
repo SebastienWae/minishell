@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 14:55:22 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:07:50 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ t_parser	*parse(t_tokenizer *tokenizer, t_minishell *shell)
 	t_parser	*p;
 
 	p = parser_constructor(tokenizer->tokens, shell);
+	if (!p)
+		return (NULL);
 	while (p->state == P_S_WORKING)
 	{
 		if (!p->tokens)

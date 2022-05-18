@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:08:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 14:55:34 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:03:39 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ t_expand	*expand(char *str, int flags, t_minishell *shell)
 	t_expand	*expand;
 
 	expand = expand_constructor(str, flags, shell);
+	if (!expand)
+		return (NULL);
 	while (expand->state != E_S_FINISHED)
 	{
 		if (!expand->str[expand->cursor])

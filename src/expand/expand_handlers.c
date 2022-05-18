@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:10:49 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 10:38:06 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 11:06:19 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	expand_single_quote_handler(t_expand *e)
 			expand_append_char(e);
 		else if (!e->result)
 		{
+			// fix derefence
 			e->result = malloc(sizeof(char));
 			e->result[0] = 0;
 		}
@@ -97,6 +98,7 @@ void	expand_double_quote_handler(t_expand *e)
 			expand_append_char(e);
 		else if (!e->result)
 		{
+			// fix derefence
 			e->result = malloc(sizeof(char));
 			e->result[0] = 0;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 13:41:32 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:44:27 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:02:04 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_charge_buffer(int fd, char *buf, char *tmp, char *next)
 		if (next == NULL)
 		{
 			next = malloc(sizeof(char));
-			next[0] = '\0';
+			next[0] = '\0'; // dereference of NULL
 		}
 		tmp = ft_strjoin(next, buf);
 		free(next);

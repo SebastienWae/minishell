@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 10:28:26 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 11:13:27 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static t_fd_in_out	ft_infile_scan(t_cmd *cmd, t_minishell shell)
 
 	in = cmd->in;
 	fd.in = 0;
+	// initialize fd.out?
 	while (in)
 	{
 		fd_tmp = redir_in(in->content, shell);
@@ -100,6 +101,7 @@ static t_fd_in_out	ft_outfile_scan(t_cmd *cmd)
 	t_list		*out;
 
 	out = cmd->out;
+	// initialize fd.in ?
 	fd.out = 1;
 	while (out)
 	{
@@ -122,5 +124,6 @@ t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell)
 		fd = ft_infile_scan(cmd, shell);
 	if (choice == 2 || choice == 0)
 		fd = ft_outfile_scan(cmd);
+	// initialize fd?
 	return (fd);
 }
