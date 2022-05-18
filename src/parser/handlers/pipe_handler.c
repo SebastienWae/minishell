@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:02:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/11 10:08:20 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 13:30:35 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	parser_pipe_handler(t_parser *p)
 	{T_TT_WORD, parser_pipe_cmd},
 	{T_TT_PIPE, parser_syntax_error},
 	{T_TT_HEREDOC, parser_syntax_error},
-	{T_TT_REDIRECTION_IN, parser_syntax_error},
-	{T_TT_REDIRECTION_OUT, parser_syntax_error},
-	{T_TT_REDIRECTION_APPEND, parser_syntax_error}
+	{T_TT_REDIR_IN, parser_syntax_error},
+	{T_TT_REDIR_OUT, parser_syntax_error},
+	{T_TT_REDIR_APPEND, parser_syntax_error}
 	};
 
 	if (p->curr_cmd)

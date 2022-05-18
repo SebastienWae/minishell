@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:08:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 14:55:34 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:26:43 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ t_expand	*expand(char *str, int flags, t_minishell *shell)
 	t_expand	*expand;
 
 	expand = expand_constructor(str, flags, shell);
+	if (!expand)
+		return (NULL);
 	while (expand->state != E_S_FINISHED)
 	{
 		if (!expand->str[expand->cursor])
-		{
-			if (expand->variable && expand->state == E_S_EXPANDING)
-				expand_append_var(expand);
-			expand->state = E_S_FINISHED;
-		}
+			expand_finish(expand);
 		else if (expand->str[expand->cursor] == '\'')
 			expand_single_quote_handler(expand);
 		else if (expand->str[expand->cursor] == '"')
@@ -84,6 +82,7 @@ t_expand	*expand(char *str, int flags, t_minishell *shell)
 			expand_space_handler(expand);
 		else
 			expand_char_handler(expand);
+		expand->cursor++;
 	}
 	return (expand);
 }

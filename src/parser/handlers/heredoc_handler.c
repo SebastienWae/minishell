@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:07:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:40:42 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:30:35 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	parser_heredoc_handler(t_parser *p)
 	{T_TT_WORD, parser_new_redir},
 	{T_TT_PIPE, parser_new_redir},
 	{T_TT_HEREDOC, parser_syntax_error},
-	{T_TT_REDIRECTION_IN, parser_syntax_error},
-	{T_TT_REDIRECTION_OUT, parser_syntax_error},
-	{T_TT_REDIRECTION_APPEND, parser_syntax_error}
+	{T_TT_REDIR_IN, parser_syntax_error},
+	{T_TT_REDIR_OUT, parser_syntax_error},
+	{T_TT_REDIR_APPEND, parser_syntax_error}
 	};
 
 	if (p->curr_cmd)
