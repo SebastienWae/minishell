@@ -70,7 +70,7 @@ static t_minishell	init_all(int argc, char **env)
 	args_check_error(argc);
 	shell.config = init_termios();
 	shell.local_env = init_env(env);
-	ft_sig();
+	
 	shell.saved_stdin = dup(STDIN_FILENO);
 	shell.saved_stdout = dup(STDOUT_FILENO);
 	return (shell);
@@ -89,7 +89,8 @@ int	main(int argc, char **argv, char **env)
 	shell = init_all(argc, env);
 	while (1)
 	{
-		str = readline("Minishell>");
+		ft_sig();
+		str = readline("Minishell> ");
 		if (ft_ctrl_d_handler(str))
 		{
 			if (str[0] != 0)
@@ -98,6 +99,11 @@ int	main(int argc, char **argv, char **env)
 				token = tokenize(str);
 				parsed = parse(token, &shell);
 				cmd = parsed->cmds;
+				if (!token || !parsed)
+				{
+					ft_putstr_fd("Memory allocation failed. Aborting", 2);
+					exit (1);
+				}
 				if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
@@ -122,6 +128,8 @@ int	main(int argc, char **argv, char **env)
 					|| ((t_cmd *)(cmd->content))->out))
 					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 				ft_close_fd(shell, fd.in, fd.out);
+				token->destroy(token);
+				//parsed->destroy(parsed);
 			}
 		}
 		free(str);
