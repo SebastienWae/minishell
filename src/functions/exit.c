@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:39:49 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 12:52:38 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,22 @@ int	ft_exit(char **str, t_minishell shell)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	ft_exit_no_arg(str, shell);
-	while (str[1][i] != 0)
+	while (str[1][++i] != 0)
 	{
 		if (!ft_isdigit(str[1][i]))
 		{
-			printf("exit: %s: numeric argument required\n", str[1]);
+			printf("%s: exit: %s: numeric argument required\n",
+				SHELL_NAME, str[1]);
 			ft_lstclear(&shell.local_env, free);
 			free(str);
 			exit(255);
 		}
-		i++;
 	}
 	if (str[2] != 0)
 	{
-		printf("exit\nexit: too many arguments\n");
+		printf("exit\n%s: exit: too many arguments\n", SHELL_NAME);
 		g_out = 1;
 		return (1);
 	}
