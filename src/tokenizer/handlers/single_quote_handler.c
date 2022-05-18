@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_quote_handler.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 09:54:42 by seb               #+#    #+#             */
-/*   Updated: 2022/05/07 13:33:42 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 14:23:57 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	tokenizer_single_quote_handler(t_tokenizer *t)
 	{T_TT_WORD, tokenizer_increase_cursor, T_TT_SINGLE_QUOTE_WORD},
 	{T_TT_PIPE, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
 	{T_TT_HEREDOC, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
-	{T_TT_REDIRECTION_IN, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
-	{T_TT_REDIRECTION_OUT, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
-	{T_TT_REDIRECTION_APPEND, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
+	{T_TT_REDIR_IN, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
+	{T_TT_REDIR_OUT, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
+	{T_TT_REDIR_APPEND, tokenizer_delimit_new, T_TT_SINGLE_QUOTE_WORD},
 	{T_TT_SINGLE_QUOTE_WORD, tokenizer_increase_cursor, T_TT_WORD},
-	{T_TT_DOUBLE_QUOTE_WORD, tokenizer_increase_cursor, T_TT_SINGLE_QUOTE_WORD}
+	{T_TT_DOUBLE_QUOTE_WORD, tokenizer_increase_cursor, T_TT_DOUBLE_QUOTE_WORD}
 	};
 
 	if (t->curr_token)

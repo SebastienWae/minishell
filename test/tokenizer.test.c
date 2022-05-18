@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 11:24:56 by seb               #+#    #+#             */
-/*   Updated: 2022/05/11 09:54:48 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 13:30:35 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	tokenizer_operators(void **state)
 	(void)state;
 	tokens = tokenize(line);
 	list = tokens->tokens;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIRECTION_IN);
+	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIR_IN);
 	assert_non_null(list->next);
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
@@ -94,7 +94,7 @@ static void	tokenizer_operators(void **state)
 	assert_string_equal(((t_token *)list->content)->str, "cat");
 	assert_non_null(list->next);
 	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIRECTION_OUT);
+	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIR_OUT);
 	assert_non_null(list->next);
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
@@ -112,7 +112,7 @@ static void	tokenizer_operators(void **state)
 	assert_string_equal(((t_token *)list->content)->str, "123");
 	assert_non_null(list->next);
 	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIRECTION_APPEND);
+	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIR_APPEND);
 	assert_non_null(list->next);
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);
@@ -149,7 +149,7 @@ static void	tokenizer_quotes(void **state)
 	assert_string_equal(((t_token *)list->content)->str, "test\"ing\"");
 	assert_non_null(list->next);
 	list = list->next;
-	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIRECTION_OUT);
+	assert_int_equal(((t_token *)list->content)->type, T_TT_REDIR_OUT);
 	assert_non_null(list->next);
 	list = list->next;
 	assert_int_equal(((t_token *)list->content)->type, T_TT_WORD);

@@ -42,7 +42,6 @@ char	*ft_build_cmd(char **path, char *cmd)
 	if (cmd && cmd[0] == '/')
 		if (access(cmd, 0) == 0)
 			return (cmd);
-	
 	if (cmd && cmd[0] == '.')
 	{
 		if (access(cmd, 0) == 0)

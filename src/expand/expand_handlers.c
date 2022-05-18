@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:10:49 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 10:38:06 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 13:25:09 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	expand_var_handler(t_expand *e)
 		else
 			expand_append_char(e);
 	}
-	e->cursor++;
 }
 
 void	expand_single_quote_handler(t_expand *e)
@@ -57,10 +56,7 @@ void	expand_single_quote_handler(t_expand *e)
 		if ((e->flags & E_UNQUOTE) == 0)
 			expand_append_char(e);
 		else if (!e->result)
-		{
-			e->result = malloc(sizeof(char));
-			e->result[0] = 0;
-		}
+			expand_add_empty(e);
 		e->state = E_S_EXPANDING;
 	}
 	else if (e->state == E_S_IN_DOUBLE_QUOTE)
@@ -69,7 +65,6 @@ void	expand_single_quote_handler(t_expand *e)
 			expand_append_var(e);
 		expand_append_char(e);
 	}
-	e->cursor++;
 }
 
 void	expand_double_quote_handler(t_expand *e)
@@ -96,13 +91,9 @@ void	expand_double_quote_handler(t_expand *e)
 		if ((e->flags & E_UNQUOTE) == 0)
 			expand_append_char(e);
 		else if (!e->result)
-		{
-			e->result = malloc(sizeof(char));
-			e->result[0] = 0;
-		}
+			expand_add_empty(e);
 		e->state = E_S_EXPANDING;
 	}
-	e->cursor++;
 }
 
 void	expand_space_handler(t_expand *e)
@@ -121,7 +112,6 @@ void	expand_space_handler(t_expand *e)
 	}
 	else
 		e->state = E_S_ERROR;
-	e->cursor++;
 }
 
 void	expand_char_handler(t_expand *e)
@@ -142,5 +132,4 @@ void	expand_char_handler(t_expand *e)
 	}
 	else
 		e->state = E_S_ERROR;
-	e->cursor++;
 }

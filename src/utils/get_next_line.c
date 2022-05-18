@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 13:41:11 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 13:11:49 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:35:12 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*get_first_line(char **line_buf)
 	char	*tmp_buf;
 	char	*end_ptr;
 
+	if (!line_buf)
+		return (NULL);
 	end_ptr = ft_strchr(*line_buf, (int) '\n');
 	if (end_ptr)
 	{
@@ -63,10 +65,12 @@ char	*get_next_line(int fd)
 	if (!line_buf)
 	{
 		line_buf = malloc(sizeof(char));
+		if (!line_buf)
+			return (NULL);
 		*line_buf = 0;
 	}
 	read_file(fd, &line_buf);
-	if (!*line_buf)
+	if (line_buf && !*line_buf)
 	{
 		free(line_buf);
 		line_buf = 0;
