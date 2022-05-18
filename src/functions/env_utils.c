@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:32:24 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:39:14 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 12:51:52 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <unistd.h>
+#include <minishell.h>
 
 char	*ft_get_env_var_value(t_list *local_env, char *elem)
 {
@@ -63,6 +62,8 @@ int	ft_is_already_in_env(t_list *local_env, char *elem)
 
 void	ft_print_env_error(char *function, char *id)
 {
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(function, 2);
 	ft_putstr_fd(id, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);

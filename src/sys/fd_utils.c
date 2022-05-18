@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 10:47:22 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 12:54:36 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_close_saved_fd(t_minishell shell)
 
 void	ft_fd_error(char *cmd)
 {
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
@@ -66,7 +68,11 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 		exp = expand(input, E_FORCE_VARIABLE, &shell);
 	fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd_tmp == -1)
+	{
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd("Cannot create tmp file\n", 2);
+	}
 	ft_putstr_fd(exp->result, fd_tmp);
 	free(line);
 	free(input);

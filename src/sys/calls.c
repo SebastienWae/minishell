@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 09:58:43 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/18 12:53:20 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,17 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 
 	main_cmd = ft_build_cmd(ft_split(ft_search_path(local_env), ':'), cmd[0]);
 	if (main_cmd == NULL || cmd[0][0] == 0)
-	{
+	{			
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
 	if (execve(main_cmd, cmd, 0) == -1)
 	{
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
 		write(2, "\n", 1);
 		free(main_cmd);

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 18:35:31 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 12:54:02 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,17 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 t_minishell	ft_pipe_error(t_minishell shell, int choice)
 {
 	if (choice == 1)
+	{
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd("Pipe initialization failed\n", 2);
+	}
 	if (choice == 2)
-		ft_putstr_fd("Pipe process failed\n", 2);
+	{
+		ft_putstr_fd(SHELL_NAME, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd("Fork failed\n", 2);
+	}
 	return (shell);
 }
 
