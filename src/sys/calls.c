@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 12:53:20 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 16:36:30 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ char	*ft_build_cmd(char **path, char *cmd)
 	if (cmd && cmd[0] == '/')
 		if (access(cmd, 0) == 0)
 			return (cmd);
+	if (cmd && cmd[0] == '.')
+		if (access(cmd, 0) == 0)
+			return (cmd);
 	if (path == NULL)
 		return (0);
 	while (*path)
@@ -62,12 +65,15 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	char	*main_cmd;
 
 	main_cmd = ft_build_cmd(ft_split(ft_search_path(local_env), ':'), cmd[0]);
-	if (main_cmd == NULL || cmd[0][0] == 0)
+	if (main_cmd == NULL || cmd[0][0] == 0 )
 	{			
 		ft_putstr_fd(SHELL_NAME, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(cmd[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if (cmd[0][0] == '.' || cmd[0][0] == '/')
+			ft_putstr_fd(": No such file or directory\n", 2);
+		else		 
+			ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
 	if (execve(main_cmd, cmd, 0) == -1)
