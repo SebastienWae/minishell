@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 12:54:02 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:21:09 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 {
 	int	status;
 
-	waitpid(process, &status, 0);
 	close(fd_tab[1]);
+	waitpid(process, &status, 0);//changer
+	
 	dup2(fd_tab[0], STDIN_FILENO);
 	g_out = WEXITSTATUS(status);
 	return (g_out);
