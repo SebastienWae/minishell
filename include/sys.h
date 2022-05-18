@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sys.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 15:14:02 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 09:58:03 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <libft.h>
 # include <minishell.h>
 # include <parser.h>
-# include <sys/_types/_pid_t.h>
 
 typedef struct s_fd_in_out {
 	int	in;

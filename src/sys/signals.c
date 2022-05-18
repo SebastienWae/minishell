@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 15:07:03 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:43:53 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 09:59:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <stdio.h>
 #include <readline/readline.h>
+#if __linux__
+# include <signal.h>
+#endif
 
 /* Redirection of Ctrl C => newline and Ctrl \ => does nothing */
 void	ft_sig_handler(int sig)

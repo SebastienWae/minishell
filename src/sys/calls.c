@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 19:06:05 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 09:58:43 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/errno.h>
+#if __linux__
+# include <sys/wait.h>
+#endif
 
 char	*ft_search_path(t_list *local_env)
 {
