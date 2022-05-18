@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 16:36:30 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:26:54 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ char	*ft_build_cmd(char **path, char *cmd)
 		if (access(cmd, 0) == 0)
 			return (cmd);
 	if (cmd && cmd[0] == '.')
+	{
 		if (access(cmd, 0) == 0)
 			return (cmd);
+		else 
+			return (0);
+	}
 	if (path == NULL)
 		return (0);
 	while (*path)
@@ -89,7 +93,7 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	return (0);
 }
 
-int	ft_sys_cmd_process(char **cmd, t_list *local_env)
+int	ft_sys_cmd_process(char **cmd, t_list *local_env)//ajouter signaux ici aussi
 {
 	pid_t	process;
 	int		status;
@@ -99,7 +103,7 @@ int	ft_sys_cmd_process(char **cmd, t_list *local_env)
 		ft_execute_sys_cmd(cmd, local_env);
 	else
 	{
-		waitpid(process, &status, 0);
+		waitpid(process, &status, 0); //changer
 		g_out = WEXITSTATUS(status);
 	}
 	return (g_out);
