@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 13:41:11 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:44:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:11:49 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,78 +14,63 @@
 #include <stdlib.h>
 #include <utils.h>
 
-char	*ft_copy_temp(char *str)
+char	*get_first_line(char **line_buf)
 {
-	size_t	j;
-	size_t	i;
-	char	*end;
+	char	*line;
+	char	*tmp_buf;
+	char	*end_ptr;
 
-	i = 0;
-	j = 0;
-	if (str == NULL)
-		return (NULL);
-	while (str[i] != '\n' && str[i] != '\0')
-		i++;
-	if (i == ft_strlen(str))
+	end_ptr = ft_strchr(*line_buf, (int) '\n');
+	if (end_ptr)
 	{
-		free(str);
-		return (NULL);
+		line = ft_substr(*line_buf, 0, (end_ptr - *line_buf) + 1);
+		tmp_buf = ft_strdup(end_ptr + 1);
+		free(*line_buf);
+		*line_buf = tmp_buf;
 	}
-	i++;
-	end = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
-	if (end == NULL)
-		return (NULL);
-	while (str[i] != '\0')
-		end[j++] = str[i++];
-	end[j] = '\0';
-	free(str);
-	return (end);
+	else
+	{
+		line = ft_strdup(*line_buf);
+		free(*line_buf);
+		*line_buf = 0;
+	}
+	return (line);
 }
 
-char	*ft_fill_line(char *tmp)
+void	read_file(int fd, char **line_buf)
 {
-	int		i;
+	int		b;
+	char	buf[BUFFER_SIZE + 1];
 	char	*line;
 
-	i = 0;
-	if (tmp == NULL)
-		return (NULL);
-	while (tmp[i] != '\n' && tmp[i] != '\0')
-		i++;
-	if (tmp[0] == '\0')
-		return (NULL);
-	line = malloc(sizeof(char) * (i + 2));
-	if (line == NULL)
-		return (NULL);
-	i = 0;
-	while (tmp[i] != '\n' && tmp[i] != '\0')
+	b = 1;
+	while (b && !ft_strchr(*line_buf, (int) '\n'))
 	{
-		line[i] = tmp[i];
-		i++;
+		b = read(fd, buf, BUFFER_SIZE);
+		if (b < 0)
+			break ;
+		buf[b] = 0;
+		line = ft_strjoin(*line_buf, (char *)buf);
+		free(*line_buf);
+		*line_buf = line;
 	}
-	if (tmp[i] == '\n')
-		line[i++] = '\n';
-	line[i] = '\0';
-	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*tmp;
-	char		*line;
-	char		*next;
-	char		*buf;
+	static char	*line_buf;
 
-	next = NULL;
-	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
+	if (!line_buf)
+	{
+		line_buf = malloc(sizeof(char));
+		*line_buf = 0;
+	}
+	read_file(fd, &line_buf);
+	if (!*line_buf)
+	{
+		free(line_buf);
+		line_buf = 0;
 		return (NULL);
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (buf == NULL)
-		return (NULL);
-	tmp = ft_charge_buffer(fd, buf, tmp, next);
-	if (tmp == NULL)
-		return (NULL);
-	line = ft_fill_line(tmp);
-	tmp = ft_copy_temp(tmp);
-	return (line);
+	}
+	return (get_first_line(&line_buf));
 }
