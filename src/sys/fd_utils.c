@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 10:20:11 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 13:13:19 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 #include <sys/signal.h>
 #include <unistd.h>
 #include <utils.h>
-
-#include <stdio.h>
-
 
 void	ft_reset_fd(t_minishell shell)
 {
@@ -47,7 +44,7 @@ void	ft_fd_error(char *cmd)
 	ft_putchar_fd('\n', 2);
 }
 
-void	ft_sig_process_handle(int sig)
+void	ft_sig_hd_handle(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -55,7 +52,7 @@ void	ft_sig_process_handle(int sig)
 		close(STDIN_FILENO);
 	}
 	if (sig == SIGQUIT)
-		return;
+		return ;
 }
 
 int	ft_heredoc_in(t_redir *redir, t_minishell shell)
@@ -66,23 +63,22 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 	t_expand	*exp;
 
 	input = "";
-	
-	
 	fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (signal(SIGINT, &ft_sig_process_handle) == SIG_ERR || signal(SIGQUIT, &ft_sig_process_handle) == SIG_ERR)			
-			return(fd_tmp);
+	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR
+		|| signal(SIGQUIT, &ft_sig_hd_handle) == SIG_ERR)
+		return (fd_tmp);
 	ft_putstr_fd("\U0001F984 ", 2);
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
-		return fd_tmp;
+		return (fd_tmp);
 	while (1)
 	{		
 		input = ft_strjoin(input, line);
 		free(line);
 		ft_putstr_fd("\U0001F984 ", 2);
 		line = get_next_line(STDIN_FILENO);
-		if (!line)		
-			return fd_tmp;			
+		if (!line)
+			return (fd_tmp);
 		if (ft_strcmp(line, ft_strjoin(redir->target, "\n")) == 0)
 			break ;
 	}
@@ -90,7 +86,6 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 		exp = expand(input, 0, &shell);
 	else
 		exp = expand(input, E_FORCE_VARIABLE, &shell);
-	
 	if (fd_tmp == -1)
 	{
 		ft_putstr_fd(SHELL_NAME, 2);

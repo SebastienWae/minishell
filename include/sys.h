@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/19 10:12:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 10:33:19 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_fd_in_out	ft_init_fd(void);
 void		ft_fd_error(char *cmd);
 
 void		ft_sig_handler(int sig);
-void		ft_sig_process_handle(int sig);
+void		ft_sig_hd_handle(int sig);
 void		ft_sig(void);
 int			ft_ctrl_d_handler(char *str);
 

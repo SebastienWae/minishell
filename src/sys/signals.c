@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 15:07:03 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 16:26:26 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 13:09:51 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 /* Redirection of Ctrl C => newline and Ctrl \ => does nothing */
 void	ft_sig_handler(int sig)
 {
-
-
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
@@ -47,9 +45,7 @@ void	ft_sig(void)
 		ft_putstr_fd(SHELL_NAME, 2);
 		ft_putstr_fd(": Cannot catch signal. Aborting\n", 2);
 		exit(1);
-	}
-
-	
+	}	
 }
 
 /* Ctrl D exits if nothing is written in prompt, else does nothing */

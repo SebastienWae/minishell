@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 09:58:28 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 11:59:51 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 #include <sys.h>
+#include <sys/wait.h>
 #include <termios.h>
 #include <tokenizer.h>
 #include <unistd.h>
@@ -89,7 +90,8 @@ int	main(int argc, char **argv, char **env)
 	shell = init_all(argc, env);
 	while (1)
 	{
-		ft_sig();
+		ft_sig();	
+		wait(0);
 		str = readline("Minishell> ");
 		if (ft_ctrl_d_handler(str))
 		{
