@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 17:21:09 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 10:12:52 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 void	ft_launch_cmd(char **cmd, t_minishell shell, char **env)
 {
+	if (signal(SIGINT, &ft_sig_process_handle) == SIG_ERR || signal(SIGQUIT, &ft_sig_process_handle) == SIG_ERR )	
+		return;
 	if (cmd[0] && ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(cmd, shell);
 	else if (cmd[0] && ft_is_builtin_cmd(cmd[0]))
@@ -30,10 +32,9 @@ void	ft_launch_cmd(char **cmd, t_minishell shell, char **env)
 static int	ft_next_process(pid_t process, int fd_tab[2])
 {
 	int	status;
-
-	close(fd_tab[1]);
-	waitpid(process, &status, 0);//changer
 	
+	waitpid(process, &status, 0);//changer ?
+	close(fd_tab[1]);
 	dup2(fd_tab[0], STDIN_FILENO);
 	g_out = WEXITSTATUS(status);
 	return (g_out);
@@ -43,7 +44,7 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 		int fd_tab[2])
 {
 	t_fd_in_out	fd;
-
+(void) env;
 	fd.in = 0;
 	close(fd_tab[0]);
 	if (((t_cmd *)(cmd->content))->in)
@@ -52,7 +53,7 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 		dup2(fd_tab[1], STDOUT_FILENO);
 	if (((t_cmd *)(cmd->content))->out)
 		fd = ft_fd_manager((t_cmd *)(cmd->content), 2, shell);
-	if (fd.in != -1 && ((t_cmd *)(cmd->content))->cmd)
+	if (fd.in != -1 && ((t_cmd *)(cmd->content))->cmd)		
 		ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
 	if (fd.in != 0)
 		close(fd.in);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 16:52:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 09:58:28 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	main(int argc, char **argv, char **env)
 								close(fd.in);
 							if (fd.out != 1)
 								close(fd.out);
-							ft_close_fd(shell, fd.in, fd.out);
+							ft_reset_fd(shell);
 							cmd = cmd->next;
 						}
 					}
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **env)
 				else if (cmd && (((t_cmd *)(cmd->content))->in
 					|| ((t_cmd *)(cmd->content))->out))
 					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
-				ft_close_fd(shell, fd.in, fd.out);
+				ft_reset_fd(shell);
 				token->destroy(token);
 				//parsed->destroy(parsed);
 			}
