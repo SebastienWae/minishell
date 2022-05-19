@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:46:15 by seb               #+#    #+#             */
-/*   Updated: 2022/05/17 15:05:30 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:27:00 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	print_cmd(t_cmd *cmd)
 	in = cmd->in;
 	out = cmd->out;
 	printf("    - cmd:\n");
-	array_print(cmd->cmd);
 	printf("    - piped: %d\n", cmd->piped);
 	printf("    - redir in:\n");
 	n = 1;
