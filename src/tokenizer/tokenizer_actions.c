@@ -33,7 +33,7 @@ void	tokenizer_delimit_curr_token(t_tokenizer *t)
 {
 	t_list	*new;
 
-	if (ft_strcmp(t->curr_token->str, "*") == 0)
+	if (t->curr_token && ft_strcmp(t->curr_token->str, "*") == 0)
 		expand_wildcard(t);
 	else
 	{
