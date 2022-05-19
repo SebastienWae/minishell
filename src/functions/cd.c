@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:08:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 12:50:59 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:29:50 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	ft_cd_error(char *dir)
 void	ft_cd(char **cmd, t_list *local_env)
 {
 	char	*old_dir;
+	char	*new_dir;
 
 	g_out = 0;
 	old_dir = ft_get_env_var_value(local_env, "PWD");
@@ -48,10 +49,11 @@ void	ft_cd(char **cmd, t_list *local_env)
 		if (!ft_strncmp("PWD=", local_env->content, 4))
 		{
 			free(local_env->content);
-			if (!getcwd(NULL, 0))
+			new_dir = getcwd(NULL, 0);
+			if (!new_dir)
 				local_env->content = ft_strjoin("PWD=", "ERROR");
 			else
-				local_env->content = ft_strjoin("PWD=", getcwd(NULL, 0));
+				local_env->content = ft_strjoin("PWD=", new_dir);
 		}
 		if (!ft_strncmp("OLDPWD=", local_env->content, 7))
 		{
@@ -60,4 +62,6 @@ void	ft_cd(char **cmd, t_list *local_env)
 		}
 		local_env = local_env->next;
 	}
+	free(old_dir);
+	free(new_dir);
 }

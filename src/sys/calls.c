@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 12:55:57 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:17:23 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_search_path(t_list *local_env)
 	return (path);
 }
 
-char	*ft_build_cmd(char **path, char *cmd)
+char	*ft_build_cmd(char **path, char *cmd) // free
 {
 	char	*str;
 	char	*cmd_out;

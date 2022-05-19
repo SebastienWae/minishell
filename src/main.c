@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 11:59:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 18:06:00 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <sys.h>
 #include <sys/wait.h>
@@ -70,8 +71,7 @@ static t_minishell	init_all(int argc, char **env)
 	g_out = 0;
 	args_check_error(argc);
 	shell.config = init_termios();
-	shell.local_env = init_env(env);
-	
+	shell.local_env = init_env(env);	
 	shell.saved_stdin = dup(STDIN_FILENO);
 	shell.saved_stdout = dup(STDOUT_FILENO);
 	return (shell);
@@ -89,9 +89,9 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	shell = init_all(argc, env);
 	while (1)
-	{
-		ft_sig();	
-		wait(0);
+	{		
+		ft_sig();
+		while (wait(NULL) != -1 || errno != ECHILD);
 		str = readline("Minishell> ");
 		if (ft_ctrl_d_handler(str))
 		{
@@ -131,7 +131,7 @@ int	main(int argc, char **argv, char **env)
 					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 				ft_reset_fd(shell);
 				token->destroy(token);
-				//parsed->destroy(parsed);
+				parsed->destroy(parsed);
 			}
 		}
 		free(str);
