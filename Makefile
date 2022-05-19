@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/18 13:11:02 by swaegene         ###   ########.fr        #
+#    Updated: 2022/05/19 14:01:21 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,8 @@ SRCS = main.c debug.c \
 	parser/handlers/word_handler.c \
 	expand/expand.c \
 	expand/expand_handlers.c \
-	expand/expand_actions.c
+	expand/expand_actions.c \
+	expand/expand_wildcard.c
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 

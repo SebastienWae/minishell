@@ -14,6 +14,7 @@
 # define EXPAND_H
 
 #include <minishell.h>
+#include <tokenizer.h>
 
 typedef enum e_expand_state			t_expand_state;
 typedef struct s_expand				t_expand;
@@ -72,5 +73,7 @@ void		expand_append_char(t_expand *e);
 void		expand_append_var(t_expand *e);
 void		expand_add_empty(t_expand *e);
 void		expand_finish(t_expand *e);
+
+char		*expand_wildcard(t_tokenizer *t);
 
 #endif
