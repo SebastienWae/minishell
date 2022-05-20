@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:53:00 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:19:00 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,26 @@ void	ft_free_hd_var(t_heredoc hd)
 	free(hd.word);
 }
 
-int	ft_heredoc_in(t_redir *redir, t_minishell shell)
+static t_heredoc	ft_init_heredoc(t_redir *redir)
 {
 	t_heredoc	hd;
 
 	hd.input = "";
 	hd.word = ft_strjoin(redir->target, "\n");
 	hd.fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR
-		|| signal(SIGQUIT, &ft_sig_hd_handle) == SIG_ERR)
-		return (hd.fd_tmp);
 	ft_putstr_fd("\U0001F984 ", 2);
 	hd.line = get_next_line(STDIN_FILENO);
+	return (hd);
+}
+
+int	ft_heredoc_in(t_redir *redir, t_minishell shell)
+{
+	t_heredoc	hd;
+
+	hd = ft_init_heredoc(redir);	
+	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR
+		|| signal(SIGQUIT, &ft_sig_hd_handle) == SIG_ERR)
+		return (hd.fd_tmp);	
 	if (!hd.line || ft_strcmp(hd.line, hd.word) == 0)
 	{
 		if (hd.line)

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:56:39 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:15:03 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int	ft_exit_no_arg(char **str, t_minishell shell, t_tokenizer *token, t_parser *parsed)
+static int	ft_exit_no_arg(char **str, t_minishell shell,
+			t_tokenizer *token, t_parser *parsed)
 {
 	if (str[1] == 0)
 	{
@@ -30,6 +31,17 @@ static int	ft_exit_no_arg(char **str, t_minishell shell, t_tokenizer *token, t_p
 	return (0);
 }
 
+static int	ft_exit_not_numeric_arg(char **str, t_minishell shell,
+			t_tokenizer *token, t_parser *parsed)
+{
+	printf("%s: exit: %s: numeric argument required\n",
+		SHELL_NAME, str[1]);
+	ft_lstclear(&shell.local_env, free);
+	token->destroy(token);
+	parsed->destroy(parsed);
+	exit(255);
+}
+
 int	ft_exit(char **str, t_minishell shell, t_tokenizer *token, t_parser *parsed)
 {
 	int	i;
@@ -37,18 +49,8 @@ int	ft_exit(char **str, t_minishell shell, t_tokenizer *token, t_parser *parsed)
 	i = -1;
 	ft_exit_no_arg(str, shell, token, parsed);
 	while (str[1][++i] != 0)
-	{
 		if (!ft_isdigit(str[1][i]))
-		{
-			printf("%s: exit: %s: numeric argument required\n",
-				SHELL_NAME, str[1]);
-			ft_lstclear(&shell.local_env, free);
-			token->destroy(token);
-			parsed->destroy(parsed);
-			free(str);
-			exit(255);
-		}
-	}
+			ft_exit_not_numeric_arg(str, shell, token, parsed);
 	if (str[2] != 0)
 	{
 		printf("exit\n%s: exit: too many arguments\n", SHELL_NAME);
@@ -56,7 +58,6 @@ int	ft_exit(char **str, t_minishell shell, t_tokenizer *token, t_parser *parsed)
 		return (1);
 	}
 	i = ft_atoi(str[1]);
-	free(str);
 	token->destroy(token);
 	parsed->destroy(parsed);
 	ft_lstclear(&shell.local_env, free);
