@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:01:23 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:48:28 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 	waitpid(process, &status, WNOHANG);
 	dup2(fd_tab[0], STDIN_FILENO);
 	close(fd_tab[1]);
-	//ajout condition heredoc
+	//ajout condition heredoc ?
 	close(fd_tab[0]);
 	g_out = WEXITSTATUS(status);
 	return (g_out);
@@ -52,8 +52,9 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
 	close(fd_tab[0]);
 	fd_in = 0;
 	fd_out = 1;
-	if (((t_cmd *)(cmd->content))->in)
-		fd_in = ft_fd_manager((t_cmd *)(cmd->content), 1, shell).in;
+
+	//if (((t_cmd *)(cmd->content))->in)
+		//fd_in = ft_fd_manager((t_cmd *)(cmd->content), 1, shell).in;
 	if (cmd->next)
 		dup2(fd_tab[1], STDOUT_FILENO);
 	if (((t_cmd *)(cmd->content))->out)
@@ -101,6 +102,8 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 	{
 		if (pipe(fd_tab) == -1)
 			return (ft_pipe_error(shell, 1));
+		if (((t_cmd *)(cmd->content))->in)
+			ft_fd_manager((t_cmd *)(cmd->content), 1, shell);
 		process = fork();
 		if (process == -1)
 			return (ft_pipe_error(shell, 2));
@@ -121,6 +124,7 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 			if (((t_cmd *)(cmd->next)) && ((t_cmd *)(cmd->next->content))->in)
 				dup2(shell.saved_stdin, STDIN_FILENO);
 		}
+		
 		cmd = cmd->next;
 	}
 	return (shell);
