@@ -6,12 +6,13 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 17:26:54 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:10:00 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <minishell.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -67,8 +68,11 @@ char	*ft_build_cmd(char **path, char *cmd)
 int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 {
 	char	*main_cmd;
+	char	**path_list;
 
-	main_cmd = ft_build_cmd(ft_split(ft_search_path(local_env), ':'), cmd[0]);
+	path_list = ft_split(ft_search_path(local_env), ':');
+	main_cmd = ft_build_cmd(path_list, cmd[0]);
+	free (path_list);
 	if (main_cmd == NULL || cmd[0][0] == 0 )
 	{			
 		ft_putstr_fd(SHELL_NAME, 2);
@@ -93,18 +97,35 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	return (0);
 }
 
-int	ft_sys_cmd_process(char **cmd, t_list *local_env)//ajouter signaux ici aussi
+void	ft_sig_process_handle(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		close(STDIN_FILENO);
+	}
+	if (sig == SIGQUIT)
+		return;
+}
+
+int	ft_sys_cmd_process(char **cmd, t_list *local_env)
 {
 	pid_t	process;
 	int		status;
 
 	process = fork();
+	if (signal(SIGINT, &ft_sig_process_handle) == SIG_ERR 
+		|| signal(SIGQUIT, &ft_sig_process_handle) == SIG_ERR)	
+	{
+		kill (process, 0);
+		return (g_out);
+	}
 	if (process == 0)
 		ft_execute_sys_cmd(cmd, local_env);
 	else
 	{
-		waitpid(process, &status, 0); //changer
+		waitpid(process, &status, 0);
 		g_out = WEXITSTATUS(status);
-	}
+	}	
 	return (g_out);
 }

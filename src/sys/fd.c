@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 12:56:45 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:53:14 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,52 +69,52 @@ static int	redir_out(t_redir *redir)
 	return (fd);
 }
 
-static t_fd_in_out	ft_infile_scan(t_cmd *cmd, t_minishell shell)
+static int	ft_infile_scan(t_cmd *cmd, t_minishell shell)
 {
-	t_fd_in_out	fd;
+	int			fd_in;
 	int			fd_tmp;
 	t_list		*in;
 
 	in = cmd->in;
-	fd.in = 0;
+	fd_in = 0;
 	while (in)
 	{
 		fd_tmp = redir_in(in->content, shell);
 		if (fd_tmp == -1)
 		{
 			close(fd_tmp);
-			fd.in = -1;
-			return (fd);
+			fd_in = -1;
+			return (fd_in);
 		}
-		fd.in = dup(fd_tmp);
+		fd_in = dup(fd_tmp);
 		if (in->next)
-			close(fd.in);
+			close(fd_in);
 		close(fd_tmp);
 		in = in->next;
 	}
-	dup2(fd.in, STDIN_FILENO);
-	return (fd);
+	dup2(fd_in, STDIN_FILENO);
+	return (fd_in);
 }
 
-static t_fd_in_out	ft_outfile_scan(t_cmd *cmd)
+static int	ft_outfile_scan(t_cmd *cmd)
 {
-	t_fd_in_out	fd;
+	int			fd_out;
 	int			fd_tmp;
 	t_list		*out;
 
 	out = cmd->out;
-	fd.out = 1;
+	fd_out = 1;
 	while (out)
 	{
 		fd_tmp = redir_out(out->content);
-		fd.out = dup(fd_tmp);
+		fd_out = dup(fd_tmp);
 		if (out->next)
-			close(fd.out);
+			close(fd_out);
 		close(fd_tmp);
 		out = out->next;
 	}
-	dup2(fd.out, STDOUT_FILENO);
-	return (fd);
+	dup2(fd_out, STDOUT_FILENO);
+	return (fd_out);
 }
 
 t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell)
@@ -122,8 +122,8 @@ t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell)
 	t_fd_in_out	fd;
 
 	if (choice == 1 || choice == 0)
-		fd = ft_infile_scan(cmd, shell);
+		fd.in = ft_infile_scan(cmd, shell);
 	if (choice == 2 || choice == 0)
-		fd = ft_outfile_scan(cmd);
+		fd.out = ft_outfile_scan(cmd);
 	return (fd);
 }

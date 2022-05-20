@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 13:28:21 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:37:24 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 static void	cmd_destructor(t_cmd *self)
 {
-	self->cmd->destroy(self->cmd);
+	if (self->cmd)
+		self->cmd->destroy(self->cmd);
 	ft_lstclear(&(self->in), free);
 	ft_lstclear(&(self->out), free);
 	*self = (t_cmd){

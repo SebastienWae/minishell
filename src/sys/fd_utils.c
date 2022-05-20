@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 16:37:17 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:29:29 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,10 @@
 #include <unistd.h>
 #include <utils.h>
 
-#include <stdio.h>
-
-
-void	ft_close_fd(t_minishell shell, int fd_in, int fd_out)
+void	ft_reset_fd(t_minishell shell)
 {
 	dup2(shell.saved_stdout, 1);
 	dup2(shell.saved_stdin, 0);
-	(void)fd_in;
-	(void)fd_out;
 }
 
 void	ft_close_saved_fd(t_minishell shell)
@@ -51,58 +46,56 @@ void	ft_fd_error(char *cmd)
 
 void	ft_sig_hd_handle(int sig)
 {
-	//struct sigaction	act;
-	//sigfillset(&act.sa_mask);
-	//act.sa_flags = ;
-
-	//sigaction(sig, &act, 0);
-	
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
 		close(STDIN_FILENO);
 	}
 	if (sig == SIGQUIT)
-		return;
-	
-	//exit(1);
+		return ;
 }
 
 int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 {
 	char		*input;
 	char		*line;
+	char		*word;
 	int			fd_tmp;
 	t_expand	*exp;
 
 	input = "";
-	
-	
+	word = ft_strjoin(redir->target, "\n");
 	fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR || signal(SIGQUIT, &ft_sig_hd_handle) == SIG_ERR )			
-			return(fd_tmp);
+	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR
+		|| signal(SIGQUIT, &ft_sig_hd_handle) == SIG_ERR)
+		return (fd_tmp);
 	ft_putstr_fd("\U0001F984 ", 2);
 	line = get_next_line(STDIN_FILENO);
-	if (!line)
+	if (!line || ft_strcmp(line, word) == 0)
 	{
-		return fd_tmp;
+		if (line)
+			free(line);
+		return (fd_tmp);
 	}
 	while (1)
 	{		
 		input = ft_strjoin(input, line);
 		free(line);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)		
-			return fd_tmp;	
 		ft_putstr_fd("\U0001F984 ", 2);
-		if (ft_strcmp(line, ft_strjoin(redir->target, "\n")) == 0)
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+		{
+			free(input);
+			free(word);
+			return (fd_tmp);
+		}
+		if (ft_strcmp(line, word) == 0)
 			break ;
 	}
 	if (redir->type == P_RT_HEREDOC_QUOTED)
 		exp = expand(input, 0, &shell);
 	else
 		exp = expand(input, E_FORCE_VARIABLE, &shell);
-	
 	if (fd_tmp == -1)
 	{
 		ft_putstr_fd(SHELL_NAME, 2);
@@ -112,5 +105,7 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 	ft_putstr_fd(exp->result, fd_tmp);
 	free(line);
 	free(input);
+	free(exp->result);
+	free(word);
 	return (fd_tmp);
 }
