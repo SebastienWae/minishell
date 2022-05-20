@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 11:12:55 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:12:28 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 	return (g_out);
 }
 
-static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
-		int fd_tab[2])
+static void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
 {
 	int	fd_in;
 	int	fd_out;
 
 	close(fd_tab[0]);
-	(void)env;
 	fd_in = 0;
 	fd_out = 1;
 	if (((t_cmd *)(cmd->content))->in)
@@ -90,7 +88,7 @@ t_minishell	ft_pipe_error(t_minishell shell, int choice)
 	return (shell);
 }
 
-t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
+t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 {
 	int		fd_tab[2];
 	pid_t	process;
@@ -104,7 +102,7 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
 			return (ft_pipe_error(shell, 2));
 		if (process == 0)
 		{
-			ft_current_process(shell, cmd, env, fd_tab);
+			ft_current_process(shell, cmd, fd_tab);
 			exit(g_out);
 		}
 		else

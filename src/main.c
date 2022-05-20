@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:07:53 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 13:12:44 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **env)
 				if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
-						ft_pipe(shell, cmd, env);
+						ft_pipe(shell, cmd);
 					else
 					{
 						while (cmd)

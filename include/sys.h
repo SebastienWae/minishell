@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 12:31:39 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:12:40 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ void		ft_sig(void);
 int			ft_ctrl_d_handler(char *str, t_minishell shell);
 
 void		ft_launch_cmd(char **cmd, t_minishell shell, char **env);
-t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env);
+t_minishell	ft_pipe(t_minishell shell, t_list *cmd);
 
 #endif
