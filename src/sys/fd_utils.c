@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 15:46:09 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 16:13:43 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static t_heredoc	ft_init_heredoc(t_redir *redir)
 
 	hd.input = "";
 	hd.word = ft_strjoin(redir->target, "\n");
+	free(redir->target);
 	hd.fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	ft_putstr_fd("\U0001F984 ", 2);
 	hd.line = get_next_line(STDIN_FILENO);
@@ -67,16 +68,15 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 	t_heredoc	hd;
 	char		*tmp;
 
-	hd = ft_init_heredoc(redir);	
+	hd = ft_init_heredoc(redir);
 	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR
 		|| signal(SIGQUIT, &ft_sig_hd_handle) == SIG_ERR)
-		return (hd.fd_tmp);	
+		return (hd.fd_tmp);
 	if (!hd.line || ft_strcmp(hd.line, hd.word) == 0)
 	{
 		if (hd.line)
 			free(hd.line);
-		else 
-			free(hd.word);
+		free(hd.word);
 		return (hd.fd_tmp);
 	}
 	while (1)

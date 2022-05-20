@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 13:33:00 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 16:12:12 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ static t_redir	redir_heredoc(t_parser *p)
 	else
 	{
 		redir.type = P_RT_HEREDOC;
-		redir.target = ((t_token *)p->tokens->content)->str;
+		redir.target = unquoted->result;
 	}
+	unquoted->destroy(unquoted);
 	return (redir);
 }
 
