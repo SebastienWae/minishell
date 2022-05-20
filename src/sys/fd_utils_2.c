@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:25:50 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:30:36 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:36:33 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ void	ft_fd_error(char *cmd)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putchar_fd('\n', 2);
+	g_out = 1;
 }

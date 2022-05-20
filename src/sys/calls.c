@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:55:21 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:43:46 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys.h>
 #include <sys/errno.h>
 #if __linux__
 # include <sys/wait.h>
@@ -47,8 +48,7 @@ char	*ft_build_cmd(char **path, char *cmd)
 	{
 		if (access(cmd, 0) == 0)
 			return (cmd);
-		else
-			return (0);
+		return (0);
 	}
 	if (path == NULL)
 		return (0);
@@ -70,32 +70,15 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	char	*main_cmd;
 	char	**path_list;
 	char	*path_env_var;
-	int		i;
 
 	path_env_var = ft_search_path(local_env);
 	path_list = ft_split(path_env_var, ':');
 	main_cmd = ft_build_cmd(path_list, cmd[0]);
-	i = 0;
-	while (path_list && path_list[i])
-	{
-		free(path_list[i]);
-		i ++;
-	}
+	ft_free_path_list(path_list);
 	free(path_list);
 	free(path_env_var);
 	if (main_cmd == NULL || cmd[0][0] == 0)
-	{			
-		ft_putstr_fd(SHELL_NAME, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(cmd[0], 2);
-		if (cmd[0][0] == '.' || cmd[0][0] == '/')
-			ft_putstr_fd(": No such file or directory\n", 2);
-		else
-			ft_putstr_fd(": command not found\n", 2);
-		if (main_cmd)
-			free (main_cmd);
-		exit(127);
-	}
+		ft_sys_cmd_error(cmd, main_cmd);
 	if (execve(main_cmd, cmd, 0) == -1)
 	{
 		ft_putstr_fd(SHELL_NAME, 2);
@@ -109,7 +92,7 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	return (0);
 }
 
-void	ft_sig_process_handle(int sig)
+static void	ft_sig_process_handle(int sig)
 {
 	if (sig == SIGINT)
 	{
