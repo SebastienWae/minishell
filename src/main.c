@@ -123,7 +123,7 @@ int	main(int argc, char **argv, char **env)
 						{
 							fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 							if (fd.in != -1 && fd.out != -1)
-								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, env);
+								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, token, parsed);
 							if (fd.in != 0)
 								close(fd.in);
 							if (fd.out != 1)

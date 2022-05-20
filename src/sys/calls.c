@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:06:09 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 13:59:26 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_build_cmd(char **path, char *cmd)
 	{
 		if (access(cmd, 0) == 0)
 			return (cmd);
-		else 
+		else
 			return (0);
 	}
 	if (path == NULL)
@@ -69,17 +69,20 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 {
 	char	*main_cmd;
 	char	**path_list;
+	char	*path_env_var;
 	int		i;
 
-	path_list = ft_split(ft_search_path(local_env), ':');
+	path_env_var = ft_search_path(local_env);
+	path_list = ft_split(path_env_var, ':');
 	main_cmd = ft_build_cmd(path_list, cmd[0]);
 	i = 0;
 	while (path_list && path_list[i])
 	{
-		free (path_list[i]);
+		free(path_list[i]);
 		i ++;
 	}
-	free (path_list);
+	free(path_list);
+	free(path_env_var);
 	if (main_cmd == NULL || cmd[0][0] == 0)
 	{			
 		ft_putstr_fd(SHELL_NAME, 2);
@@ -114,7 +117,7 @@ void	ft_sig_process_handle(int sig)
 		close(STDIN_FILENO);
 	}
 	if (sig == SIGQUIT)
-		return;
+		return ;
 }
 
 int	ft_sys_cmd_process(char **cmd, t_list *local_env)
@@ -123,8 +126,8 @@ int	ft_sys_cmd_process(char **cmd, t_list *local_env)
 	int		status;
 
 	process = fork();
-	if (signal(SIGINT, &ft_sig_process_handle) == SIG_ERR 
-		|| signal(SIGQUIT, &ft_sig_process_handle) == SIG_ERR)	
+	if (signal(SIGINT, &ft_sig_process_handle) == SIG_ERR
+		|| signal(SIGQUIT, &ft_sig_process_handle) == SIG_ERR)
 	{
 		kill (process, 0);
 		return (g_out);
