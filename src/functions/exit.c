@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:57:02 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:18:54 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_exit_no_arg(char **str, t_minishell shell, t_parser *parsed)
 	if (str[1] == 0)
 	{
 		printf("exit\n");
-		ft_lstclear(&shell.local_env, free);		
+		ft_lstclear(&shell.local_env, free);
 		parsed->destroy(parsed);
 		exit(0);
 	}
@@ -54,7 +54,7 @@ int	ft_exit(char **str, t_minishell shell, t_parser *parsed)
 		g_out = 1;
 		return (1);
 	}
-	i = ft_atoi(str[1]);	
+	i = ft_atoi(str[1]);
 	parsed->destroy(parsed);
 	ft_lstclear(&shell.local_env, free);
 	exit(i);
