@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 13:28:21 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:33:00 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_redir	redir_heredoc(t_parser *p)
 	t_redir		redir;
 	t_expand	*unquoted;
 
-	unquoted = expand(((t_token *)p->tokens->content)->str, E_UNQUOTE,
+	unquoted = expand(((t_token *)p->tokens->content)->str, E_QUOTE,
 			p->shell);
 	if (ft_strcmp(unquoted->result, ((t_token *)p->tokens->content)->str))
 	{
