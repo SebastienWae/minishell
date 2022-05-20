@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:19:39 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 14:58:53 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,25 +129,23 @@ int	main(int argc, char **argv, char **env)
 					continue ;
 				}
 				cmd = parsed->cmds;
-				if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)
-				{
-					if (((t_cmd *)(cmd->content))->piped == 1)
+
+				if (cmd && ((t_cmd *)(cmd->content))->piped == 1)
 						ft_pipe(shell, cmd);
-					else
+				else if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)
+				{	
+					while (cmd)
 					{
-						while (cmd)
-						{
-							fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
-							if (fd.in != -1 && fd.out != -1)
-								ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, token, parsed);
-							if (fd.in != 0)
-								close(fd.in);
-							if (fd.out != 1)
-								close(fd.out);
-							ft_reset_fd(shell);
-							cmd = cmd->next;
-						}
-					}
+						fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
+						if (fd.in != -1 && fd.out != -1)
+							ft_launch_cmd(((t_cmd *)(cmd->content))->cmd->values, shell, token, parsed);
+						if (fd.in != 0)
+							close(fd.in);
+						if (fd.out != 1)
+							close(fd.out);
+						ft_reset_fd(shell);
+						cmd = cmd->next;
+					}					
 				}
 				else if (cmd && (((t_cmd *)(cmd->content))->in
 					|| ((t_cmd *)(cmd->content))->out))
