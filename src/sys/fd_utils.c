@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 15:19:00 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:25:03 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_free_hd_var(t_heredoc hd)
 {
 	free(hd.line);
 	free(hd.input);
-	free(hd.exp->result);
+	hd.exp->destroy(hd.exp);
 	free(hd.word);
 }
 
