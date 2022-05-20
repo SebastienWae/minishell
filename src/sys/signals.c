@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 15:07:03 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 13:09:51 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:31:25 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <signal.h>
 #include <readline/readline.h>
 #include <sys/signal.h>
+#include <sys.h>
 #if __linux__
 # include <signal.h>
 #endif
@@ -49,7 +50,7 @@ void	ft_sig(void)
 }
 
 /* Ctrl D exits if nothing is written in prompt, else does nothing */
-int	ft_ctrl_d_handler(char *str)
+int	ft_ctrl_d_handler(char *str, t_minishell shell)
 {
 	if (str == NULL)
 	{
@@ -57,6 +58,8 @@ int	ft_ctrl_d_handler(char *str)
 		printf("\033[1A");
 		printf("\033[10C");
 		printf("exit\n");
+		ft_close_saved_fd(shell);
+		ft_lstclear(&shell.local_env, free);
 		exit(0);
 	}
 	else

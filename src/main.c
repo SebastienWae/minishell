@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 11:13:48 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:31:56 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	main(int argc, char **argv, char **env)
 		ft_sig();
 		while (wait(NULL) != -1 || errno != ECHILD);
 		str = readline("Minishell> ");
-		if (ft_ctrl_d_handler(str))
+		if (ft_ctrl_d_handler(str, shell))
 		{
 			if (str[0] != 0)
 			{
