@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 18:06:00 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:13:48 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	main(int argc, char **argv, char **env)
 				if (!token || !parsed)
 				{
 					ft_putstr_fd("Memory allocation failed. Aborting", 2);
+					free(str);
 					exit (1);
 				}
 				if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)

@@ -6,11 +6,13 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:45:59 by seb               #+#    #+#             */
-/*   Updated: 2022/05/18 14:15:15 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:58:46 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <expand.h>
 #include <libft.h>
+#include <utils.h>
 #include <tokenizer.h>
 
 void	tokenizer_new_token(t_tokenizer *t, t_token_type type)
@@ -31,16 +33,21 @@ void	tokenizer_delimit_curr_token(t_tokenizer *t)
 {
 	t_list	*new;
 
-	new = ft_lstnew(t->curr_token);
-	if (!new)
-	{
-		t->state = T_S_ERROR;
-		return ;
-	}
-	if (t->tokens)
-		ft_lstadd_back(&(t->tokens), new);
+	if (t->curr_token && ft_strcmp(t->curr_token->str, "*") == 0)
+		expand_wildcard(t);
 	else
-		t->tokens = new;
+	{
+		new = ft_lstnew(t->curr_token);
+		if (!new)
+		{
+			t->state = T_S_ERROR;
+			return ;
+		}
+		if (t->tokens)
+			ft_lstadd_back(&(t->tokens), new);
+		else
+			t->tokens = new;
+	}
 	t->curr_token = NULL;
 }
 

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 13:13:19 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:11:40 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 	ft_putstr_fd(exp->result, fd_tmp);
 	free(line);
 	free(input);
+	free (exp->result);
 	return (fd_tmp);
 }

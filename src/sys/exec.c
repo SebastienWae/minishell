@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 19:19:49 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 11:12:55 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	ft_launch_cmd(char **cmd, t_minishell shell, char **env)
 		g_out = ft_sys_cmd_process(cmd, shell.local_env, env);
 }
 
-#include <signal.h>
-#include <stdio.h>
 static int	ft_next_process(pid_t process, int fd_tab[2])
 {
 	int	status;
@@ -40,16 +38,6 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 	dup2(fd_tab[0], STDIN_FILENO);
 	close(fd_tab[1]);
 	close(fd_tab[0]);
-	//kill (process, SIGQUIT);
-	/*
-	if (WIFEXITED(status))
-		printf("exit");
-	if (WIFSIGNALED(status))
-		printf("signal");
-	if (WIFSTOPPED(status)){
-		printf("stop");
-		
-	}*/
 	g_out = WEXITSTATUS(status);
 	return (g_out);
 }
@@ -69,21 +57,16 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, char **env,
 	if (cmd->next)
 		dup2(fd_tab[1], STDOUT_FILENO);
 	if (((t_cmd *)(cmd->content))->out)
-	{
 		fd_out = ft_fd_manager((t_cmd *)(cmd->content), 2, shell).out;
-		/*close(fd_tab[0]);
-		if (fd_out == 1)
-			close (fd_out);*/
-	}
 	if (fd_in != -1 && ((t_cmd *)(cmd->content))->cmd)
 	{
-		if (ft_is_builtin_cmd(((t_cmd *)(cmd->content))->cmd->values[0]))
+		if (!ft_strcmp(((t_cmd *)(cmd->content))->cmd->values[0], "exit"));
+		else if (ft_is_builtin_cmd(((t_cmd *)(cmd->content))->cmd->values[0]))
 			ft_execute_builtin_cmd(((t_cmd *)(cmd->content))->cmd->values,
 									shell.local_env);
 		else
 			ft_execute_sys_cmd(((t_cmd *)(cmd->content))->cmd->values,
 								shell.local_env);
-		//ajout exit : ne rien faire
 	}
 	close(fd_tab[1]);
 	close(fd_in);
@@ -112,8 +95,6 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
 	int		fd_tab[2];
 	pid_t	process;
 
-	//pid_t	prev_process;
-	//int		prev_fd_tab[2];
 	while (cmd)
 	{
 		if (pipe(fd_tab) == -1)
@@ -131,26 +112,14 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd, char **env)
 			if ((t_cmd *)cmd->next)
 				g_out = ft_next_process(process, fd_tab);
 			else
-			{
-				//waitpid (prev_process, 0, WNOHANG);
-				/*while (close (0) != -1);
-				while (close (1) != -1);
-				close (1);
-				close (prev_fd_tab[1]);
-				close (prev_fd_tab[0]);*/
-				//close(shell.saved_stdin);
-				//close(shell.saved_stdout);
+			{	
 				close(fd_tab[1]);
 				close(fd_tab[0]);
-				//kill(prev_process, SIGTERM);
 			}
 			if (((t_cmd *)(cmd->next)) && ((t_cmd *)(cmd->next->content))->in)
 				dup2(shell.saved_stdin, STDIN_FILENO);
 		}
 		cmd = cmd->next;
-		//prev_fd_tab[0] = fd_tab[0];
-		//prev_fd_tab[1] = fd_tab[1];
-		//prev_process = process;
 	}
 	return (shell);
 }

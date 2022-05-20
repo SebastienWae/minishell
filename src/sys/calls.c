@@ -6,13 +6,13 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 17:17:23 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 11:10:00 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <minishell.h>
-#include<signal.h> //remove if not necessary
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,7 +35,7 @@ char	*ft_search_path(t_list *local_env)
 	return (path);
 }
 
-char	*ft_build_cmd(char **path, char *cmd) // free
+char	*ft_build_cmd(char **path, char *cmd)
 {
 	char	*str;
 	char	*cmd_out;
@@ -68,8 +68,11 @@ char	*ft_build_cmd(char **path, char *cmd) // free
 int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 {
 	char	*main_cmd;
+	char	**path_list;
 
-	main_cmd = ft_build_cmd(ft_split(ft_search_path(local_env), ':'), cmd[0]);
+	path_list = ft_split(ft_search_path(local_env), ':');
+	main_cmd = ft_build_cmd(path_list, cmd[0]);
+	free (path_list);
 	if (main_cmd == NULL || cmd[0][0] == 0 )
 	{			
 		ft_putstr_fd(SHELL_NAME, 2);
