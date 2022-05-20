@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:08:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 12:42:39 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:59:14 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,25 @@ static int	ft_cd_error(char *dir)
 	return (0);
 }
 
+t_list	*ft_new_dir(t_list *local_env)
+{
+	char	*new_dir;
+
+	free(local_env->content);
+	new_dir = getcwd(NULL, 0);
+	if (!new_dir)
+		local_env->content = ft_strjoin("PWD=", "ERROR");
+	else
+	{
+		local_env->content = ft_strjoin("PWD=", new_dir);
+		free(new_dir);
+	}
+	return (local_env);
+}
+
 void	ft_cd(char **cmd, t_list *local_env)
 {
 	char	*old_dir;
-	char	*new_dir;
 
 	g_out = 0;
 	old_dir = ft_get_env_var_value(local_env, "PWD");
@@ -47,17 +62,7 @@ void	ft_cd(char **cmd, t_list *local_env)
 	while (local_env)
 	{
 		if (!ft_strncmp("PWD=", local_env->content, 4))
-		{
-			free(local_env->content);
-			new_dir = getcwd(NULL, 0);
-			if (!new_dir)
-				local_env->content = ft_strjoin("PWD=", "ERROR");
-			else
-			{
-				local_env->content = ft_strjoin("PWD=", new_dir);
-				free(new_dir);
-			}
-		}
+			local_env = ft_new_dir(local_env);
 		if (!ft_strncmp("OLDPWD=", local_env->content, 7))
 		{
 			free(local_env->content);
@@ -65,5 +70,5 @@ void	ft_cd(char **cmd, t_list *local_env)
 		}
 		local_env = local_env->next;
 	}
-	free(old_dir);	
+	free(old_dir);
 }

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 12:48:25 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:52:44 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 			ft_putstr_fd(": No such file or directory\n", 2);
 		else
 			ft_putstr_fd(": command not found\n", 2);
+		if (main_cmd)
+			free (main_cmd);
 		exit(127);
 	}
 	if (execve(main_cmd, cmd, 0) == -1)
