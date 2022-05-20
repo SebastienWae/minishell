@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:59:12 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:56:13 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 #include <unistd.h>
 #include <utils.h>
 
-void	ft_launch_cmd(char **cmd, t_minishell shell, t_tokenizer *token, t_parser *parsed)
+void	ft_launch_cmd(char **cmd, t_minishell shell, t_parser *parsed)
 {
 	if (cmd[0] && ft_strcmp(cmd[0], "exit") == 0)
-		ft_exit(cmd, shell, token, parsed);
+		ft_exit(cmd, shell, parsed);
 	else if (cmd[0] && ft_is_builtin_cmd(cmd[0]))
 		shell.local_env = ft_execute_builtin_cmd(cmd, shell.local_env);
 	else
@@ -51,7 +51,6 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
 	close(fd_tab[0]);
 	fd_in = 0;
 	fd_out = 1;
-
 	if (cmd->next)
 		dup2(fd_tab[1], STDOUT_FILENO);
 	if (((t_cmd *)(cmd->content))->out)
@@ -73,21 +72,18 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
 	close(fd_out);
 }
 
-t_minishell	ft_pipe_error(t_minishell shell, int choice)
+void	ft_launch_next_process(t_minishell shell, t_list *cmd,
+		pid_t process, int fd_tab[2])
 {
-	if (choice == 1)
-	{
-		ft_putstr_fd(SHELL_NAME, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd("Pipe initialization failed\n", 2);
+	if ((t_cmd *)cmd->next)
+		g_out = ft_next_process(process, fd_tab);
+	else
+	{	
+		close(fd_tab[1]);
+		close(fd_tab[0]);
 	}
-	if (choice == 2)
-	{
-		ft_putstr_fd(SHELL_NAME, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd("Fork failed\n", 2);
-	}
-	return (shell);
+	if (((t_cmd *)(cmd->next)) && ((t_cmd *)(cmd->next->content))->in)
+		dup2(shell.saved_stdin, STDIN_FILENO);
 }
 
 t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
@@ -110,18 +106,7 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 			exit(g_out);
 		}
 		else
-		{
-			if ((t_cmd *)cmd->next)
-				g_out = ft_next_process(process, fd_tab);
-			else
-			{	
-				close(fd_tab[1]);
-				close(fd_tab[0]);
-			}
-			if (((t_cmd *)(cmd->next)) && ((t_cmd *)(cmd->next->content))->in)
-				dup2(shell.saved_stdin, STDIN_FILENO);
-		}
-		
+			ft_launch_next_process(shell, cmd, process, fd_tab);
 		cmd = cmd->next;
 	}
 	return (shell);

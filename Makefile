@@ -6,7 +6,7 @@
 #    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/20 13:30:56 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/05/20 16:42:05 by jeulliot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = main.c debug.c \
 	utils/strings.c \
 	utils/arrays.c \
 	sys/calls.c \
+	sys/calls_utils.c \
 	sys/cmds.c \
 	sys/exec.c \
 	sys/fd.c \

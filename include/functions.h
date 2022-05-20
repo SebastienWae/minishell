@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 16:20:47 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:58:39 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:57:52 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_list	*ft_unset(char **cmd, t_list *local_env);
 void	ft_check_next_link(char *cmd, t_list *local_env);
 t_list	*ft_check_first_link(t_list *tmp, char *cmd, t_list *local_env);
 void	ft_env(char **cmd, t_list *local_env);
-int		ft_exit(char **str, t_minishell shell, t_tokenizer *token, t_parser *parsed);
+int		ft_exit(char **str, t_minishell shell, t_parser *parsed);
 void	ft_pwd(void);
 
 #endif
