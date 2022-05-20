@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:43:46 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 19:46:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 	free(path_env_var);
 	if (main_cmd == NULL || cmd[0][0] == 0)
 		ft_sys_cmd_error(cmd, main_cmd);
-	if (execve(main_cmd, cmd, 0) == -1)
+	if (main_cmd && execve(main_cmd, cmd, 0) == -1)
 	{
 		ft_putstr_fd(SHELL_NAME, 2);
 		ft_putstr_fd(": ", 2);

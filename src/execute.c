@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 16:35:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 18:48:17 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 19:44:53 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static t_parser	*get_cmds(char *str, t_minishell *shell)
 		token->destroy(token);
 		parsed->destroy(parsed);
 		g_out = 2;
-		free(str);
 		return (NULL);
 	}
 	token->destroy(token);
