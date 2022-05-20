@@ -3,27 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 14:07:25 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/12 15:51:49by swaegene         ###   ########.fr       */
+/*   Created: 2022/05/20 13:15:20 by seb               #+#    #+#             */
+/*   Updated: 2022/05/20 13:34:59 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPAND_H
 # define EXPAND_H
 
-#include <minishell.h>
-#include <tokenizer.h>
+# include <minishell.h>
+# include <tokenizer.h>
 
 typedef enum e_expand_state			t_expand_state;
+typedef enum e_expand_flag			t_expand_flag;
 typedef struct s_expand				t_expand;
 typedef struct s_expand_handlers	t_expand_handlers;
 typedef struct s_variable			t_variable;
 
-#define E_UNQUOTE (1 << 1)
-#define E_VARIABLE (1 << 2)
-#define E_FORCE_VARIABLE (1 << 3)
+enum	e_expand_flag
+{
+	E_QUOTE = 1,
+	E_VAR,
+	E_VAR_QUOTE,
+	E_FORCE_VAR
+};
 
 enum	e_expand_state
 {
@@ -59,7 +64,7 @@ struct	s_expand_handlers
 	t_expand_state	next_state;
 };
 
-t_expand	*expand(char *str, int flags, t_minishell *shell);
+t_expand	*expand(char *str, t_expand_flag f, t_minishell *shell);
 
 t_variable	*variable_constructor(int start);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 12:29:29 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:24:46 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 	if (redir->type == P_RT_HEREDOC_QUOTED)
 		exp = expand(input, 0, &shell);
 	else
-		exp = expand(input, E_FORCE_VARIABLE, &shell);
+		exp = expand(input, E_FORCE_VAR, &shell);
 	if (fd_tmp == -1)
 	{
 		ft_putstr_fd(SHELL_NAME, 2);
