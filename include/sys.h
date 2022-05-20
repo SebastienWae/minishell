@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 13:12:40 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:29:56 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,24 @@
 # include <libft.h>
 # include <minishell.h>
 # include <parser.h>
+# include <expand.h>
 
 typedef struct s_fd_in_out {
 	int	in;
 	int	out;
 }	t_fd_in_out;
 
+typedef struct s_heredoc {
+	char		*input;
+	char		*line;
+	char		*word;
+	int			fd_tmp;
+	t_expand	*exp;
+}	t_heredoc;
+
 char		*ft_search_path(char **env);
 char		*ft_build_cmd(char **path, char *cmd);
 int			*ft_execute_sys_cmd(char **cmd, t_list *local_env);
-//int			*ft_execute_sys_cmd(char **cmd, t_list *local_env, char **env);
 int			ft_sys_cmd_process(char **cmd, t_list *l, char **e);
 
 int			ft_is_builtin_cmd(char *str);

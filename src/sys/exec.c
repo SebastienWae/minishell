@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:12:28 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:18:27 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
 		fd_out = ft_fd_manager((t_cmd *)(cmd->content), 2, shell).out;
 	if (fd_in != -1 && ((t_cmd *)(cmd->content))->cmd)
 	{
-		if (!ft_strcmp(((t_cmd *)(cmd->content))->cmd->values[0], "exit"));
-		else if (ft_is_builtin_cmd(((t_cmd *)(cmd->content))->cmd->values[0]))
-			ft_execute_builtin_cmd(((t_cmd *)(cmd->content))->cmd->values,
-									shell.local_env);
-		else
-			ft_execute_sys_cmd(((t_cmd *)(cmd->content))->cmd->values,
-								shell.local_env);
+		if (ft_strcmp(((t_cmd *)(cmd->content))->cmd->values[0], "exit") != 0)
+		{
+			if (ft_is_builtin_cmd(((t_cmd *)(cmd->content))->cmd->values[0]))
+				ft_execute_builtin_cmd(((t_cmd *)(cmd->content))->cmd->values,
+					shell.local_env);
+			else
+				ft_execute_sys_cmd(((t_cmd *)(cmd->content))->cmd->values,
+					shell.local_env);
+		}
 	}
 	close(fd_tab[1]);
 	close(fd_in);
