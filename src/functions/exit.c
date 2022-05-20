@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:55:02 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:56:39 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	ft_exit_no_arg(char **str, t_minishell shell, t_tokenizer *token, t_p
 	{
 		printf("exit\n");
 		ft_lstclear(&shell.local_env, free);
-		free(str);
 		token->destroy(token);
 		parsed->destroy(parsed);
 		exit(0);
