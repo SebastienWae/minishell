@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:52:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 13:29:16 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:54:52 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,6 @@ static void	array_destroy(t_array *self)
 		.destroy = NULL
 	};
 	free(self);
-}
-
-void	array_print(t_array	*array)
-{
-	int	i;
-
-	i = 0;
-	while (array->values[i])
-	{
-		printf("array val #%d: %s\n", i, array->values[i]);
-		i++;
-	}
 }
 
 t_array	*array_constructor(void)

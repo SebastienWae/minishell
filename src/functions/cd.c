@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:08:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 12:59:14 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:29:50 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_list	*ft_new_dir(t_list *local_env)
 void	ft_cd(char **cmd, t_list *local_env)
 {
 	char	*old_dir;
+	char	*new_dir;
 
 	g_out = 0;
 	old_dir = ft_get_env_var_value(local_env, "PWD");

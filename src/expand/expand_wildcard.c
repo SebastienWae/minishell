@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 13:48:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/19 15:13:27 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:47:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*expand_wildcard(t_tokenizer *t)
 	c[0] = NULL;
 	c[1] = getcwd(NULL, 0);
 	directory = opendir(c[1]);
+	if (!directory)
+		return (NULL);
 	file = readdir(directory);
 	while (file)
 	{
@@ -39,5 +41,6 @@ char	*expand_wildcard(t_tokenizer *t)
 		file = readdir(directory);
 	}
 	free(c[1]);
+	closedir(directory);
 	return (c[0]);
 }
