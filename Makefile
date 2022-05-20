@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/20 16:42:05 by jeulliot         ###   ########.fr        #
+#    Updated: 2022/05/20 17:10:09 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS = -I$(LIBFT) -Iinclude -I/goinfre/$(USER)/.brew/opt/readline/include
 LDFLAGS = -L$(LIBFT) -L/goinfre/$(USER)/.brew/opt/readline/lib -lreadline -lft
 
-SRCS = main.c debug.c \
+SRCS = main.c debug.c execute.c \
 	utils/get_next_line.c \
 	utils/strings.c \
 	utils/arrays.c \

@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 16:35:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 17:02:43 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:11:42 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ static t_parser	*get_cmds(char *str, t_minishell *shell)
 	return (parsed);
 }
 
-static void	execute_cmd(t_list *c, t_fd_in_out f, t_minishell *s, t_parser *p)
+static void	execute_cmd(t_list *c, t_minishell *s, t_parser *p)
 {
+	t_fd_in_out	f;
+
 	while (c)
 	{
 		f = ft_fd_manager((t_cmd *)(c->content), 0, *s);
@@ -73,7 +75,6 @@ void	execute_cmds(char *str, t_minishell *shell)
 {
 	t_parser	*parsed;
 	t_list		*cmd;
-	t_fd_in_out	fd;
 
 	if (str[0] != 0)
 	{
@@ -86,7 +87,7 @@ void	execute_cmds(char *str, t_minishell *shell)
 			ft_pipe(*shell, cmd);
 		else if (cmd && ((t_cmd *)(cmd->content))->cmd
 				&& ((t_cmd *)(cmd->content))->cmd->values)
-			execute_cmd(cmd, fd, shell, parsed);
+			execute_cmd(cmd, shell, parsed);
 		else if (cmd && (((t_cmd *)(cmd->content))->in
 			|| ((t_cmd *)(cmd->content))->out))
 			ft_fd_manager((t_cmd *)(cmd->content), 0, *shell);
