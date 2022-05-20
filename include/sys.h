@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sys.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 17:28:37 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 19:51:59 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			ft_heredoc_in(t_redir *redir, t_minishell shell);
 t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell);
 t_fd_in_out	ft_init_fd(void);
 void		ft_fd_error(char *cmd);
-int		ft_free_hd_var(t_heredoc hd, int c);
+int			ft_free_hd_var(t_heredoc hd, int c);
 void		ft_hd_error(void);
 
 void		ft_sig_handler(int sig);
