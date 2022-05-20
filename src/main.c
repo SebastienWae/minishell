@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 18:21:19 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 20:32:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ int	main(int argc, char **argv, char **env)
 		while (wait(NULL) != -1 || errno != ECHILD)
 			;
 		str = readline("Minishell> ");
-		if (ft_ctrl_d_handler(str, shell))
+		if (ft_ctrl_d_handler(str, shell) && str[0] != 0)
 			execute_cmds(str, &shell);
-		free(str);
+		else
+			free(str);
 	}
 	ft_close_saved_fd(shell);
 	ft_lstclear(&shell.local_env, free);

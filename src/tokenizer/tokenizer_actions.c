@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_actions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:45:59 by seb               #+#    #+#             */
-/*   Updated: 2022/05/19 14:58:46 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 20:16:59 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,14 @@ void	tokenizer_delimit_curr_token(t_tokenizer *t)
 	t_list	*new;
 
 	if (t->curr_token && ft_strcmp(t->curr_token->str, "*") == 0)
+	{
 		expand_wildcard(t);
+		free(t->curr_token);
+	}
 	else
 	{
+		if (t->curr_token->str)
+			t->curr_token->str = ft_strdup(t->curr_token->str);
 		new = ft_lstnew(t->curr_token);
 		if (!new)
 		{

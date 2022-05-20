@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 16:35:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 19:44:53 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 20:32:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,37 +18,43 @@
 #include <sys.h>
 #include <tokenizer.h>
 
-static void	memory_err(char *err)
+static t_tokenizer	*get_tokens(char *str)
 {
-	ft_putstr_fd(err, 2);
-	exit(1);
+	t_tokenizer	*tokens;
+
+	tokens = tokenize(str);
+	free(str);
+	if (!tokens)
+	{
+		ft_putstr_fd("Memory allocation failed. Aborting", 2);
+		exit(1);
+	}
+	if (tokens->state == T_S_ERROR)
+	{
+		tokens->destroy(tokens);
+		g_out = 2;
+		return (NULL);
+	}
+	return (tokens);
 }
 
-static t_parser	*get_cmds(char *str, t_minishell *shell)
+static t_parser	*get_cmds(t_tokenizer *tokens, t_minishell *shell)
 {
 	t_parser	*parsed;
-	t_tokenizer	*token;
 
-	token = tokenize(str);
-	if (!token)
-	{
-		free(str);
-		memory_err("Memory allocation failed. Aborting");
-	}
-	parsed = parse(token, shell);
+	parsed = parse(tokens, shell);
 	if (!parsed)
 	{
-		free(str);
-		memory_err("Memory allocation failed. Aborting");
+		ft_putstr_fd("Memory allocation failed. Aborting", 2);
+		exit(1);
 	}
-	if (token->state == T_S_ERROR || parsed->state == P_S_ERROR)
+	if (parsed->state == P_S_ERROR)
 	{
-		token->destroy(token);
+		tokens->destroy(tokens);
 		parsed->destroy(parsed);
 		g_out = 2;
 		return (NULL);
 	}
-	token->destroy(token);
 	return (parsed);
 }
 
@@ -83,25 +89,27 @@ static void	execute_no_cmd(t_list *cmd, t_minishell *shell)
 
 void	execute_cmds(char *str, t_minishell *shell)
 {
+	t_tokenizer	*tokens;
 	t_parser	*parsed;
 	t_list		*cmd;
 
-	if (str[0] != 0)
-	{
-		add_history(str);
-		parsed = get_cmds(str, shell);
-		if (!parsed)
-			return ;
-		cmd = parsed->cmds;
-		if (cmd && ((t_cmd *)(cmd->content))->piped == 1)
-			ft_pipe(*shell, cmd);
-		else if (cmd && ((t_cmd *)(cmd->content))->cmd
-				&& ((t_cmd *)(cmd->content))->cmd->values)
-			execute_cmd(cmd, shell, parsed);
-		else if (cmd && (((t_cmd *)(cmd->content))->in
-			|| ((t_cmd *)(cmd->content))->out))
-			execute_no_cmd(cmd, shell);
-		ft_reset_fd(*shell);
-		parsed->destroy(parsed);
-	}
+	add_history(str);
+	tokens = get_tokens(str);
+	if (!tokens)
+		return ;
+	parsed = get_cmds(tokens, shell);
+	if (!parsed)
+		return ;
+	cmd = parsed->cmds;
+	if (cmd && ((t_cmd *)(cmd->content))->piped == 1)
+		ft_pipe(*shell, cmd);
+	else if (cmd && ((t_cmd *)(cmd->content))->cmd
+			&& ((t_cmd *)(cmd->content))->cmd->values)
+		execute_cmd(cmd, shell, parsed);
+	else if (cmd && (((t_cmd *)(cmd->content))->in
+		|| ((t_cmd *)(cmd->content))->out))
+		execute_no_cmd(cmd, shell);
+	ft_reset_fd(*shell);
+	tokens->destroy(tokens);
+	parsed->destroy(parsed);
 }
