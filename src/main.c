@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 12:31:56 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:07:53 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ int	main(int argc, char **argv, char **env)
 					exit (1);
 				}
 				parsed = parse(token, &shell);
-				cmd = parsed->cmds;
 				if (!parsed)
 				{
 					ft_putstr_fd("Memory allocation failed. Aborting", 2);
 					free(str);
 					exit (1);
 				}
+				cmd = parsed->cmds;
 				if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)
 				{
 					if (((t_cmd *)(cmd->content))->piped == 1)
@@ -135,7 +135,7 @@ int	main(int argc, char **argv, char **env)
 				}
 				else if (cmd && (((t_cmd *)(cmd->content))->in
 					|| ((t_cmd *)(cmd->content))->out))
-					fd = ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
+					ft_fd_manager((t_cmd *)(cmd->content), 0, shell);
 				ft_reset_fd(shell);
 				token->destroy(token);
 				parsed->destroy(parsed);
