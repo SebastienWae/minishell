@@ -6,11 +6,12 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:18:27 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:01:23 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "tokenizer.h"
 #include <errno.h>
 #include <functions.h>
 #include <minishell.h>
@@ -20,14 +21,14 @@
 #include <unistd.h>
 #include <utils.h>
 
-void	ft_launch_cmd(char **cmd, t_minishell shell, char **env)
+void	ft_launch_cmd(char **cmd, t_minishell shell, t_tokenizer *token, t_parser *parsed)
 {
 	if (cmd[0] && ft_strcmp(cmd[0], "exit") == 0)
-		ft_exit(cmd, shell);
+		ft_exit(cmd, shell, token, parsed);
 	else if (cmd[0] && ft_is_builtin_cmd(cmd[0]))
 		shell.local_env = ft_execute_builtin_cmd(cmd, shell.local_env);
 	else
-		g_out = ft_sys_cmd_process(cmd, shell.local_env, env);
+		g_out = ft_sys_cmd_process(cmd, shell.local_env);
 }
 
 static int	ft_next_process(pid_t process, int fd_tab[2])
@@ -37,6 +38,7 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 	waitpid(process, &status, WNOHANG);
 	dup2(fd_tab[0], STDIN_FILENO);
 	close(fd_tab[1]);
+	//ajout condition heredoc
 	close(fd_tab[0]);
 	g_out = WEXITSTATUS(status);
 	return (g_out);

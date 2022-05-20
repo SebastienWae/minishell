@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:55:52 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 13:29:56 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:01:58 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_heredoc {
 char		*ft_search_path(char **env);
 char		*ft_build_cmd(char **path, char *cmd);
 int			*ft_execute_sys_cmd(char **cmd, t_list *local_env);
-int			ft_sys_cmd_process(char **cmd, t_list *l, char **e);
+int			ft_sys_cmd_process(char **cmd, t_list *l);
 
 int			ft_is_builtin_cmd(char *str);
 t_list		*ft_execute_builtin_cmd(char **parsed_str, t_list *local_env);
@@ -51,7 +51,8 @@ void		ft_sig_hd_handle(int sig);
 void		ft_sig(void);
 int			ft_ctrl_d_handler(char *str, t_minishell shell);
 
-void		ft_launch_cmd(char **cmd, t_minishell shell, char **env);
+void		ft_launch_cmd(char **cmd, t_minishell shell,
+			t_tokenizer *token, t_parser *parsed);
 t_minishell	ft_pipe(t_minishell shell, t_list *cmd);
 
 #endif
