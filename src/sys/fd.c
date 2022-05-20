@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/19 17:53:14 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:46:55 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell)
 {
 	t_fd_in_out	fd;
 
+	fd = (t_fd_in_out){.in = 0, .out = 1};
 	if (choice == 1 || choice == 0)
 		fd.in = ft_infile_scan(cmd, shell);
 	if (choice == 2 || choice == 0)

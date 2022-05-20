@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 12:31:56 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:44:00 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,15 @@ int	main(int argc, char **argv, char **env)
 			{
 				add_history(str);
 				token = tokenize(str);
+				if (!token)
+				{
+					ft_putstr_fd("Memory allocation failed. Aborting", 2);
+					free(str);
+					exit (1);
+				}
 				parsed = parse(token, &shell);
 				cmd = parsed->cmds;
-				if (!token || !parsed)
+				if (!parsed)
 				{
 					ft_putstr_fd("Memory allocation failed. Aborting", 2);
 					free(str);

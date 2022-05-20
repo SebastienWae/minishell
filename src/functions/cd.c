@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:08:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/19 14:29:50 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:42:39 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	ft_cd(char **cmd, t_list *local_env)
 			if (!new_dir)
 				local_env->content = ft_strjoin("PWD=", "ERROR");
 			else
+			{
 				local_env->content = ft_strjoin("PWD=", new_dir);
+				free(new_dir);
+			}
 		}
 		if (!ft_strncmp("OLDPWD=", local_env->content, 7))
 		{
@@ -62,6 +65,5 @@ void	ft_cd(char **cmd, t_list *local_env)
 		}
 		local_env = local_env->next;
 	}
-	free(old_dir);
-	free(new_dir);
+	free(old_dir);	
 }
