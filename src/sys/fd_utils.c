@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:24:46 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 14:12:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 	if (redir->type == P_RT_HEREDOC_QUOTED)
 		hd.exp = expand(hd.input, 0, &shell);
 	else
-		hd.exp = expand(hd.input, E_FORCE_VARIABLE, &shell);
+		hd.exp = expand(hd.input, E_FORCE_VAR, &shell);
 	if (hd.fd_tmp == -1)
 		ft_hd_error();
 	ft_putstr_fd(hd.exp->result, hd.fd_tmp);
