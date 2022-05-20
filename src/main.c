@@ -6,11 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/05/20 14:55:14 by jeulliot         ###   ########.fr       */
-=======
-/*   Updated: 2022/05/20 14:47:43 by jeulliot         ###   ########.fr       */
->>>>>>> fixed pipe issue when 1st cmd empty
+/*   Updated: 2022/05/20 14:58:53 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
