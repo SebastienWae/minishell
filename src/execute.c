@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 16:35:42 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 17:11:42 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 18:48:17 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,17 @@ static void	execute_cmd(t_list *c, t_minishell *s, t_parser *p)
 	}
 }
 
+static void	execute_no_cmd(t_list *cmd, t_minishell *shell)
+{
+	t_fd_in_out	fd;
+
+	fd = ft_fd_manager((t_cmd *)(cmd->content), 0, *shell);
+	if (fd.in != 0)
+		close(fd.in);
+	if (fd.out != 1)
+		close(fd.out);
+}
+
 void	execute_cmds(char *str, t_minishell *shell)
 {
 	t_parser	*parsed;
@@ -90,7 +101,7 @@ void	execute_cmds(char *str, t_minishell *shell)
 			execute_cmd(cmd, shell, parsed);
 		else if (cmd && (((t_cmd *)(cmd->content))->in
 			|| ((t_cmd *)(cmd->content))->out))
-			ft_fd_manager((t_cmd *)(cmd->content), 0, *shell);
+			execute_no_cmd(cmd, shell);
 		ft_reset_fd(*shell);
 		parsed->destroy(parsed);
 	}

@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:56:13 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 18:39:03 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,16 @@ void	ft_launch_next_process(t_minishell shell, t_list *cmd,
 
 t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 {
-	int		fd_tab[2];
-	pid_t	process;
+	int			fd_tab[2];
+	t_fd_in_out	fd;
+	pid_t		process;
 
 	while (cmd)
 	{
 		if (pipe(fd_tab) == -1)
 			return (ft_pipe_error(shell, 1));
 		if (((t_cmd *)(cmd->content))->in)
-			ft_fd_manager((t_cmd *)(cmd->content), 1, shell);
+			fd = ft_fd_manager((t_cmd *)(cmd->content), 1, shell);
 		process = fork();
 		if (process == -1)
 			return (ft_pipe_error(shell, 2));
@@ -107,6 +108,8 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 		}
 		else
 			ft_launch_next_process(shell, cmd, process, fd_tab);
+		if (fd.in != 0)
+			close(fd.in);
 		cmd = cmd->next;
 	}
 	return (shell);

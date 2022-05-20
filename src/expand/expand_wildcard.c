@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 13:48:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 12:47:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 18:48:47 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*expand_wildcard(t_tokenizer *t)
 	{
 		if (file->d_name[0] != '.')
 		{
-			token = token_constructor(T_TT_WORD, file->d_name);
+			token = token_constructor(T_TT_WORD, ft_strdup(file->d_name));
 			ft_lstadd_back(&(t->tokens), ft_lstnew(token));
 		}
 		file = readdir(directory);
