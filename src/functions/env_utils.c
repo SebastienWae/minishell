@@ -6,10 +6,11 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:32:24 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/18 12:51:52 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 12:00:43 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <minishell.h>
 
 char	*ft_get_env_var_value(t_list *local_env, char *elem)
@@ -75,7 +76,7 @@ t_list	*ft_check_first_link(t_list *tmp, char *cmd, t_list *local_env)
 
 	name = (char *)tmp->content;
 	if (name[ft_strlen(cmd)] == '=')
-	{
+	{		
 		ft_lstdelone(local_env, free);
 		tmp = tmp->next;
 	}
@@ -85,6 +86,7 @@ t_list	*ft_check_first_link(t_list *tmp, char *cmd, t_list *local_env)
 void	ft_check_next_link(char *cmd, t_list *local_env)
 {
 	char	*name;
+	t_list	*tmp;
 
 	while (local_env && local_env->next)
 	{
@@ -93,8 +95,9 @@ void	ft_check_next_link(char *cmd, t_list *local_env)
 			name = (char *)local_env->next->content;
 			if (name[ft_strlen(cmd)] == '=')
 			{
-				free(local_env->next->content);
-				local_env->next = local_env->next->next;
+				tmp = local_env->next->next;
+				ft_lstdelone(local_env->next, free);
+				local_env->next = tmp;
 			}
 		}
 		local_env = local_env->next;
