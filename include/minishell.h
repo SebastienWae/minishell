@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:48:00 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/17 13:33:32 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:57:07 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ typedef struct s_minishell {
 	int				saved_stdin;
 	int				saved_stdout;
 }	t_minishell;
+
+void	execute_cmds(char *str, t_minishell *shell);
 
 #endif
