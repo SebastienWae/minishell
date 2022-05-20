@@ -121,6 +121,7 @@ t_fd_in_out	ft_fd_manager(t_cmd *cmd, int choice, t_minishell shell)
 {
 	t_fd_in_out	fd;
 
+	fd = (t_fd_in_out){.in = 0, .out = 1};
 	if (choice == 1 || choice == 0)
 		fd.in = ft_infile_scan(cmd, shell);
 	if (choice == 2 || choice == 0)

@@ -33,6 +33,22 @@ static int	ft_cd_error(char *dir)
 	return (0);
 }
 
+t_list	*ft_new_dir(t_list *local_env)
+{
+	char	*new_dir;
+
+	free(local_env->content);
+	new_dir = getcwd(NULL, 0);
+	if (!new_dir)
+		local_env->content = ft_strjoin("PWD=", "ERROR");
+	else
+	{
+		local_env->content = ft_strjoin("PWD=", new_dir);
+		free(new_dir);
+	}
+	return (local_env);
+}
+
 void	ft_cd(char **cmd, t_list *local_env)
 {
 	char	*old_dir;
@@ -47,14 +63,7 @@ void	ft_cd(char **cmd, t_list *local_env)
 	while (local_env)
 	{
 		if (!ft_strncmp("PWD=", local_env->content, 4))
-		{
-			free(local_env->content);
-			new_dir = getcwd(NULL, 0);
-			if (!new_dir)
-				local_env->content = ft_strjoin("PWD=", "ERROR");
-			else
-				local_env->content = ft_strjoin("PWD=", new_dir);
-		}
+			local_env = ft_new_dir(local_env);
 		if (!ft_strncmp("OLDPWD=", local_env->content, 7))
 		{
 			free(local_env->content);
@@ -63,5 +72,4 @@ void	ft_cd(char **cmd, t_list *local_env)
 		local_env = local_env->next;
 	}
 	free(old_dir);
-	free(new_dir);
 }

@@ -69,19 +69,28 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 {
 	char	*main_cmd;
 	char	**path_list;
+	int		i;
 
 	path_list = ft_split(ft_search_path(local_env), ':');
 	main_cmd = ft_build_cmd(path_list, cmd[0]);
+	i = 0;
+	while (path_list[i])
+	{
+		free (path_list[i]);
+		i ++;
+	}
 	free (path_list);
-	if (main_cmd == NULL || cmd[0][0] == 0 )
+	if (main_cmd == NULL || cmd[0][0] == 0)
 	{			
 		ft_putstr_fd(SHELL_NAME, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		if (cmd[0][0] == '.' || cmd[0][0] == '/')
 			ft_putstr_fd(": No such file or directory\n", 2);
-		else		 
+		else
 			ft_putstr_fd(": command not found\n", 2);
+		if (main_cmd)
+			free (main_cmd);
 		exit(127);
 	}
 	if (execve(main_cmd, cmd, 0) == -1)

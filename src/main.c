@@ -99,9 +99,15 @@ int	main(int argc, char **argv, char **env)
 			{
 				add_history(str);
 				token = tokenize(str);
+				if (!token)
+				{
+					ft_putstr_fd("Memory allocation failed. Aborting", 2);
+					free(str);
+					exit (1);
+				}
 				parsed = parse(token, &shell);
 				cmd = parsed->cmds;
-				if (!token || !parsed)
+				if (!parsed)
 				{
 					ft_putstr_fd("Memory allocation failed. Aborting", 2);
 					free(str);
