@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_actions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 09:51:15 by seb               #+#    #+#             */
-/*   Updated: 2022/05/17 13:41:19 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:04:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	parser_syntax_error(t_parser *p)
 {
 	printf(SHELL_NAME ": syntax error near unexpected token `%s'\n",
 		((t_token *)p->tokens->content)->str);
+	parser_end_cmd(p);
 	p->state = P_S_ERROR;
 }
 

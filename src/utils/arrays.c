@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arrays.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:52:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/19 14:54:52 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/20 13:59:48 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 
 static void	array_destroy(t_array *self)
 {
+	int	i;
+
+	i = 0;
+	while (self->values[i])
+	{
+		free(self->values[i]);
+		i++;
+	}
 	*self = (t_array)
 	{
 		.len = 0,

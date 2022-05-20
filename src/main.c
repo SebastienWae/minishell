@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:12:44 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:07:42 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "parser.h"
 #include <libft.h>
 #include <minishell.h>
 #include <stdio.h>
@@ -105,12 +106,27 @@ int	main(int argc, char **argv, char **env)
 					free(str);
 					exit (1);
 				}
+				if (token->state == T_S_ERROR)
+				{
+					token->destroy(token);
+					free(str);
+					g_out = 2;
+					continue ;
+				}
 				parsed = parse(token, &shell);
 				if (!parsed)
 				{
 					ft_putstr_fd("Memory allocation failed. Aborting", 2);
 					free(str);
 					exit (1);
+				}
+				if (parsed->state == P_S_ERROR)
+				{
+					token->destroy(token);
+					parsed->destroy(parsed);
+					free(str);
+					g_out = 2;
+					continue ;
 				}
 				cmd = parsed->cmds;
 				if (cmd && ((t_cmd *)(cmd->content))->cmd && ((t_cmd *)(cmd->content))->cmd->values)
@@ -141,7 +157,8 @@ int	main(int argc, char **argv, char **env)
 				parsed->destroy(parsed);
 			}
 		}
-		free(str);
+		else
+			free(str);
 	}
 	ft_close_saved_fd(shell);
 	ft_lstclear(&shell.local_env, free);
