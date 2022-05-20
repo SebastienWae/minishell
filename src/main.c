@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 14:07:42 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 14:19:39 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int	main(int argc, char **argv, char **env)
 				ft_reset_fd(shell);
 				token->destroy(token);
 				parsed->destroy(parsed);
+				free(str);
 			}
 		}
 		else

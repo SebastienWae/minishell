@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:56:27 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:29:18 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	ft_exit_no_arg(char **str, t_minishell shell, t_tokenizer *token, t_p
 	{
 		printf("exit\n");
 		ft_lstclear(&shell.local_env, free);
-		free(str);
 		token->destroy(token);
 		parsed->destroy(parsed);
 		exit(0);

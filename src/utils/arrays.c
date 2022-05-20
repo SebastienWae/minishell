@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:52:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 13:59:48 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/20 14:26:17 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	array_destroy(t_array *self)
 		free(self->values[i]);
 		i++;
 	}
+	free(self->values);
 	*self = (t_array)
 	{
 		.len = 0,
