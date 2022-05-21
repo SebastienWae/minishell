@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:32:24 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 07:55:05 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 09:52:10 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_is_already_in_env(t_list *local_env, char *elem)
 			if (tmp[len] == '=')
 			{
 				local_env->content = elem;
+				free(tmp);
 				return (1);
 			}
 		}
