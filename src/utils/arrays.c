@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:52:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 14:26:17 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 11:25:32 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,10 @@
 
 static void	array_destroy(t_array *self)
 {
-	int	i;
-
-	i = 0;
-	while (self->values[i])
+	while (self->len)
 	{
-		free(self->values[i]);
-		i++;
+		free(self->values[self->len - 1]);
+		self->len--;
 	}
 	free(self->values);
 	*self = (t_array)

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:53:20 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 11:30:07 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,26 @@ void	parser_new_cmd(t_parser *p)
 static void	parser_expand_cmd(t_parser *p)
 {
 	int			i;
+	int			y;
 	char		**values;
 	t_expand	*e;
 
 	i = 0;
+	y = 0;
 	values = p->curr_cmd->cmd->values;
 	while (values[i])
 	{
 		e = expand(values[i], E_VAR_QUOTE, p->shell);
 		if (e)
 		{
-			values[i] = e->result;
+			if (e->result)
+				values[y++] = e->result;
 			e->destroy(e);
 		}
 		i++;
 	}
-	values[i++] = NULL;
-	p->curr_cmd->cmd->len = i;
+	values[y++] = NULL;
+	p->curr_cmd->cmd->len = y;
 }
 
 void	parser_end_cmd(t_parser *p)
