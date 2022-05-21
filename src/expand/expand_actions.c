@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:56:24 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 10:05:39 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,18 @@ void	expand_append_var(t_expand *e)
 	char	*tmp;
 
 	val = expand_get_var_value(e);
-	if (e->result)
+	if (val)
 	{
-		tmp = e->result;
-		e->result = ft_strjoin(e->result, val);
-		free(tmp);
-		free(val);
+		if (e->result)
+		{
+			tmp = e->result;
+			e->result = ft_strjoin(e->result, val);
+			free(tmp);
+			free(val);
+		}
+		else
+			e->result = val;
 	}
-	else
-		e->result = val;
 	free(e->variable);
 	e->variable = NULL;
 }
