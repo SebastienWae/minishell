@@ -78,6 +78,8 @@ OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
 all: $(NAME)
 
+bonus: $(NAME)
+
 $(NAME): $(OBJS) $(LIBFT)/libft.a
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
