@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 13:48:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 14:08:47 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 14:25:21 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ void	expand_var(t_expand *e)
 {
 	if (e->variable->end == 0)
 	{
-		if (e->str[e->cursor] != '_' && !ft_isalpha(e->str[e->cursor]))
+		if (e->str[e->cursor] == '?')
+		{
+			e->variable->end++;
+			expand_append_var(e);
+		}
+		else if (e->str[e->cursor] != '_' && !ft_isalpha(e->str[e->cursor]))
 		{
 			expand_append_var(e);
 			expand_append_char(e);
