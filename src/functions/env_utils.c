@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:32:24 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 12:24:49 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:55:05 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <minishell.h>
 
 char	*ft_get_env_var_value(t_list *local_env, char *elem)

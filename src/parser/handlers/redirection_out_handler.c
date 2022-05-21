@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_out_handler.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:13:47 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 13:28:21 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:53:47 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokenizer.h>
 #include <parser.h>
 
 void	parser_redirection_out_handler(t_parser *p)

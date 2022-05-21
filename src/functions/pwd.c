@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:06:48 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 16:37:30 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:54:24 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 void	ft_pwd(void)

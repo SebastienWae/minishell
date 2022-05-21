@@ -6,14 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:38:15 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 07:56:24 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
 #include <functions.h>
-#include <stdlib.h>
-#include <utils.h>
 
 void	expand_finish(t_expand *e)
 {

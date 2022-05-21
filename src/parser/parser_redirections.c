@@ -6,15 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:35:35 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 16:12:12 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 07:53:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
-#include <libft.h>
 #include <parser.h>
-#include <stdlib.h>
-#include <tokenizer.h>
 
 static t_redir	redir_heredoc(t_parser *p)
 {

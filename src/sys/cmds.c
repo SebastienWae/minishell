@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 15:43:27 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/17 13:42:31 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:51:45 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <functions.h>
-#include <utils.h>
 
 int	ft_is_builtin_cmd(char *str)
 {

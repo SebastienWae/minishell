@@ -6,16 +6,13 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:08:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 13:06:49 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 07:55:31 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <functions.h>
-#include <libft.h>
-#include <stdlib.h>
 #include <string.h>
 #include <sys/errno.h>
-#include <unistd.h>
 
 static int	ft_cd_error(char *dir)
 {

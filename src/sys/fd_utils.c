@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 18:34:16 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:50:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <expand.h>
-#include <libft.h>
-#include <minishell.h>
 #include <signal.h>
-#include <string.h>
 #include <sys/fcntl.h>
 #include <sys.h>
-#include <sys/signal.h>
-#include <unistd.h>
-#include <utils.h>
 
 void	ft_sig_hd_handle(int sig)
 {

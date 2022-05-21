@@ -6,14 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 09:51:15 by seb               #+#    #+#             */
-/*   Updated: 2022/05/20 14:04:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 07:53:32 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
 #include <parser.h>
 #include <stdio.h>
-#include <tokenizer.h>
 
 void	parser_pipe_cmd(t_parser *p)
 {

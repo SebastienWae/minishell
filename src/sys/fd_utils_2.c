@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:25:50 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 17:28:32 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:51:09 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
 #include <errno.h>
 #include <string.h>
 #include <sys.h>

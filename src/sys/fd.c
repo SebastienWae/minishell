@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 17:16:34 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:43:27 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:49:21 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <fcntl.h>
-#include <libft.h>
 #include <minishell.h>
-#include <parser.h>
-#include <string.h>
 #include <sys.h>
 #include <sys/fcntl.h>
-#include <unistd.h>
-#include <utils.h>
 
 static int	redir_in(t_redir *redir, t_minishell shell)
 {

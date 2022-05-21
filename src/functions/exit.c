@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 17:18:54 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:54:46 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "tokenizer.h"
-#include <libft.h>
-#include <minishell.h>
+#include <parser.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 static int	ft_exit_no_arg(char **str, t_minishell shell, t_parser *parsed)
 {

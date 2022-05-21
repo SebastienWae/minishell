@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:02:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 13:30:35 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:54:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokenizer.h>
 #include <parser.h>
 
 void	parser_pipe_handler(t_parser *p)

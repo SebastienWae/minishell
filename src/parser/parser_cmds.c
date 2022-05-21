@@ -6,17 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 13:32:52 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 07:53:20 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
-#include <libft.h>
-#include <minishell.h>
 #include <parser.h>
-#include <stddef.h>
-#include <tokenizer.h>
-#include <utils.h>
 
 void	parser_add_to_cmd(t_parser *p)
 {

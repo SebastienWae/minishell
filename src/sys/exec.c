@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 18:39:03 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:51:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "tokenizer.h"
-#include <errno.h>
 #include <functions.h>
-#include <minishell.h>
 #include <sys.h>
-#include <sys/signal.h>
 #include <sys/wait.h>
-#include <unistd.h>
-#include <utils.h>
 
 void	ft_launch_cmd(char **cmd, t_minishell shell, t_parser *parsed)
 {

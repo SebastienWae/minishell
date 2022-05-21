@@ -6,12 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:10:49 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 13:31:45 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 07:56:10 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
-#include <stdlib.h>
 
 void	expand_var_handler(t_expand *e)
 {

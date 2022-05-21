@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 13:48:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/20 18:48:47 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:56:04 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokenizer.h>
 #include <dirent.h>
 #include <expand.h>
-#include <libft.h>
-#include <utils.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 char	*expand_wildcard(t_tokenizer *t)
 {

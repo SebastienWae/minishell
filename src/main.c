@@ -6,26 +6,19 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/20 20:32:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 07:46:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
 #include <libft.h>
 #include <minishell.h>
 #include <stdio.h>
-#include <readline/history.h>
 #include <readline/readline.h>
 #include <errno.h>
-#include <stdlib.h>
 #include <sys.h>
 #include <sys/wait.h>
 #include <termios.h>
-#include <tokenizer.h>
-#include <unistd.h>
 #include <utils.h>
-
-#include <debug.h>
 
 int						g_out;
 

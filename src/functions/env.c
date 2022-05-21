@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:12:18 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 12:51:16 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:55:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <functions.h>
-#include <libft.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <utils.h>
 
 static int	ft_print_env(t_list *local_env, int choice)
 {
