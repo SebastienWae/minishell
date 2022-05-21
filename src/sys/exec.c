@@ -6,13 +6,14 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 07:51:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 19:30:31 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <functions.h>
 #include <sys.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 void	ft_launch_cmd(char **cmd, t_minishell shell, t_parser *parsed)
 {
@@ -65,13 +66,13 @@ static void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
 	close(fd_out);
 }
 
-void	ft_launch_next_process(t_minishell shell, t_list *cmd,
-		pid_t process, int fd_tab[2])
+void	ft_launch_next_process(t_minishell shell, t_list *cmd, pid_t process,
+		int fd_tab[2])
 {
 	if ((t_cmd *)cmd->next)
 		g_out = ft_next_process(process, fd_tab);
 	else
-	{	
+	{
 		close(fd_tab[1]);
 		close(fd_tab[0]);
 	}

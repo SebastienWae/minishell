@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 15:07:03 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 07:48:37 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 19:32:55 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <readline/readline.h>
 #include <sys/signal.h>
 #include <sys.h>
+#include <unistd.h>
 #if __linux__
 # include <signal.h>
 #endif
@@ -53,10 +54,13 @@ int	ft_ctrl_d_handler(char *str, t_minishell shell)
 {
 	if (str == NULL)
 	{
-		printf("\033[2D");
-		printf("\033[1A");
-		printf("\033[10C");
-		printf("exit\n");
+		if (isatty(shell.saved_stdin))
+		{
+			printf("\033[2D");
+			printf("\033[1A");
+			printf("\033[10C");
+			printf("exit\n");
+		}
 		ft_close_saved_fd(shell);
 		ft_lstclear(&shell.local_env, free);
 		exit(0);

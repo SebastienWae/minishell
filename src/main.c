@@ -6,18 +6,19 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:41:02 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 07:46:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 19:42:55 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <libft.h>
 #include <minishell.h>
 #include <stdio.h>
 #include <readline/readline.h>
-#include <errno.h>
 #include <sys.h>
 #include <sys/wait.h>
 #include <termios.h>
+#include <unistd.h>
 #include <utils.h>
 
 int						g_out;
@@ -79,11 +80,16 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	shell = init_all(argc, env);
 	while (1)
-	{		
+	{
 		ft_sig();
-		while (wait(NULL) != -1 || errno != ECHILD)
-			;
-		str = readline("Minishell> ");
+		if (isatty(shell.saved_stdin))
+		{
+			while (wait(NULL) != -1 || errno != ECHILD)
+				;
+			str = readline(SHELL_NAME "> ");
+		}
+		else
+			str = get_next_line(STDIN_FILENO);
 		if (ft_ctrl_d_handler(str, shell) && str[0] != 0)
 			execute_cmds(str, &shell);
 		else
