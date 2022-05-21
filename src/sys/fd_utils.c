@@ -6,13 +6,13 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 07:50:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 10:42:25 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
-#include <sys/fcntl.h>
 #include <sys.h>
+#include <sys/fcntl.h>
 
 void	ft_sig_hd_handle(int sig)
 {
@@ -41,7 +41,7 @@ static t_heredoc	ft_init_heredoc(t_redir *redir)
 
 static int	ft_heredoc_next_line(t_heredoc *hd)
 {
-	char		*tmp;
+	char	*tmp;
 
 	while (1)
 	{
@@ -64,10 +64,10 @@ int	ft_heredoc_in(t_redir *redir, t_minishell shell)
 {
 	t_heredoc	hd;
 
+	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR || signal(SIGQUIT,
+			&ft_sig_hd_handle) == SIG_ERR)
+		return (-1);
 	hd = ft_init_heredoc(redir);
-	if (signal(SIGINT, &ft_sig_hd_handle) == SIG_ERR
-		|| signal(SIGQUIT, &ft_sig_hd_handle) == SIG_ERR)
-		return (hd.fd_tmp);
 	if (!hd.line || ft_strcmp(hd.line, hd.word) == 0)
 		return (ft_free_hd_var(hd, 1));
 	if (ft_heredoc_next_line(&hd))
