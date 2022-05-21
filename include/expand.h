@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:15:20 by seb               #+#    #+#             */
-/*   Updated: 2022/05/20 13:34:59 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 14:04:42 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void		expand_add_empty(t_expand *e);
 void		expand_finish(t_expand *e);
 
 char		*expand_wildcard(t_tokenizer *t);
+void		expand_var(t_expand *e);
 
 #endif

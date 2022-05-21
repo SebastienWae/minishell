@@ -6,12 +6,13 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 10:05:39 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 13:27:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expand.h>
 #include <functions.h>
+#include <stdlib.h>
 
 void	expand_finish(t_expand *e)
 {
@@ -44,7 +45,11 @@ static char	*expand_get_var_value(t_expand *e)
 	char	*tmp;
 
 	if (e->variable->end == 0)
-		val = NULL;
+	{
+		val = malloc(sizeof(char) * 2);
+		val[0] = '$';
+		val[1] = 0;
+	}
 	else if (e->variable->end == 1 && e->str[e->variable->start] == '?')
 		val = ft_itoa(g_out);
 	else

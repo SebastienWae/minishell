@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:10:49 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:56:10 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 14:05:43 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,14 @@ void	expand_char_handler(t_expand *e)
 	if (e->state == E_S_EXPANDING || e->state == E_S_IN_DOUBLE_QUOTE)
 	{
 		if (e->variable)
-			e->variable->end++;
+			expand_var(e);
 		else
 			expand_append_char(e);
 	}
 	else if (e->state == E_S_IN_SINGLE_QUOTE)
 	{
 		if (e->flags == E_FORCE_VAR && e->variable)
-			e->variable->end++;
+			expand_var(e);
 		else
 			expand_append_char(e);
 	}

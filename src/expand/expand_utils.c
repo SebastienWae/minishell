@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_wildcard.c                                  :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 13:48:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:56:04 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 14:08:47 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
 #include <expand.h>
+#include <libft.h>
 
 char	*expand_wildcard(t_tokenizer *t)
 {
@@ -38,4 +39,28 @@ char	*expand_wildcard(t_tokenizer *t)
 	free(c[1]);
 	closedir(directory);
 	return (c[0]);
+}
+
+void	expand_var(t_expand *e)
+{
+	if (e->variable->end == 0)
+	{
+		if (e->str[e->cursor] != '_' && !ft_isalpha(e->str[e->cursor]))
+		{
+			expand_append_var(e);
+			expand_append_char(e);
+		}
+		else
+			e->variable->end++;
+	}
+	else
+	{
+		if (!ft_isalnum(e->str[e->cursor]) && e->str[e->cursor] != '_')
+		{
+			expand_append_var(e);
+			expand_append_char(e);
+		}
+		else
+			e->variable->end++;
+	}
 }

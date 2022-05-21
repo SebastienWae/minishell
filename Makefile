@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/21 07:47:25 by seb              ###   ########.fr        #
+#    Updated: 2022/05/21 14:06:35 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ SRCS = main.c execute.c \
 	expand/expand.c \
 	expand/expand_handlers.c \
 	expand/expand_actions.c \
-	expand/expand_wildcard.c
+	expand/expand_utils.c
 SRCS := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS = $(addprefix $(OUT_DIR)/,$(SRCS:%.c=%.o))
 
