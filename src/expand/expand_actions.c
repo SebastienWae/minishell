@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_actions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/19 14:19:53 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:38:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	expand_append_var(t_expand *e)
 		tmp = e->result;
 		e->result = ft_strjoin(e->result, val);
 		free(tmp);
+		free(val);
 	}
 	else
 		e->result = val;
