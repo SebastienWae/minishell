@@ -6,14 +6,13 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 19:30:31 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/21 20:01:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <functions.h>
 #include <sys.h>
 #include <sys/wait.h>
-#include <unistd.h>
 
 void	ft_launch_cmd(char **cmd, t_minishell shell, t_parser *parsed)
 {
