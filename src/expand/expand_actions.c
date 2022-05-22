@@ -6,10 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:31:54 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 13:27:29 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/22 18:15:45 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <expand.h>
 #include <functions.h>
 #include <stdlib.h>
@@ -46,9 +47,11 @@ static char	*expand_get_var_value(t_expand *e)
 
 	if (e->variable->end == 0)
 	{
-		val = malloc(sizeof(char) * 2);
-		val[0] = '$';
-		val[1] = 0;
+		if ((e->state != E_S_IN_DOUBLE_QUOTE && e->state != E_S_IN_SINGLE_QUOTE)
+			&& (e->str[e->cursor] == '\'' || e->str[e->cursor] == '"'))
+			val = ft_strdup("");
+		else
+			val = ft_strdup("$");
 	}
 	else if (e->variable->end == 1 && e->str[e->variable->start] == '?')
 		val = ft_itoa(g_out);
