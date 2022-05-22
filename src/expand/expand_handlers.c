@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:10:49 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 14:05:43 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/22 17:24:05 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	expand_single_quote_handler(t_expand *e)
 	if (e->state == E_S_EXPANDING)
 	{
 		if (e->variable)
-			expand_var_handler(e);
+			expand_append_var(e);
 		if (e->flags != E_QUOTE && e->flags != E_VAR_QUOTE)
 			expand_append_char(e);
 		e->state = E_S_IN_SINGLE_QUOTE;
