@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/21 14:06:35 by seb              ###   ########.fr        #
+#    Updated: 2022/05/22 19:23:43 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS = main.c execute.c \
 	sys/calls_utils.c \
 	sys/cmds.c \
 	sys/exec.c \
+	sys/exec_utils.c \
 	sys/fd.c \
 	sys/fd_utils.c \
 	sys/fd_utils_2.c \

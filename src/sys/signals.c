@@ -6,13 +6,15 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 15:07:03 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 19:32:55 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/22 19:01:25 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <minishell.h>
 #include <stdio.h>
 #include <signal.h>
 #include <readline/readline.h>
+#include <stdlib.h>
 #include <sys/signal.h>
 #include <sys.h>
 #include <unistd.h>
@@ -63,7 +65,10 @@ int	ft_ctrl_d_handler(char *str, t_minishell shell)
 		}
 		ft_close_saved_fd(shell);
 		ft_lstclear(&shell.local_env, free);
-		exit(0);
+		if (isatty(shell.saved_stdin))
+			exit(0);
+		else
+			exit(g_out);
 	}
 	else
 		return (1);

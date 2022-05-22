@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 11:46:29 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 20:01:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/22 19:33:02 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	ft_launch_cmd(char **cmd, t_minishell shell, t_parser *parsed)
 	else if (cmd[0] && ft_is_builtin_cmd(cmd[0]))
 		shell.local_env = ft_execute_builtin_cmd(cmd, shell.local_env);
 	else
-		g_out = ft_sys_cmd_process(cmd, shell.local_env);
+		ft_sys_cmd_process(cmd, shell.local_env);
 }
 
-static int	ft_next_process(pid_t process, int fd_tab[2])
+static void	ft_next_process(pid_t process, int fd_tab[2])
 {
 	int	status;
 
@@ -32,11 +32,9 @@ static int	ft_next_process(pid_t process, int fd_tab[2])
 	dup2(fd_tab[0], STDIN_FILENO);
 	close(fd_tab[1]);
 	close(fd_tab[0]);
-	g_out = WEXITSTATUS(status);
-	return (g_out);
 }
 
-static void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
+void	ft_current_process(t_minishell shell, t_list *cmd, int fd_tab[2])
 {
 	int	fd_in;
 	int	fd_out;
@@ -69,7 +67,7 @@ void	ft_launch_next_process(t_minishell shell, t_list *cmd, pid_t process,
 		int fd_tab[2])
 {
 	if ((t_cmd *)cmd->next)
-		g_out = ft_next_process(process, fd_tab);
+		ft_next_process(process, fd_tab);
 	else
 	{
 		close(fd_tab[1]);
@@ -88,22 +86,20 @@ t_minishell	ft_pipe(t_minishell shell, t_list *cmd)
 	while (cmd)
 	{
 		if (pipe(fd_tab) == -1)
-			return (ft_pipe_error(shell, 1));
+			ft_pipe_error(shell, 1);
 		if (((t_cmd *)(cmd->content))->in)
 			fd = ft_fd_manager((t_cmd *)(cmd->content), 1, shell);
 		process = fork();
 		if (process == -1)
 			return (ft_pipe_error(shell, 2));
 		if (process == 0)
-		{
-			ft_current_process(shell, cmd, fd_tab);
-			exit(g_out);
-		}
+			ft_launch_proc(shell, cmd, fd_tab);
 		else
 			ft_launch_next_process(shell, cmd, process, fd_tab);
 		if (fd.in != 0)
 			close(fd.in);
 		cmd = cmd->next;
 	}
+	set_exit_code(process);
 	return (shell);
 }

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 07:52:15 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/22 19:08:22 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	ft_sig_process_handle(int sig)
 		return ;
 }
 
-int	ft_sys_cmd_process(char **cmd, t_list *local_env)
+void	ft_sys_cmd_process(char **cmd, t_list *local_env)
 {
 	pid_t	process;
 	int		status;
@@ -108,7 +108,7 @@ int	ft_sys_cmd_process(char **cmd, t_list *local_env)
 		|| signal(SIGQUIT, &ft_sig_process_handle) == SIG_ERR)
 	{
 		kill (process, 0);
-		return (g_out);
+		return ;
 	}
 	if (process == 0)
 		ft_execute_sys_cmd(cmd, local_env);
@@ -117,5 +117,4 @@ int	ft_sys_cmd_process(char **cmd, t_list *local_env)
 		waitpid(process, &status, 0);
 		g_out = WEXITSTATUS(status);
 	}	
-	return (g_out);
 }
