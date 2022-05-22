@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:04:36 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:55:14 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/22 17:47:41 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,54 @@
 #include <stdio.h>
 #include <utils.h>
 
+static int	echo_remove_flags(char **cmd)
+{
+	int	i;
+	int	ii;
+
+	i = 1;
+	while (cmd[i])
+	{
+		if (cmd[i][0] == '-')
+		{
+			ii = 1;
+			while (cmd[i][ii])
+			{
+				if (cmd[i][ii] == 'n')
+					ii++;
+				else
+					return (i);
+			}
+			i++;
+		}
+		else
+			return (i);
+	}
+	return (i);
+}
+
 void	ft_echo(char **cmd)
 {
 	int	i;
+	int	n_flag;
 
-	i = 0;
 	if (cmd[1] == 0)
 	{
 		printf("\n");
 		g_out = 0;
 		return ;
 	}
-	if (ft_strcmp(cmd[1], "-n") == 0)
-		i = 1;
-	while (cmd[++i])
+	i = echo_remove_flags(cmd);
+	n_flag = 0;
+	if (i > 1)
+		n_flag = 1;
+	while (cmd[i])
 	{
 		printf("%s", cmd[i]);
-		if (cmd[i + 1])
+		if (cmd[++i])
 			printf(" ");
 	}
-	if (ft_strcmp(cmd[1], "-n") != 0)
+	if (!n_flag)
 		printf("\n");
 	g_out = 0;
 }
