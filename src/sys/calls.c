@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:14:43 by seb               #+#    #+#             */
-/*   Updated: 2022/05/23 15:14:45 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 15:59:51 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,13 @@ char	*ft_build_cmd(char **path, char *cmd)
 	char	*str;
 	char	*cmd_out;
 
-	if (cmd && cmd[0] == '/')
+	if (cmd && cmd[0] == '/')	
 		if (access(cmd, 0) == 0)
-			return (cmd);
+			return (cmd);	
 	if (cmd && cmd[0] == '.')
-	{
 		if (access(cmd, 0) == 0)
 			return (cmd);
-		return (0);
-	}
-	if (path == NULL)
+	if ((cmd && (cmd[0] == '/' || cmd[0] == '.')) || path == NULL)
 		return (0);
 	while (*path)
 	{
