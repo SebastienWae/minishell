@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 10:45:59 by seb               #+#    #+#             */
-/*   Updated: 2022/05/21 07:42:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 11:20:52 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,7 @@ void	tokenizer_delimit_curr_token(t_tokenizer *t)
 {
 	t_list	*new;
 
-	if (t->curr_token && ft_strcmp(t->curr_token->str, "*") == 0)
-	{
-		expand_wildcard(t);
-		free(t->curr_token);
-	}
-	else if (t->curr_token)
+	if (t->curr_token)
 	{
 		if (t->curr_token->str)
 			t->curr_token->str = ft_strdup(t->curr_token->str);
