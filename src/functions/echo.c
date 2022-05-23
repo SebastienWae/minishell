@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:04:36 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/22 17:47:41 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 14:56:39 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ static int	echo_remove_flags(char **cmd)
 	i = 1;
 	while (cmd[i])
 	{
-		if (cmd[i][0] == '-')
+		if (cmd[i][0] == '-' && cmd[i][1] == 'n')
 		{
-			ii = 1;
+			ii = 2;
 			while (cmd[i][ii])
 			{
-				if (cmd[i][ii] == 'n')
-					ii++;
-				else
-					return (i);
+				if (cmd[i][ii] == 'n')	
+					ii++;				
+				else if (cmd[i][ii] != '\0')
+					return (i);		
 			}
-			i++;
-		}
+			i ++;
+		}		
 		else
 			return (i);
 	}
