@@ -6,18 +6,33 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:23 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:52:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 14:56:37 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <parser.h>
 
 static void	cmd_destructor(t_cmd *self)
 {
+	t_list	*tmp;
+
 	if (self->cmd)
 		self->cmd->destroy(self->cmd);
-	ft_lstclear(&(self->in), free);
-	ft_lstclear(&(self->out), free);
+	while (self->in)
+	{
+		tmp = self->in->next;
+		((t_redir *)self->in->content)->destroy(self->in->content);
+		free(self->in);
+		self->in = tmp;
+	}
+	while (self->out)
+	{
+		tmp = self->out->next;
+		((t_redir *)self->out->content)->destroy(self->out->content);
+		free(self->out);
+		self->out = tmp;
+	}
 	*self = (t_cmd){
 		.cmd = NULL,
 		.in = NULL,

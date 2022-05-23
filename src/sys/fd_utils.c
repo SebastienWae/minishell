@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 15:46:18 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/21 10:42:25 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 14:58:10 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static t_heredoc	ft_init_heredoc(t_redir *redir)
 
 	hd.input = "";
 	hd.word = ft_strjoin(redir->target, "\n");
-	free(redir->target);
 	hd.fd_tmp = open("/tmp/minishell_fd_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	ft_putstr_fd("\U0001F984 ", 2);
 	hd.line = get_next_line(STDIN_FILENO);

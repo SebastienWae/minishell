@@ -6,10 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:52:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 11:25:32 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 15:13:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <utils.h>
@@ -48,23 +49,46 @@ t_array	*array_constructor(void)
 	return (self);
 }
 
+void	array_remove(t_array **arr, size_t i)
+{
+	size_t	n;
+	t_array	*new;
+
+	if (arr && *arr)
+	{
+		n = 0;
+		new = array_constructor();
+		while (n < (*arr)->len)
+		{
+			if (n != i)
+				array_push(new, ft_strdup((*arr)->values[n]));
+			n++;
+		}
+		(*arr)->destroy(*arr);
+		*arr = new;
+	}
+}
+
 void	array_push(t_array *arr, char *str)
 {
 	size_t	i;
 	char	**tmp;
 
-	i = 0;
-	tmp = malloc(sizeof(char *) * (arr->len + 2));
-	if (!tmp)
-		return ;
-	while (i < arr->len)
+	if (arr && str)
 	{
-		tmp[i] = arr->values[i];
-		i++;
+		i = 0;
+		tmp = malloc(sizeof(char *) * (arr->len + 2));
+		if (!tmp)
+			return ;
+		while (i < arr->len)
+		{
+			tmp[i] = arr->values[i];
+			i++;
+		}
+		tmp[i] = str;
+		tmp[i + 1] = NULL;
+		free(arr->values);
+		arr->values = tmp;
+		arr->len++;
 	}
-	tmp[i] = str;
-	tmp[i + 1] = NULL;
-	free(arr->values);
-	arr->values = tmp;
-	arr->len++;
 }
