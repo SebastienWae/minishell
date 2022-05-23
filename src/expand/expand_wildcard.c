@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 13:48:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/23 14:34:08 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 15:12:51 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	wild_check_match(struct s_wild w)
 	int	i;
 	int	**lookup;
 
-	match = 0;
 	lookup = ft_calloc(w.str_len + 1, sizeof(int *));
 	i = 0;
 	while (i <= w.str_len)

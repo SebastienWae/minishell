@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/05/23 14:34:41 by seb              ###   ########.fr        #
+#    Updated: 2022/05/23 14:49:45 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRCS = main.c execute.c \
 	tokenizer/handlers/whitespace_handler.c \
 	parser/parser.c \
 	parser/parser_cmds.c \
+	parser/parser_utils.c \
 	parser/parser_actions.c \
 	parser/parser_redirections.c \
 	parser/handlers/heredoc_handler.c \

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 14:55:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/18 10:28:27 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 14:50:44 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ struct s_redir
 {
 	t_redir_type	type;
 	char			*target;
+	void			(*destroy)(t_redir *);
 };
 
 struct s_cmd

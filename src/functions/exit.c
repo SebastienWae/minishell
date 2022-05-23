@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 14:44:30 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/23 14:15:29 by jeulliot         ###   ########.fr       */
+/*   Created: 2022/05/23 15:14:54 by seb               #+#    #+#             */
+/*   Updated: 2022/05/23 15:15:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ static int	ft_exit_not_numeric_arg(char **str, t_minishell shell,
 	exit(255);
 }
 
-static int ft_is_numeric_exit_code(char *str)
+static int	ft_is_numeric_exit_code(char *str)
 {
-
 	int	i;
+
 	i = 0;
 	while (str[i] != '\0')
 	{
@@ -64,7 +64,6 @@ int	ft_exit(char **str, t_minishell shell, t_parser *parsed)
 {
 	int	i;
 
-	i = -1;
 	ft_exit_no_arg(str, shell, parsed);
 	if (!ft_is_numeric_exit_code(str[1]))
 		ft_exit_not_numeric_arg(str, shell, parsed);

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:31:18 by seb               #+#    #+#             */
-/*   Updated: 2022/05/23 14:33:03 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 15:07:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static int	get_n_files(void)
 
 	cwd = getcwd(NULL, 0);
 	dir = opendir(cwd);
+	if (!dir)
+		return (0);
 	file_count = 0;
 	entry = readdir(dir);
 	if (entry)
@@ -71,6 +73,8 @@ char	**get_files_name(void)
 	if (!files)
 		return (NULL);
 	dir = opendir(cwd);
+	if (!dir)
+		return (NULL);
 	entry = readdir(dir);
 	i[1] = 0;
 	while (entry)
