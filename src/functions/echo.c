@@ -6,7 +6,7 @@
 /*   By: jeulliot <jeulliot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:04:36 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/23 14:56:39 by jeulliot         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:06:11 by jeulliot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static int	echo_remove_flags(char **cmd)
 			ii = 2;
 			while (cmd[i][ii])
 			{
-				if (cmd[i][ii] == 'n')	
-					ii++;				
+				if (cmd[i][ii] == 'n')
+					ii++;
 				else if (cmd[i][ii] != '\0')
-					return (i);		
+					return (i);
 			}
 			i ++;
 		}		
