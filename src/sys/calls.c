@@ -6,11 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 14:44:44 by jeulliot          #+#    #+#             */
-/*   Updated: 2022/05/22 19:08:22 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 13:14:21 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
+#include <signal.h>
 #include <sys.h>
 #include <sys/errno.h>
 #if __linux__
