@@ -38,9 +38,9 @@ char	*ft_build_cmd(char **path, char *cmd)
 	char	*str;
 	char	*cmd_out;
 
-	if (cmd && cmd[0] == '/')	
+	if (cmd && cmd[0] == '/')
 		if (access(cmd, 0) == 0)
-			return (cmd);	
+			return (cmd);
 	if (cmd && cmd[0] == '.')
 		if (access(cmd, 0) == 0)
 			return (cmd);
