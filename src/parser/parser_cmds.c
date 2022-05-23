@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:31:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 11:30:07 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 11:53:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static void	parser_expand_cmd(t_parser *p)
 		}
 		i++;
 	}
-	values[y++] = NULL;
 	p->curr_cmd->cmd->len = y;
+	values[y++] = NULL;
 }
 
 void	parser_end_cmd(t_parser *p)
@@ -70,7 +70,10 @@ void	parser_end_cmd(t_parser *p)
 	if (p->curr_cmd)
 	{
 		if (p->curr_cmd->cmd)
+		{
 			parser_expand_cmd(p);
+			expand_wildcard(p);
+		}
 		tmp = ft_lstnew(p->curr_cmd);
 		if (!tmp)
 		{

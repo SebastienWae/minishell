@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 14:57:31 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/19 14:54:05 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/05/23 12:35:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*get_first_line(char **s);
 
 t_array	*array_constructor(void);
 void	array_push(t_array *arr, char *str);
+void	array_remove(t_array **arr, size_t i);
 void	array_print(t_array *arr);
 
 #endif

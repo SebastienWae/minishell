@@ -6,10 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 13:52:07 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 11:25:32 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 12:39:00 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <utils.h>
@@ -46,6 +47,23 @@ t_array	*array_constructor(void)
 		.destroy = array_destroy
 	};
 	return (self);
+}
+
+void	array_remove(t_array **arr, size_t i)
+{
+	size_t	n;
+	t_array	*new;
+
+	n = 0;
+	new = array_constructor();
+	while (arr && n < (*arr)->len)
+	{
+		if (n != i)
+			array_push(new, ft_strdup((*arr)->values[n]));
+		n++;
+	}
+	(*arr)->destroy(*arr);
+	*arr = new;
 }
 
 void	array_push(t_array *arr, char *str)

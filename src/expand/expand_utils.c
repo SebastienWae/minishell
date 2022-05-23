@@ -6,39 +6,23 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 13:48:37 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 14:25:21 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 11:58:42 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <dirent.h>
 #include <expand.h>
-#include <libft.h>
 
-char	*expand_wildcard(t_tokenizer *t)
+void	expand_replace_wildcard(char *str)
 {
-	DIR				*directory;
-	struct dirent	*file;
-	char			*c[3];
-	t_token			*token;
+	int	i;	
 
-	c[0] = NULL;
-	c[1] = getcwd(NULL, 0);
-	directory = opendir(c[1]);
-	if (!directory)
-		return (NULL);
-	file = readdir(directory);
-	while (file)
+	i = 0;
+	while (str[i])
 	{
-		if (file->d_name[0] != '.')
-		{
-			token = token_constructor(T_TT_WORD, ft_strdup(file->d_name));
-			ft_lstadd_back(&(t->tokens), ft_lstnew(token));
-		}
-		file = readdir(directory);
+		if (str[i] == '*')
+			str[i] = -1;
+		i++;
 	}
-	free(c[1]);
-	closedir(directory);
-	return (c[0]);
 }
 
 void	expand_var(t_expand *e)
