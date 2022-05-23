@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:02:53 by swaegene          #+#    #+#             */
-/*   Updated: 2022/05/21 07:54:01 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 15:56:18 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	parser_pipe_handler(t_parser *p)
 
 	if (p->curr_cmd)
 		handlers[p->last_token_type - 1].handler(p);
+	else if (p->last_token_type == 0)
+		parser_syntax_error(p);
 	else
 		parser_new_cmd(p);
 	p->tokens = p->tokens->next;

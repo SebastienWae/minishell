@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:14:43 by seb               #+#    #+#             */
-/*   Updated: 2022/05/23 15:14:45 by seb              ###   ########.fr       */
+/*   Updated: 2022/05/23 15:26:44 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	*ft_execute_sys_cmd(char **cmd, t_list *local_env)
 		free(main_cmd);
 		exit(1);
 	}
-	free(main_cmd);
+	else
+		free(main_cmd);
 	return (0);
 }
 
